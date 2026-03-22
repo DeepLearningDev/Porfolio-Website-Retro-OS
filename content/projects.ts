@@ -3,6 +3,7 @@ export type CuratedProjectDefinition = {
   repo: string;
   description: string;
   highlights: string[];
+  status: "Live" | "Active Build" | "Case Study";
   stack: string[];
   demoUrl?: string;
   featured?: boolean;
@@ -19,6 +20,7 @@ export const curatedProjects = [
       "Framework-oriented package structure",
       "Focused on fast bot setup with minimal friction",
     ],
+    status: "Active Build",
     stack: ["TypeScript", "Node.js", "Framework Design"],
     featured: true,
     order: 1,
@@ -32,7 +34,9 @@ export const curatedProjects = [
       "Signal detection for irregular transactions",
       "Operational reporting orientation",
     ],
+    status: "Case Study",
     stack: ["Python", "Analytics", "Monitoring"],
+    featured: true,
     order: 2,
   },
   {
@@ -44,7 +48,9 @@ export const curatedProjects = [
       "Extraction and transformation flow",
       "Database-oriented data organization",
     ],
+    status: "Case Study",
     stack: ["Python", "SQL", "ETL"],
+    featured: true,
     order: 3,
   },
   {
@@ -56,8 +62,10 @@ export const curatedProjects = [
       "Client-side productivity utility",
       "GitHub Pages-friendly deployment model",
     ],
+    status: "Live",
     stack: ["JavaScript", "HTML", "CSS"],
     demoUrl: "https://deeplearningdev.github.io/Clipboard.github.io/",
+    featured: true,
     order: 4,
   },
   {
@@ -69,6 +77,7 @@ export const curatedProjects = [
       "Business-oriented dashboard patterns",
       "Task and logging workflows",
     ],
+    status: "Case Study",
     stack: ["JavaScript", "Vue", "SQL"],
     order: 5,
   },
@@ -81,6 +90,7 @@ export const curatedProjects = [
       "UI ecosystem experimentation",
       "Application shell and interaction work",
     ],
+    status: "Case Study",
     stack: ["JavaScript", "Next.js", "Web App"],
     order: 6,
   },

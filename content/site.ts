@@ -1,41 +1,41 @@
 export const siteProfile = {
   name: "DeepLearningDev",
   alias: "DEEPLEARNINGDEV_OS",
-  role: "AI systems engineer // retro-futuristic web interfaces",
+  role: "Software engineer // systems, frontend, and data-heavy interfaces",
   status: "network.online",
   signalStrength: "99.4%",
   timezone: "America/New_York",
   summary:
-    "Building fast data-heavy products, AI workflows, and interface systems with a polished cyber-retro visual language.",
-  focusAreas: ["TypeScript", "React", "AI Systems", "Data Pipelines"],
+    "Building software products that combine system clarity, structured data workflows, and a polished retro-futuristic visual identity.",
+  focusAreas: ["TypeScript", "React", "Systems Design", "Data Workflows"],
 };
 
 export const routeHighlights = {
-  home: "Foundation route for profile overview and featured system modules.",
-  projects: "Placeholder explorer route for curated repositories and case studies.",
-  contact: "Placeholder contact route for terminal-style outreach and availability.",
+  home: "Overview route for identity, featured work, skill focus, and current priorities.",
+  projects: "Curated GitHub-backed explorer route for repositories and case-study style project snapshots.",
+  contact: "Terminal-style contact route for direct outreach, availability, and follow-up.",
 };
 
 export const shellMetrics = [
   {
-    label: "Build Status",
-    value: "Stable",
-    detail: "Global shell scaffolded and ready for route-level compositions.",
+    label: "Portfolio",
+    value: "Live",
+    detail: "Homepage and shell are active with a GitHub-backed projects route.",
   },
   {
     label: "GitHub Sync",
-    value: "Queued",
-    detail: "Repository-backed portfolio data will plug into the project explorer.",
+    value: "Active",
+    detail: "Curated repository metadata is already feeding the projects explorer.",
   },
 ];
 
 export const shellLinks = [
   {
     href: "https://github.com/DeepLearningDev",
-    label: "Open GitHub",
+    label: "GitHub Profile",
   },
   {
-    href: "https://www.linkedin.com",
-    label: "Open LinkedIn",
+    href: "https://www.linkedin.com/in/kaleb-white-95135921b",
+    label: "LinkedIn Profile",
   },
 ];
