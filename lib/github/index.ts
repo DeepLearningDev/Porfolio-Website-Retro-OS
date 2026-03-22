@@ -1,7 +1,8 @@
 export { curatedProjects } from "@/content/projects";
 
 export { fetchGitHubRepositories, fetchGitHubRepository, getGitHubOwner } from "./client";
-export { formatGitHubDate, getPortfolioProjects, getProjectStack } from "./projects";
+export { getPortfolioProjects } from "./projects";
+export { formatGitHubDate, getProjectStack } from "./shared";
 export type {
   CuratedProjectDefinition,
   GitHubFetchStatus,
