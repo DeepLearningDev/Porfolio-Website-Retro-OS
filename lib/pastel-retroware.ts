@@ -12,6 +12,6 @@ export {
   WindowBody,
   WindowControls,
   WindowHeader,
-} from "../../pastel-retroware-ui/packages/ui/dist/index.js";
+} from "@/vendor/pastel-retroware/ui/index.js";
 
-export { themeClassNames } from "../../pastel-retroware-ui/packages/tokens/dist/index.js";
+export { themeClassNames } from "@/vendor/pastel-retroware/tokens/index.js";

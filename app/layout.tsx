@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "../../pastel-retroware-ui/packages/tokens/dist/styles.css";
-import "../../pastel-retroware-ui/packages/ui/dist/styles.css";
+import "@/vendor/pastel-retroware/tokens/styles.css";
+import "@/vendor/pastel-retroware/ui/styles.css";
 
 import { PortfolioShell } from "@/components/portfolio-shell";
 import { themeClassNames } from "@/lib/pastel-retroware";

@@ -3,8 +3,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  outputFileTracingRoot: __dirname,
   turbopack: {
-    root: path.join(__dirname, ".."),
+    root: path.resolve(__dirname),
   },
 };
 

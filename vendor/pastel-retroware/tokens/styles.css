@@ -1,0 +1,114 @@
+:root,
+.pr-theme-cyber-retro {
+  color-scheme: dark;
+  --pr-color-bg-canvas: #060916;
+  --pr-color-bg-canvas-alt: #0b1031;
+  --pr-color-bg-panel: rgba(14, 20, 46, 0.92);
+  --pr-color-bg-elevated: rgba(22, 30, 63, 0.96);
+  --pr-color-bg-terminal: rgba(5, 8, 18, 0.95);
+  --pr-color-bg-sidebar: rgba(8, 13, 31, 0.95);
+  --pr-color-bg-selection: rgba(86, 233, 255, 0.14);
+  --pr-color-border-window: rgba(172, 149, 255, 0.72);
+  --pr-color-border-accent: rgba(103, 225, 255, 0.76);
+  --pr-color-border-muted: rgba(118, 136, 196, 0.4);
+  --pr-color-border-strong: rgba(206, 214, 255, 0.62);
+  --pr-color-text-primary: #f6f7ff;
+  --pr-color-text-secondary: #bfc9f1;
+  --pr-color-text-accent: #7cecff;
+  --pr-color-text-inverse: #07101d;
+  --pr-color-accent-cyan: #62ebff;
+  --pr-color-accent-violet: #ba8cff;
+  --pr-color-accent-blue: #77a7ff;
+  --pr-color-accent-pink: #ff8ce4;
+  --pr-color-state-success: #4affc5;
+  --pr-color-state-warning: #ffd86f;
+  --pr-color-state-danger: #ff7ca8;
+  --pr-shadow-window: 0 24px 64px rgba(4, 8, 24, 0.68);
+  --pr-shadow-panel: 0 16px 32px rgba(1, 6, 20, 0.45);
+  --pr-shadow-overlay: 0 24px 80px rgba(3, 8, 24, 0.78);
+  --pr-glow-cyan-soft:
+    0 0 0 1px rgba(103, 225, 255, 0.24), 0 0 22px rgba(103, 225, 255, 0.2);
+  --pr-glow-cyan-strong:
+    0 0 0 1px rgba(103, 225, 255, 0.5), 0 0 34px rgba(103, 225, 255, 0.34);
+  --pr-glow-violet-soft:
+    0 0 0 1px rgba(186, 140, 255, 0.22), 0 0 24px rgba(186, 140, 255, 0.24);
+  --pr-glow-violet-strong:
+    0 0 0 1px rgba(186, 140, 255, 0.42), 0 0 38px rgba(186, 140, 255, 0.34);
+  --pr-space-xs: 0.25rem;
+  --pr-space-sm: 0.5rem;
+  --pr-space-md: 0.75rem;
+  --pr-space-lg: 1rem;
+  --pr-space-xl: 1.5rem;
+  --pr-space-2xl: 2rem;
+  --pr-radius-sm: 0.25rem;
+  --pr-radius-md: 0.5rem;
+  --pr-radius-lg: 0.75rem;
+  --pr-radius-window: 0.9rem;
+  --pr-font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --pr-font-display: "Rajdhani", "Segoe UI", sans-serif;
+  --pr-font-mono: "IBM Plex Mono", "Consolas", monospace;
+  --pr-font-size-xs: 0.75rem;
+  --pr-font-size-sm: 0.875rem;
+  --pr-font-size-md: 1rem;
+  --pr-font-size-lg: 1.125rem;
+  --pr-font-size-xl: 1.5rem;
+  --pr-icon-size-sm: 0.875rem;
+  --pr-icon-size-md: 1rem;
+  --pr-icon-size-lg: 1.25rem;
+  --pr-motion-fast: 120ms;
+  --pr-motion-normal: 180ms;
+  --pr-motion-slow: 280ms;
+  --pr-z-base: 1;
+  --pr-z-dock: 20;
+  --pr-z-overlay: 40;
+  --pr-z-tooltip: 60;
+  --pr-size-titlebar-height: 2.75rem;
+  --pr-size-taskbar-height: 3.5rem;
+  --pr-size-window-control: 0.9rem;
+  --pr-grid-cell-size: 2rem;
+  --pr-grid-line-color: rgba(114, 144, 255, 0.1);
+  --pr-grid-glow-color: rgba(98, 235, 255, 0.08);
+  --pr-focus-ring: 0 0 0 2px rgba(98, 235, 255, 0.5);
+  --pr-focus-outline: 2px solid rgba(98, 235, 255, 0.92);
+}
+
+.pr-theme-soft-pastel {
+  color-scheme: dark;
+  --pr-color-bg-canvas: #121125;
+  --pr-color-bg-canvas-alt: #1e1838;
+  --pr-color-bg-panel: rgba(29, 24, 58, 0.9);
+  --pr-color-bg-elevated: rgba(43, 31, 77, 0.94);
+  --pr-color-bg-terminal: rgba(18, 15, 35, 0.96);
+  --pr-color-bg-sidebar: rgba(24, 19, 46, 0.94);
+  --pr-color-bg-selection: rgba(255, 166, 228, 0.16);
+  --pr-color-border-window: rgba(221, 184, 255, 0.74);
+  --pr-color-border-accent: rgba(128, 236, 255, 0.74);
+  --pr-color-border-muted: rgba(177, 152, 227, 0.42);
+  --pr-color-border-strong: rgba(248, 233, 255, 0.62);
+  --pr-color-text-primary: #fff6ff;
+  --pr-color-text-secondary: #dfd4ff;
+  --pr-color-text-accent: #93efff;
+  --pr-color-text-inverse: #130f25;
+  --pr-color-accent-cyan: #8ef4ff;
+  --pr-color-accent-violet: #d0a7ff;
+  --pr-color-accent-blue: #9ab7ff;
+  --pr-color-accent-pink: #ffabe9;
+  --pr-color-state-success: #62ffd5;
+  --pr-color-state-warning: #ffe48a;
+  --pr-color-state-danger: #ff9bc0;
+  --pr-shadow-window: 0 24px 64px rgba(11, 8, 24, 0.6);
+  --pr-shadow-panel: 0 16px 36px rgba(14, 8, 24, 0.44);
+  --pr-shadow-overlay: 0 28px 88px rgba(11, 7, 24, 0.72);
+  --pr-glow-cyan-soft:
+    0 0 0 1px rgba(142, 244, 255, 0.24), 0 0 22px rgba(142, 244, 255, 0.22);
+  --pr-glow-cyan-strong:
+    0 0 0 1px rgba(142, 244, 255, 0.48), 0 0 32px rgba(142, 244, 255, 0.36);
+  --pr-glow-violet-soft:
+    0 0 0 1px rgba(208, 167, 255, 0.24), 0 0 24px rgba(208, 167, 255, 0.24);
+  --pr-glow-violet-strong:
+    0 0 0 1px rgba(208, 167, 255, 0.48), 0 0 36px rgba(208, 167, 255, 0.36);
+  --pr-grid-line-color: rgba(188, 170, 255, 0.11);
+  --pr-grid-glow-color: rgba(142, 244, 255, 0.08);
+  --pr-focus-ring: 0 0 0 2px rgba(142, 244, 255, 0.5);
+  --pr-focus-outline: 2px solid rgba(142, 244, 255, 0.92);
+}
