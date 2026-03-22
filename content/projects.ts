@@ -1,16 +1,6 @@
-export type CuratedProjectDefinition = {
-  category: "application" | "system" | "tooling";
-  repo: string;
-  description: string;
-  highlights: string[];
-  status: "Live" | "Active Build" | "Case Study";
-  stack: string[];
-  demoUrl?: string;
-  featured?: boolean;
-  order?: number;
-};
+import type { CuratedProjectDefinition } from "@/lib/github";
 
-export const curatedProjects = [
+export const curatedProjects: readonly CuratedProjectDefinition[] = [
   {
     category: "tooling",
     repo: "Fluxer.js",
@@ -22,6 +12,7 @@ export const curatedProjects = [
     ],
     status: "Active Build",
     stack: ["TypeScript", "Node.js", "Framework Design"],
+    tags: ["bot framework", "developer tooling", "typescript"],
     featured: true,
     order: 1,
   },
@@ -36,6 +27,7 @@ export const curatedProjects = [
     ],
     status: "Case Study",
     stack: ["Python", "Analytics", "Monitoring"],
+    tags: ["anomaly detection", "finance", "reporting"],
     featured: true,
     order: 2,
   },
@@ -50,6 +42,7 @@ export const curatedProjects = [
     ],
     status: "Case Study",
     stack: ["Python", "SQL", "ETL"],
+    tags: ["pipeline", "data engineering", "automation"],
     featured: true,
     order: 3,
   },
@@ -64,6 +57,7 @@ export const curatedProjects = [
     ],
     status: "Live",
     stack: ["JavaScript", "HTML", "CSS"],
+    tags: ["browser utility", "productivity", "lightweight app"],
     demoUrl: "https://deeplearningdev.github.io/Clipboard.github.io/",
     featured: true,
     order: 4,
@@ -79,6 +73,7 @@ export const curatedProjects = [
     ],
     status: "Case Study",
     stack: ["JavaScript", "Vue", "SQL"],
+    tags: ["business app", "productivity", "workflow management"],
     order: 5,
   },
   {
@@ -92,8 +87,9 @@ export const curatedProjects = [
     ],
     status: "Case Study",
     stack: ["JavaScript", "Next.js", "Web App"],
+    tags: ["ui exploration", "application shell", "frontend systems"],
     order: 6,
   },
-] satisfies readonly CuratedProjectDefinition[];
+];
 
 export type CuratedProjectEntry = (typeof curatedProjects)[number];

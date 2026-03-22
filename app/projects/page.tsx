@@ -1,8 +1,8 @@
 import { ProjectsExplorer } from "@/components/projects-explorer";
-import { getCuratedProjects } from "@/lib/github";
+import { getPortfolioProjects } from "@/lib/github";
 
 export default async function ProjectsPage() {
-  const projects = await getCuratedProjects();
+  const projects = await getPortfolioProjects();
 
   return <ProjectsExplorer projects={projects} />;
 }

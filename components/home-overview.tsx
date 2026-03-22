@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { aboutContent, currentFocus, heroContent, skillTelemetry } from "@/content/home";
-import type { ProjectCard } from "@/lib/github";
+import type { PortfolioProject } from "@/lib/github";
 import {
   Badge,
   Button,
@@ -14,10 +14,10 @@ import {
 } from "@/lib/pastel-retroware";
 
 type HomeOverviewProps = {
-  featuredProjects: ProjectCard[];
+  featuredProjects: PortfolioProject[];
 };
 
-function getStatusTone(status: ProjectCard["status"]) {
+function getStatusTone(status: PortfolioProject["status"]) {
   if (status === "Live") {
     return "success" as const;
   }

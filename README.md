@@ -30,3 +30,16 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+## GitHub Data
+
+GitHub-backed portfolio data is fetched on the server only.
+
+Optional environment variables:
+
+```bash
+GITHUB_TOKEN=your_github_token
+GITHUB_OWNER=DeepLearningDev
+```
+
+`GITHUB_TOKEN` is recommended in production to avoid tighter anonymous rate limits.

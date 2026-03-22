@@ -2,9 +2,9 @@ import Link from "next/link";
 
 import { routeHighlights } from "@/content/site";
 import {
-  type ProjectCard,
   formatGitHubDate,
   getProjectStack,
+  type PortfolioProject,
 } from "@/lib/github";
 import {
   Badge,
@@ -19,10 +19,10 @@ import {
 } from "@/lib/pastel-retroware";
 
 type ProjectsExplorerProps = {
-  projects: ProjectCard[];
+  projects: PortfolioProject[];
 };
 
-function getCoverageMetrics(projects: ProjectCard[]) {
+function getCoverageMetrics(projects: PortfolioProject[]) {
   const demoCount = projects.filter((project) =>
     project.links.some((link) => link.label === "Demo")
   ).length;
@@ -138,6 +138,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                   <p>
                     GitHub sync: {project.github ? "live metadata" : "curated fallback"}
                   </p>
+                  <p>Stars: {project.stars}</p>
                 </div>
 
                 <div className="flex flex-wrap gap-2">
