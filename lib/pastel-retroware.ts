@@ -1,9 +1,13 @@
 export {
   Badge,
   Button,
+  Card,
+  MetricBar,
   Panel,
   Sidebar,
   StatusStrip,
+  SystemPanel,
+  TerminalPane,
   Window,
   WindowBody,
   WindowControls,
