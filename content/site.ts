@@ -13,7 +13,7 @@ export const siteProfile = {
 export const routeHighlights = {
   home: "Overview route for identity, featured work, skill focus, and current priorities.",
   projects: "Curated GitHub-backed explorer route for repositories and case-study style project snapshots.",
-  contact: "Terminal-style contact route for direct outreach, availability, and follow-up.",
+  contact: "Terminal-style contact route for direct outreach, availability, response expectations, and preferred channels.",
 };
 
 export const shellMetrics = [
@@ -39,3 +39,6 @@ export const shellLinks = [
     label: "LinkedIn Profile",
   },
 ];
+
+export const shellContactNote =
+  "Email and Discord contact values are intentionally configured at runtime so no personal identifiers need to live in source control.";
