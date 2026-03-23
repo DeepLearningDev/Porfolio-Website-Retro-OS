@@ -1,14 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 
 import { siteProfile, shellLinks, shellMetrics } from "@/content/site";
+import { shellQuickLaunches } from "@/content/shell";
 import {
   Badge,
   Button,
+  DesktopIcon,
   Panel,
+  Separator,
   Sidebar,
   StatusStrip,
   Window,
@@ -17,12 +20,15 @@ import {
   WindowHeader,
 } from "@/lib/pastel-retroware";
 import { getActiveRoute, siteRoutes } from "@/lib/site-navigation";
+import { PortfolioTaskbar } from "@/components/portfolio-taskbar";
+import { ShellRail } from "@/components/shell-rail";
 
 type PortfolioShellProps = {
   children: ReactNode;
 };
 
 export function PortfolioShell({ children }: PortfolioShellProps) {
+  const router = useRouter();
   const pathname = usePathname();
   const activeRoute = getActiveRoute(pathname);
 
@@ -67,7 +73,7 @@ export function PortfolioShell({ children }: PortfolioShellProps) {
           </header>
         </Panel>
 
-        <div className="site-shell__workspace">
+        <div className="site-shell__desktop">
           <Sidebar
             className="site-shell__sidebar"
             footer={
@@ -116,6 +122,27 @@ export function PortfolioShell({ children }: PortfolioShellProps) {
               ))}
             </div>
 
+            <Separator />
+
+            <div className="grid gap-2">
+              {shellQuickLaunches.map((item) => (
+                <DesktopIcon
+                  description={item.description}
+                  icon={<span aria-hidden className="site-shell__desktop-icon-glyph" />}
+                  key={item.href}
+                  label={item.label}
+                  onClick={() => {
+                    if (item.href.startsWith("/")) {
+                      router.push(item.href);
+                      return;
+                    }
+
+                    window.open(item.href, "_blank", "noopener,noreferrer");
+                  }}
+                />
+              ))}
+            </div>
+
             <div className="grid gap-2">
               {shellLinks.map((item) => (
                 <Button asChild className="justify-start" key={item.href} variant="ghost">
@@ -147,8 +174,11 @@ export function PortfolioShell({ children }: PortfolioShellProps) {
 
             <WindowBody className="site-shell__window-body">{children}</WindowBody>
           </Window>
+
+          <ShellRail />
         </div>
       </div>
+      <PortfolioTaskbar activeRoute={activeRoute} />
     </div>
   );
 }

@@ -1,24 +1,23 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState } from "react";
 
+import { ProjectModule } from "@/components/project-module";
 import { routeHighlights } from "@/content/site";
-import { formatGitHubDate, getProjectStack } from "@/lib/github/shared";
+import { formatGitHubDate } from "@/lib/github/shared";
 import type { PortfolioProject } from "@/lib/github/types";
 import {
   Badge,
-  Button,
-  Card,
-  ExplorerItem,
-  ExplorerList,
   MetricBar,
   Panel,
   ScrollArea,
   Sidebar,
   StatusStrip,
-  SystemPanel,
   TerminalPane,
+  Window,
+  WindowBody,
+  WindowControls,
+  WindowHeader,
 } from "@/lib/pastel-retroware";
 
 type ProjectsExplorerProps = {
@@ -57,6 +56,12 @@ const projectFilters: Array<{
     label: "Tooling",
     description: "Framework, DX, and reusable engineering infrastructure work.",
   },
+];
+
+const widgetStats = [
+  { label: "Builds", value: "06", detail: "Curated portfolio modules", tone: "accent" as const },
+  { label: "Featured", value: "04", detail: "High-signal projects", tone: "violet" as const },
+  { label: "Live", value: "01", detail: "GitHub-backed demo", tone: "success" as const },
 ];
 
 function getCoverageMetrics(projects: PortfolioProject[]) {
@@ -114,296 +119,361 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
   const nonFeaturedCount = projects.length - featuredCount;
 
   return (
-    <section className="grid gap-6 p-6">
-      <Panel
-        className="space-y-4 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)]"
-        padding="lg"
-        tone="elevated"
-      >
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="space-y-3 border-l-2 border-[var(--pr-color-border-strong)] pl-4">
-            <p className="font-mono text-xs uppercase tracking-[0.32em] text-[var(--pr-color-text-accent)]">
-              Projects Route
-            </p>
-            <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-              Project explorer
-            </h2>
-            <p className="max-w-3xl text-base leading-8 text-[var(--pr-color-text-secondary)]">
-              {routeHighlights.projects}
-            </p>
-          </div>
-          <StatusStrip className="gap-3 border border-[var(--pr-color-border-muted)] px-3 py-2">
-            <span>curated:{projects.length}</span>
-            <span>featured:{featuredCount}</span>
-            <span>mode:primary-showcase</span>
-          </StatusStrip>
-        </div>
-      </Panel>
-
-      <div className="grid gap-6 xl:grid-cols-[17rem_minmax(0,1fr)_21rem]">
-        <Sidebar
-          className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)]"
-          footer={
-            <StatusStrip className="justify-between border-t border-[var(--pr-color-border-muted)] pt-3">
-              <span>source:github.api</span>
-              <span>filter:{activeFilter}</span>
-            </StatusStrip>
+    <section className="grid gap-6 p-6 pb-28">
+      <Window className="relative overflow-hidden rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)] shadow-none">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(127,127,255,0.06)_22%,transparent_48%,rgba(94,231,255,0.04)_78%,transparent_100%)]"
+        />
+        <WindowHeader
+          className="border-b border-[var(--pr-color-border-muted)]"
+          title="project_explorer.exe"
+          subtitle={routeHighlights.projects}
+          status={
+            <Badge tone="accent" variant="subtle">
+              curated matrix
+            </Badge>
           }
-          subtitle="Curated repository showcase"
-          title="Explorer Rail"
         >
-          <div className="space-y-4">
-            <ExplorerList>
-              {projectFilters.map((filter) => (
-                <ExplorerItem
-                  description={filter.description}
-                  key={filter.id}
-                  label={filter.label}
-                  meta={
-                    filter.id === "all"
-                      ? projects.length
-                      : filter.id === "featured"
-                        ? featuredCount
-                        : projects.filter((project) => project.category === filter.id).length
+          <WindowControls>
+            <span aria-hidden className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-cyan)]" />
+            <span aria-hidden className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-violet)]" />
+            <span aria-hidden className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-pink)]" />
+          </WindowControls>
+        </WindowHeader>
+        <WindowBody className="relative overflow-hidden">
+          <div className="grid gap-6 xl:grid-cols-[15rem_minmax(0,1fr)_18rem]">
+            <Window className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:mt-3">
+              <WindowHeader
+                className="border-b border-[var(--pr-color-border-muted)]"
+                title="filters.rail"
+                subtitle="Explorer categories"
+                status={
+                  <Badge tone="success" variant="subtle">
+                    {projects.length} items
+                  </Badge>
+                }
+              />
+              <WindowBody className="space-y-4">
+                <Sidebar
+                  className="border-0 bg-transparent p-0"
+                  footer={
+                    <StatusStrip className="justify-between border-t border-[var(--pr-color-border-muted)] pt-3">
+                      <span>featured:{featuredCount}</span>
+                      <span>view:{activeFilter}</span>
+                    </StatusStrip>
                   }
-                  onClick={() => setActiveFilter(filter.id)}
-                  selected={filter.id === activeFilter}
-                />
-              ))}
-            </ExplorerList>
+                  subtitle="Curated repository showcase"
+                  title="Explorer Rail"
+                >
+                  <div className="space-y-4">
+                    {projectFilters.map((filter) => {
+                      const count =
+                        filter.id === "all"
+                          ? projects.length
+                          : filter.id === "featured"
+                            ? featuredCount
+                            : projects.filter((project) => project.category === filter.id).length;
 
-            <Panel
-              className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
-              padding="sm"
-            >
-              <div className="space-y-2">
-                <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
-                  Showcase Notes
-                </p>
-                <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
-                  {featuredCount} featured projects lead the page, with {nonFeaturedCount} additional case-study entries available in the explorer.
-                </p>
-              </div>
-            </Panel>
-          </div>
-        </Sidebar>
+                      return (
+                        <Panel
+                          className={[
+                            "cursor-pointer rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)] transition",
+                            filter.id === activeFilter
+                              ? "shadow-[0_0_0_1px_var(--pr-color-accent-violet)]"
+                              : "",
+                          ].join(" ")}
+                          key={filter.id}
+                          onClick={() => setActiveFilter(filter.id)}
+                          padding="sm"
+                          tone="default"
+                        >
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between gap-3">
+                              <p className="font-semibold tracking-tight">{filter.label}</p>
+                              <Badge tone={filter.id === activeFilter ? "accent" : "violet"} variant="outline">
+                                {count}
+                              </Badge>
+                            </div>
+                            <p className="text-sm leading-6 text-[var(--pr-color-text-secondary)]">
+                              {filter.description}
+                            </p>
+                          </div>
+                        </Panel>
+                      );
+                    })}
+                  </div>
+                </Sidebar>
 
-        <div className="grid gap-4">
-          <Panel
-            className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)]"
-            padding="sm"
-            tone="elevated"
-          >
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-3">
-              <div>
-                <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
-                  Project Inventory
-                </p>
-                <p className="mt-2 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
-                  {visibleProjects.length} project{visibleProjects.length === 1 ? "" : "s"} in the current view.
-                </p>
-              </div>
-              {selectedProject && (
-                <Badge tone={getStatusTone(selectedProject.status)} variant="outline">
-                  selected: {selectedProject.name}
-                </Badge>
-              )}
-            </div>
-          </Panel>
-
-          <ScrollArea className="max-h-[58rem]">
-            <div className="grid gap-4 pr-2 md:grid-cols-2">
-              {visibleProjects.map((project) => {
-                const stack = getProjectStack(project);
-                const isSelected = selectedProject?.repo === project.repo;
-
-                return (
-                  <Card
-                    className={[
-                      "space-y-5 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none transition",
-                      isSelected
-                        ? "shadow-[0_0_0_1px_var(--pr-color-accent-violet)]"
-                        : "",
-                    ].join(" ")}
-                    interactive
-                    key={project.repo}
-                    onClick={() => setSelectedRepo(project.repo)}
-                    padding="lg"
-                  >
-                    <div className="flex items-start justify-between gap-4 border-b border-[var(--pr-color-border-muted)] pb-3">
-                      <div className="space-y-2">
-                        <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
-                          {project.category}
-                        </p>
-                        <h3 className="text-2xl font-semibold tracking-tight">
-                          {project.name}
-                        </h3>
-                      </div>
-                      <div className="flex flex-col items-end gap-2">
-                        <Badge tone={getStatusTone(project.status)} variant="subtle">
-                          {project.status}
-                        </Badge>
-                        {project.featured && (
-                          <Badge tone="accent" variant="outline">
-                            featured
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-
-                    <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
-                      {project.description}
+                <Panel className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]" padding="sm">
+                  <div className="space-y-2">
+                    <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
+                      System Notes
                     </p>
+                    <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                      {featuredCount} featured projects lead the page, with {nonFeaturedCount} additional modules available in the current view.
+                    </p>
+                  </div>
+                </Panel>
+              </WindowBody>
+            </Window>
 
-                    <div className="space-y-2 border-t border-[var(--pr-color-border-muted)] pt-4 text-sm text-[var(--pr-color-text-secondary)]">
-                      <p>Last updated: {formatGitHubDate(project.lastUpdated)}</p>
-                      <p>Stars: {project.stars}</p>
-                      <p>
-                        Source: {project.source === "github" ? "live GitHub metadata" : "curated fallback"}
+            <div className="grid gap-6">
+              <Window className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:-mt-2">
+                <WindowHeader
+                  className="border-b border-[var(--pr-color-border-muted)]"
+                  title="project_matrix.exe"
+                  subtitle="Dense system modules"
+                  status={
+                    <Badge tone="success" variant="subtle">
+                      {visibleProjects.length} visible
+                    </Badge>
+                  }
+                >
+                  <WindowControls>
+                    <span aria-hidden className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-cyan)]" />
+                    <span aria-hidden className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-violet)]" />
+                    <span aria-hidden className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-blue)]" />
+                  </WindowControls>
+                </WindowHeader>
+                <WindowBody className="space-y-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-3">
+                    <div>
+                      <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
+                        Project inventory
+                      </p>
+                      <p className="mt-2 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                        {visibleProjects.length} project{visibleProjects.length === 1 ? "" : "s"} in the current view.
                       </p>
                     </div>
+                    {selectedProject && (
+                      <Badge tone={getStatusTone(selectedProject.status)} variant="outline">
+                        selected: {selectedProject.name}
+                      </Badge>
+                    )}
+                  </div>
 
-                    <div className="flex flex-wrap gap-2 border-t border-[var(--pr-color-border-muted)] pt-4">
-                      {stack.map((item) => (
-                        <Badge key={`${project.repo}-${item}`} tone="violet" variant="outline">
-                          {item}
-                        </Badge>
+                  <ScrollArea className="max-h-[46rem]" viewportClassName="pr-2">
+                    <div className="grid gap-4 xl:grid-cols-2">
+                      {visibleProjects.map((project) => (
+                        <ProjectModule
+                          key={project.repo}
+                          onSelect={() => setSelectedRepo(project.repo)}
+                          project={project}
+                          selected={selectedProject?.repo === project.repo}
+                        />
                       ))}
                     </div>
+                  </ScrollArea>
 
-                    <div className="flex flex-wrap gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">
-                      {project.links.map((link) => (
-                        <Button
-                          asChild
-                          key={link.href}
-                          variant={link.label === "Demo" ? "primary" : "ghost"}
-                        >
-                          <Link href={link.href} rel="noreferrer" target="_blank">
-                            {link.label}
-                          </Link>
-                        </Button>
-                      ))}
-                    </div>
-                  </Card>
-                );
-              })}
-            </div>
-          </ScrollArea>
-        </div>
+                  {selectedProject && (
+                    <Panel className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)]" padding="md">
+                      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.65fr)]">
+                        <div className="space-y-3">
+                          <div className="flex flex-wrap items-center gap-2 border-b border-[var(--pr-color-border-muted)] pb-2">
+                            <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
+                              Focused module
+                            </p>
+                            <Badge tone={getStatusTone(selectedProject.status)} variant="subtle">
+                              {selectedProject.status}
+                            </Badge>
+                          </div>
+                          <h3 className="text-2xl font-semibold tracking-tight">{selectedProject.name}</h3>
+                          <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                            {selectedProject.description}
+                          </p>
+                          <div className="flex flex-wrap gap-2">
+                            {selectedProject.tags.slice(0, 4).map((tag) => (
+                              <Badge key={`${selectedProject.repo}-focus-${tag}`} tone="accent" variant="outline">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
 
-        <div className="grid gap-4">
-          {selectedProject && (
-            <SystemPanel
-              description="Focused project detail"
-              status={
-                <Badge tone={getStatusTone(selectedProject.status)} variant="subtle">
-                  {selectedProject.status}
-                </Badge>
-              }
-              title={selectedProject.name}
-            >
-              <div className="space-y-5">
-                <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
-                  {selectedProject.description}
-                </p>
+                        <div className="grid gap-3 text-sm">
+                          <div className="flex items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-2">
+                            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
+                              Last Updated
+                            </span>
+                            <span>{formatGitHubDate(selectedProject.lastUpdated)}</span>
+                          </div>
+                          <div className="flex items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-2">
+                            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
+                              Primary Language
+                            </span>
+                            <span>{selectedProject.primaryLanguage ?? "Curated only"}</span>
+                          </div>
+                          <div className="flex items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-2">
+                            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
+                              Stars
+                            </span>
+                            <span>{selectedProject.stars}</span>
+                          </div>
+                          <div className="flex items-center justify-between gap-3">
+                            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
+                              Source
+                            </span>
+                            <span>{selectedProject.source === "github" ? "GitHub live" : "Curated fallback"}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </Panel>
+                  )}
+                </WindowBody>
+              </Window>
 
-                <div className="grid gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
-                      Last Updated
-                    </span>
-                    <span className="text-sm text-[var(--pr-color-text-primary)]">
-                      {formatGitHubDate(selectedProject.lastUpdated)}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
-                      Primary Language
-                    </span>
-                    <span className="text-sm text-[var(--pr-color-text-primary)]">
-                      {selectedProject.primaryLanguage ?? "Curated only"}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
-                      Stars
-                    </span>
-                    <span className="text-sm text-[var(--pr-color-text-primary)]">
-                      {selectedProject.stars}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-2 border-t border-[var(--pr-color-border-muted)] pt-4">
-                  {selectedProject.tags.map((tag) => (
-                    <Badge key={`${selectedProject.repo}-tag-${tag}`} tone="accent" variant="outline">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-
-                <div className="space-y-2 border-t border-[var(--pr-color-border-muted)] pt-4">
-                  <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
-                    Project Highlights
-                  </p>
-                  <ul className="space-y-2 text-sm leading-6 text-[var(--pr-color-text-secondary)]">
-                    {selectedProject.highlights.map((highlight) => (
-                      <li key={highlight}>- {highlight}</li>
+              <div className="grid gap-4 md:grid-cols-2">
+                <Window className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:ml-4">
+                  <WindowHeader
+                    className="border-b border-[var(--pr-color-border-muted)]"
+                    title="system_metrics.exe"
+                    subtitle="Coverage and health"
+                    status={
+                      <Badge tone="accent" variant="subtle">
+                        live stats
+                      </Badge>
+                    }
+                  />
+                  <WindowBody className="grid gap-4">
+                    <MetricBar
+                      label="Demo coverage"
+                      tone="accent"
+                      value={demoCoverage}
+                      valueLabel={`${Math.round(demoCoverage)}%`}
+                    />
+                    <MetricBar
+                      label="GitHub metadata coverage"
+                      tone="violet"
+                      value={githubCoverage}
+                      valueLabel={`${Math.round(githubCoverage)}%`}
+                    />
+                    {widgetStats.map((stat) => (
+                      <Panel
+                        className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
+                        key={stat.label}
+                        padding="sm"
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
+                            {stat.label}
+                          </span>
+                          <Badge tone={stat.tone} variant="outline">
+                            {stat.value}
+                          </Badge>
+                        </div>
+                        <p className="mt-2 text-sm leading-6 text-[var(--pr-color-text-secondary)]">
+                          {stat.detail}
+                        </p>
+                      </Panel>
                     ))}
-                  </ul>
-                </div>
+                  </WindowBody>
+                </Window>
 
-                <div className="flex flex-wrap gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">
-                  {selectedProject.links.map((link) => (
-                    <Button
-                      asChild
-                      key={`${selectedProject.repo}-${link.href}`}
-                      variant={link.label === "Demo" ? "primary" : "secondary"}
-                    >
-                      <Link href={link.href} rel="noreferrer" target="_blank">
-                        {link.label}
-                      </Link>
-                    </Button>
-                  ))}
-                </div>
+                <Window className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:-mt-4">
+                  <WindowHeader
+                    className="border-b border-[var(--pr-color-border-muted)]"
+                    title="system_notes.log"
+                    subtitle="Runtime context"
+                    status={
+                      <Badge tone="success" variant="subtle">
+                        stable
+                      </Badge>
+                    }
+                  />
+                  <WindowBody className="space-y-3">
+                    <TerminalPane prompt="projects.showcase --primary" status="active" title="explorer_notes.log">
+                      <div className="space-y-3 border-l-2 border-[var(--pr-color-border-strong)] pl-3 font-mono text-xs leading-6 text-[var(--pr-color-text-secondary)]">
+                        <p>{">"} This route is the primary portfolio showcase.</p>
+                        <p>{">"} Curated project data stays readable before deeper filtering is added.</p>
+                        <p>{">"} Detail updates happen in-place without pretending to be a desktop window manager.</p>
+                      </div>
+                    </TerminalPane>
+                  </WindowBody>
+                </Window>
               </div>
-            </SystemPanel>
-          )}
-
-          <Panel
-            className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)]"
-            padding="md"
-            tone="elevated"
-          >
-            <div className="grid gap-4">
-              <MetricBar
-                label="Demo coverage"
-                tone="accent"
-                value={demoCoverage}
-                valueLabel={`${Math.round(demoCoverage)}%`}
-              />
-              <MetricBar
-                label="GitHub metadata coverage"
-                tone="violet"
-                value={githubCoverage}
-                valueLabel={`${Math.round(githubCoverage)}%`}
-              />
             </div>
-          </Panel>
 
-          <TerminalPane
-            prompt="projects.showcase --primary"
-            status="active"
-            title="explorer_notes.log"
-          >
-            <div className="space-y-3 border-l-2 border-[var(--pr-color-border-strong)] pl-3 font-mono text-xs leading-6 text-[var(--pr-color-text-secondary)]">
-              <p>{">"} This route is the primary portfolio showcase.</p>
-              <p>{">"} Curated project data stays readable before deeper filtering is added.</p>
-              <p>{">"} Detail updates happen in-place without pretending to be a desktop window manager.</p>
+            <div className="grid gap-6">
+              <Window className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:mt-3">
+                <WindowHeader
+                  className="border-b border-[var(--pr-color-border-muted)]"
+                  title="whoami.sys"
+                  subtitle="Profile and focus"
+                  status={
+                    <Badge tone="success" variant="subtle">
+                      operator
+                    </Badge>
+                  }
+                />
+                <WindowBody className="space-y-4">
+                  <Panel className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]" padding="sm">
+                    <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                      {routeHighlights.projects}
+                    </p>
+                  </Panel>
+
+                  <Panel className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]" padding="sm">
+                    <div className="space-y-3">
+                      <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
+                        Project metadata
+                      </p>
+                      <StatusStrip className="justify-between border border-[var(--pr-color-border-muted)] px-3 py-2">
+                        <span>curated:{projects.length}</span>
+                        <span>featured:{featuredCount}</span>
+                      </StatusStrip>
+                      <StatusStrip className="justify-between border border-[var(--pr-color-border-muted)] px-3 py-2">
+                        <span>sources:github</span>
+                        <span>mode:matrix</span>
+                      </StatusStrip>
+                    </div>
+                  </Panel>
+                </WindowBody>
+              </Window>
+
+              <Window className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:ml-4">
+                <WindowHeader
+                  className="border-b border-[var(--pr-color-border-muted)]"
+                  title="skill_monitor.exe"
+                  subtitle="Focus areas"
+                  status={
+                    <Badge tone="violet" variant="subtle">
+                      system
+                    </Badge>
+                  }
+                />
+                <WindowBody className="grid gap-3">
+                  {[
+                    { label: "Frontend Systems", value: 92 },
+                    { label: "Software & Platform", value: 84 },
+                    { label: "Data & AI Workflows", value: 78 },
+                  ].map((entry, index) => (
+                    <Panel
+                      className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
+                      key={entry.label}
+                      padding="sm"
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="text-sm font-semibold tracking-tight">{entry.label}</span>
+                        <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
+                          {entry.value}%
+                        </span>
+                      </div>
+                      <MetricBar
+                        className="mt-3"
+                        label={entry.label}
+                        tone={index === 1 ? "violet" : index === 2 ? "success" : "accent"}
+                        value={entry.value}
+                        valueLabel={`${entry.value}%`}
+                      />
+                    </Panel>
+                  ))}
+                </WindowBody>
+              </Window>
             </div>
-          </TerminalPane>
-        </div>
-      </div>
+          </div>
+        </WindowBody>
+      </Window>
     </section>
   );
 }
