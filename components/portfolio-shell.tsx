@@ -3,12 +3,6 @@ import type { ReactNode } from "react";
 
 import { siteProfile, shellLinks, shellMetrics } from "@/content/site";
 import {
-  Badge,
-  Button,
-  Panel,
-  Separator,
-  Sidebar,
-  StatusStrip,
   Window,
   WindowBody,
 } from "@/lib/pastel-retroware";
@@ -27,91 +21,86 @@ export function PortfolioShell({ children }: PortfolioShellProps) {
     <div className="site-shell">
       <div aria-hidden className="site-shell__ambient" />
       <div className="site-shell__frame">
-        <Panel
-          asChild
-          className="site-shell__topbar site-motion-enter"
-          padding="sm"
-          tone="elevated"
-        >
-          <header>
-            <div className="site-shell__topbar-chrome">
-              <div className="site-shell__brand-row">
-                <Link className="site-shell__brand" href="/">
-                  {siteProfile.alias}
-                </Link>
-                <Badge tone="accent" variant="outline">
-                  {siteProfile.status}
-                </Badge>
-              </div>
-
-              <ShellTopNav />
+        <header className="site-shell__topbar site-motion-enter">
+          <div className="site-shell__topbar-chrome">
+            <div className="site-shell__brand-row">
+              <Link className="site-shell__brand" href="/">
+                {siteProfile.alias}
+              </Link>
+              <span className="site-chip site-chip--accent">{siteProfile.status}</span>
             </div>
-          </header>
-        </Panel>
+
+            <ShellTopNav />
+          </div>
+        </header>
 
         <div className="site-shell__desktop">
-          <Sidebar
-            className="site-shell__sidebar site-motion-enter site-motion-enter--1"
-            footer={
-              <StatusStrip className="justify-between">
-                <span>signal:{siteProfile.signalStrength}</span>
-                <span>timezone:{siteProfile.timezone}</span>
-              </StatusStrip>
-            }
-            subtitle={siteProfile.role}
-            title={siteProfile.name}
-          >
-            <Panel className="space-y-4" padding="sm" tone="elevated">
+          <aside className="site-shell__sidebar site-motion-enter site-motion-enter--1">
+            <div className="site-shell__sidebar-header">
               <div>
-                <p className="font-mono text-xs uppercase tracking-[0.26em] text-[var(--pr-color-text-accent)]">
+                <p className="site-shell__sidebar-title">{siteProfile.name}</p>
+                <p className="site-shell__sidebar-subtitle">{siteProfile.role}</p>
+              </div>
+            </div>
+
+            <section className="site-shell__sidebar-section">
+              <div>
+                <p className="site-shell__eyebrow">
                   Operating Profile
                 </p>
-                <p className="mt-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                <p className="site-shell__body-copy site-shell__body-copy--spaced">
                   {siteProfile.summary}
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="site-home__chip-row">
                 {siteProfile.focusAreas.map((area) => (
-                  <Badge key={area} tone="violet" variant="outline">
+                  <span className="site-chip site-chip--violet" key={area}>
                     {area}
-                  </Badge>
+                  </span>
                 ))}
               </div>
-            </Panel>
+            </section>
 
-            <div className="grid gap-3">
-              {shellMetrics.map((metric) => (
-                <Panel className="space-y-2" key={metric.label} padding="sm">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
-                      {metric.label}
-                    </span>
-                    <span className="text-sm font-semibold text-[var(--pr-color-text-primary)]">
-                      {metric.value}
-                    </span>
-                  </div>
-                  <p className="text-sm leading-6 text-[var(--pr-color-text-secondary)]">
-                    {metric.detail}
-                  </p>
-                </Panel>
-              ))}
-            </div>
-
-            <Separator />
+            <section className="site-shell__sidebar-section">
+              <div className="site-shell__widget-list">
+                {shellMetrics.map((metric) => (
+                  <article className="site-shell__widget-row" key={metric.label}>
+                    <div className="site-shell__widget-row-header">
+                      <span className="site-shell__widget-row-label">
+                        {metric.label}
+                      </span>
+                      <span className="site-shell__metric-value">
+                        {metric.value}
+                      </span>
+                    </div>
+                    <p className="site-shell__body-copy">{metric.detail}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
 
             <ShellQuickLaunches />
 
-            <div className="grid gap-2">
+            <nav className="site-shell__sidebar-links">
               {shellLinks.map((item) => (
-                <Button asChild className="justify-start" key={item.href} variant="ghost">
-                  <a href={item.href} rel="noreferrer" target="_blank">
-                    {item.label}
-                  </a>
-                </Button>
+                <a
+                  className="site-shell__sidebar-link"
+                  href={item.href}
+                  key={item.href}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {item.label}
+                </a>
               ))}
+            </nav>
+
+            <div className="site-shell__statusbar">
+              <span>signal:{siteProfile.signalStrength}</span>
+              <span>timezone:{siteProfile.timezone}</span>
             </div>
-          </Sidebar>
+          </aside>
 
           <Window className="site-shell__window site-motion-enter site-motion-enter--2">
             <ShellWindowHeader />
