@@ -59,6 +59,10 @@ export function ProjectsExplorerDetail({ project }: ProjectsExplorerDetailProps)
             <span>stars: {project.stars}</span>
             <span>{project.source === "github" ? "github live" : "curated fallback"}</span>
           </div>
+          <div className="site-home__status-row">
+            <span>{project.demoUrl ? "demo available" : "source only"}</span>
+            <span>{project.category}</span>
+          </div>
         </div>
       </div>
     </section>

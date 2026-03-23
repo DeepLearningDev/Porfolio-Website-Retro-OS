@@ -1,6 +1,5 @@
 import { routeHighlights } from "@/content/site";
 import type { PortfolioProject } from "@/lib/github/types";
-import { MetricBar } from "@/lib/pastel-retroware";
 import type { ProjectFilter } from "@/lib/projects-explorer";
 
 type ProjectsExplorerSidePanelsProps = {
@@ -9,12 +8,6 @@ type ProjectsExplorerSidePanelsProps = {
   githubCoverage: number;
   projects: PortfolioProject[];
 };
-
-const widgetStats = [
-  { label: "Builds", value: "06", detail: "Curated portfolio modules", tone: "accent" as const },
-  { label: "Featured", value: "04", detail: "High-signal projects", tone: "violet" as const },
-  { label: "Live", value: "01", detail: "GitHub-backed demo", tone: "success" as const },
-];
 
 export function ProjectsExplorerSidePanels({
   activeFilter,
@@ -64,58 +57,31 @@ export function ProjectsExplorerSidePanels({
           </div>
 
           <div className="border-t border-[var(--pr-color-border-muted)] pt-4">
-            <p className="site-shell__eyebrow">coverage</p>
-            <div className="mt-3 space-y-3">
-              <MetricBar
-                label="Demo coverage"
-                tone="accent"
-                value={demoCoverage}
-                valueLabel={`${Math.round(demoCoverage)}%`}
-              />
-              <MetricBar
-                label="GitHub metadata"
-                tone="violet"
-                value={githubCoverage}
-                valueLabel={`${Math.round(githubCoverage)}%`}
-              />
-            </div>
-          </div>
-
-          <div className="border-t border-[var(--pr-color-border-muted)] pt-4">
-            <p className="site-shell__eyebrow">skill monitor</p>
-            <div className="mt-3 space-y-3">
-          {[
-            { label: "Frontend Systems", value: 92 },
-            { label: "Software & Platform", value: 84 },
-            { label: "Data & AI Workflows", value: 78 },
-          ].map((entry, index) => (
-            <article className="site-shell__widget-row" key={entry.label}>
-              <div className="flex items-center justify-between gap-3">
-                <span className="text-sm font-semibold tracking-tight">{entry.label}</span>
-                <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
-                  {entry.value}%
-                </span>
+            <p className="site-shell__eyebrow">coverage + focus</p>
+            <div className="mt-3 grid gap-2">
+              <div className="site-home__status-row">
+                <span>demo coverage</span>
+                <span>{Math.round(demoCoverage)}%</span>
               </div>
-              <MetricBar
-                label={entry.label}
-                tone={index === 1 ? "violet" : index === 2 ? "success" : "accent"}
-                value={entry.value}
-                valueLabel={`${entry.value}%`}
-              />
-            </article>
-          ))}
+              <div className="site-home__status-row">
+                <span>github metadata</span>
+                <span>{Math.round(githubCoverage)}%</span>
+              </div>
             </div>
           </div>
 
           <div className="border-t border-[var(--pr-color-border-muted)] pt-4">
-            <p className="site-shell__eyebrow">runtime notes</p>
-            <div className="mt-3 space-y-2 font-mono text-xs leading-6 text-[var(--pr-color-text-secondary)]">
-              {widgetStats.map((stat) => (
-                <p key={stat.label}>
-                  {stat.label.toLowerCase()}: {stat.value} | {stat.detail}
-                </p>
+            <p className="site-shell__eyebrow">focus areas</p>
+            <div className="mt-3 site-shell__inline-list">
+              {[
+                "Frontend Systems",
+                "Software & Platform",
+                "Data & AI Workflows",
+              ].map((entry) => (
+                <span className="site-shell__inline-item" key={entry}>
+                  {entry}
+                </span>
               ))}
-              <p>detail updates stay inline without simulating window management.</p>
             </div>
           </div>
         </div>
