@@ -10,7 +10,7 @@ function TaskbarControlsComponent() {
   const pathname = usePathname();
 
   return (
-    <nav className="site-shell__taskbar-group" aria-label="Primary taskbar navigation">
+    <nav className="site-shell__taskbar-apps" aria-label="Primary taskbar navigation">
       {siteRoutes.map((route, index) => {
         const isActive =
           route.href === "/"
@@ -20,25 +20,25 @@ function TaskbarControlsComponent() {
         return (
           <Link
             aria-current={isActive ? "page" : undefined}
-            className={`site-shell__taskbar-link${isActive ? " site-shell__taskbar-link--active" : ""}`}
+            className={`site-shell__taskbar-app${isActive ? " site-shell__taskbar-app--active" : ""}`}
             key={route.href}
             href={route.href}
           >
-            <span className="site-shell__taskbar-dot" />
-            <span className="site-shell__taskbar-label">{route.label}</span>
+            <span aria-hidden="true" className="site-shell__taskbar-app-dot" />
+            <span className="site-shell__taskbar-app-label">{route.label}</span>
             <span className="sr-only">route {index + 1}</span>
           </Link>
         );
       })}
 
       <a
-        className="site-shell__taskbar-link"
+        className="site-shell__taskbar-app"
         href="/resume/kaleb-white-resume.pdf"
         rel="noreferrer"
         target="_blank"
       >
-        <span className="site-shell__taskbar-dot" />
-        <span className="site-shell__taskbar-label">Resume</span>
+        <span aria-hidden="true" className="site-shell__taskbar-app-dot" />
+        <span className="site-shell__taskbar-app-label">Resume</span>
       </a>
     </nav>
   );

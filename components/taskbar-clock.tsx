@@ -21,7 +21,7 @@ function TaskbarClockComponent() {
     return () => window.clearInterval(timer);
   }, []);
 
-  return <span className="site-shell__taskbar-clock">{currentTime}</span>;
+  return <span className="site-shell__taskbar-tray-item site-shell__taskbar-clock">{currentTime}</span>;
 }
 
 export const TaskbarClock = memo(TaskbarClockComponent);
