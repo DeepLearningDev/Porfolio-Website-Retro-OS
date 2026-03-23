@@ -59,25 +59,36 @@ a {
   min-height: 100vh;
   overflow-x: clip;
   isolation: isolate;
+  --site-surface-primary-bg: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--pr-color-bg-elevated) 90%, transparent),
+    color-mix(in srgb, var(--pr-color-bg-canvas-alt) 96%, transparent)
+  );
+  --site-surface-secondary-bg: color-mix(in srgb, var(--pr-color-bg-canvas-alt) 94%, transparent);
+  --site-surface-minimal-bg: color-mix(in srgb, var(--pr-color-bg-canvas-alt) 90%, transparent);
+  --site-surface-primary-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --site-surface-accent-ring: 0 0 0 1px color-mix(in srgb, var(--pr-color-border-window) 56%, transparent);
+  --site-interactive-transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+  --site-interactive-glow: 0 0 8px color-mix(in srgb, var(--pr-color-accent-cyan) 5%, transparent);
 }
 
 .site-shell__ambient {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 12% 14%, color-mix(in srgb, var(--pr-color-accent-violet) 14%, transparent), transparent 28%),
-    radial-gradient(circle at 88% 78%, color-mix(in srgb, var(--pr-color-accent-cyan) 12%, transparent), transparent 24%),
+    radial-gradient(circle at 12% 14%, color-mix(in srgb, var(--pr-color-accent-violet) 10%, transparent), transparent 26%),
     linear-gradient(90deg, color-mix(in srgb, var(--pr-grid-line-color) 72%, transparent) 1px, transparent 1px),
     linear-gradient(color-mix(in srgb, var(--pr-grid-line-color) 64%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--pr-color-accent-violet) 8%, transparent), transparent 40%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 20%, transparent 80%, rgba(255, 255, 255, 0.01));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.012), transparent 18%, transparent 82%, rgba(255, 255, 255, 0.008));
   background-size:
     100% 100%,
     100% 100%,
-    var(--pr-grid-cell-size) var(--pr-grid-cell-size),
-    var(--pr-grid-cell-size) var(--pr-grid-cell-size),
-    100% 100%;
-  opacity: 0.42;
+    var(--pr-grid-cell-size) var(--pr-grid-cell-size);
+  opacity: 0.34;
   pointer-events: none;
   contain: paint;
 }
@@ -100,11 +111,8 @@ a {
   flex-direction: column;
   gap: 0.75rem;
   padding: 0.75rem 0.875rem;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--pr-color-bg-elevated) 88%, transparent), color-mix(in srgb, var(--pr-color-bg-canvas-alt) 96%, transparent));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+  background: var(--site-surface-primary-bg);
+  box-shadow: var(--site-surface-primary-shadow);
   contain: layout paint;
 }
 
@@ -158,8 +166,7 @@ a {
   padding: 1rem;
   align-self: start;
   border: 1px solid var(--pr-color-border-window);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--pr-color-bg-elevated) 88%, transparent), color-mix(in srgb, var(--pr-color-bg-canvas-alt) 96%, transparent));
+  background: var(--site-surface-primary-bg);
   transform: translateY(0.25rem);
   contain: layout paint;
 }
@@ -188,7 +195,7 @@ a {
   display: grid;
   gap: 0.85rem;
   border: 1px solid var(--pr-color-border-muted);
-  background: color-mix(in srgb, var(--pr-color-bg-canvas-alt) 94%, transparent);
+  background: var(--site-surface-secondary-bg);
   padding: 0.9rem;
 }
 
@@ -199,12 +206,13 @@ a {
 
 .site-shell__sidebar-link {
   border: 1px solid var(--pr-color-border-muted);
-  background: color-mix(in srgb, var(--pr-color-bg-canvas-alt) 94%, transparent);
+  background: var(--site-surface-minimal-bg);
   padding: 0.7rem 0.8rem;
   font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  transition: border-color 160ms ease, background-color 180ms ease;
 }
 
 .site-shell__statusbar {
@@ -234,8 +242,7 @@ a {
 
 .site-shell__window-body {
   min-height: 100%;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--pr-color-bg-elevated) 90%, transparent), color-mix(in srgb, var(--pr-color-bg-canvas-alt) 88%, transparent));
+  background: var(--site-surface-primary-bg);
   border-top: 1px solid color-mix(in srgb, var(--pr-color-border-muted) 45%, transparent);
   contain: layout paint;
 }
@@ -253,7 +260,6 @@ a {
   height: 0.85rem;
   width: 0.85rem;
   border: 1px solid var(--pr-color-border-window);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .site-shell__control--cyan {
@@ -288,12 +294,9 @@ a {
   gap: 0.75rem;
   align-items: start;
   border: 1px solid var(--pr-color-border-muted);
-  background: color-mix(in srgb, var(--pr-color-bg-canvas-alt) 94%, transparent);
+  background: var(--site-surface-secondary-bg);
   padding: 0.7rem 0.8rem;
-  transition:
-    border-color 160ms ease,
-    background-color 180ms ease,
-    transform 160ms ease;
+  transition: var(--site-interactive-transition);
 }
 
 .site-shell__desktop-link:hover {
@@ -332,11 +335,8 @@ a {
   align-items: center;
   padding: 0.55rem 0.75rem;
   border: 1px solid var(--pr-color-border-window);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--pr-color-bg-elevated) 88%, transparent), color-mix(in srgb, var(--pr-color-bg-canvas-alt) 97%, transparent));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 0 0 1px color-mix(in srgb, var(--pr-color-border-strong) 34%, transparent);
+  background: var(--site-surface-primary-bg);
+  box-shadow: var(--site-surface-primary-shadow);
   contain: layout paint;
 }
 
@@ -380,12 +380,9 @@ a {
   gap: 0.5rem;
   min-height: 2.15rem;
   border: 1px solid var(--pr-color-border-muted);
-  background: color-mix(in srgb, var(--pr-color-bg-canvas-alt) 92%, transparent);
+  background: var(--site-surface-minimal-bg);
   padding: 0.45rem 0.7rem;
-  transition:
-    border-color 160ms ease,
-    background-color 180ms ease,
-    transform 160ms ease;
+  transition: var(--site-interactive-transition);
 }
 
 .site-shell__taskbar-link:hover {
@@ -410,7 +407,7 @@ a {
   display: grid;
   gap: 0;
   border: 1px solid var(--pr-color-border-muted);
-  background: color-mix(in srgb, var(--pr-color-bg-canvas-alt) 94%, transparent);
+  background: var(--site-surface-secondary-bg);
 }
 
 .site-shell__widget-row {
@@ -452,11 +449,8 @@ a {
   display: grid;
   gap: 0;
   border: 1px solid var(--pr-color-border-window);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--pr-color-bg-elevated) 86%, transparent), color-mix(in srgb, var(--pr-color-bg-canvas-alt) 94%, transparent));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 0 0 1px color-mix(in srgb, var(--pr-color-border-window) 72%, transparent);
+  background: var(--site-surface-primary-bg);
+  box-shadow: var(--site-surface-primary-shadow);
   contain: layout paint;
 }
 
@@ -537,7 +531,7 @@ a {
   display: grid;
   gap: 0.35rem;
   border: 1px solid var(--pr-color-border-muted);
-  background: color-mix(in srgb, var(--pr-color-bg-canvas) 96%, transparent);
+  background: color-mix(in srgb, var(--pr-color-bg-canvas) 98%, transparent);
   padding: 0.85rem 0.9rem;
   font-family: var(--font-geist-mono), monospace;
   font-size: 0.72rem;
@@ -582,16 +576,13 @@ a {
   transition:
     transform 180ms ease,
     border-color 180ms ease,
-    box-shadow 220ms ease,
     background-color 220ms ease;
 }
 
 .site-motion-hover:hover {
   transform: translate3d(0, -1px, 0);
   border-color: color-mix(in srgb, var(--pr-color-border-strong) 84%, var(--pr-color-accent-cyan));
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--pr-color-border-strong) 45%, transparent),
-    0 0 14px color-mix(in srgb, var(--pr-color-accent-cyan) 8%, transparent);
+  background-color: color-mix(in srgb, var(--pr-color-bg-elevated) 84%, transparent);
 }
 
 @media (min-width: 1024px) {
@@ -639,14 +630,16 @@ a {
   border-radius: 0;
 }
 
-.site-shell :is(.pr-button, .pr-badge, .pr-choice, .pr-control, .pr-input, .pr-textarea, .pr-select, .pr-explorer-item, .pr-desktop-icon, .pr-taskbar-button, .pr-scroll-area, .pr-dialog__content) {
+.site-shell :is(.pr-button, .pr-badge, .pr-choice, .pr-control, .pr-input, .pr-textarea, .pr-select, .pr-explorer-item, .pr-desktop-icon, .pr-taskbar-button, .pr-scroll-area) {
   border-radius: 0;
 }
 
-.site-shell :is(.pr-panel, .pr-card, .pr-window, .pr-sidebar, .pr-system-panel, .pr-terminal-pane, .pr-start-menu, .pr-taskbar, .pr-dialog__content) {
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 0 0 1px color-mix(in srgb, var(--pr-color-border-window) 84%, transparent);
+.site-shell :is(.pr-window, .pr-system-panel, .pr-terminal-pane, .pr-taskbar, .pr-dialog__content) {
+  box-shadow: var(--site-surface-primary-shadow), var(--site-surface-accent-ring);
+}
+
+.site-shell :is(.pr-panel, .pr-card, .pr-sidebar, .pr-start-menu) {
+  box-shadow: none;
 }
 
 .site-shell :is(.pr-button, .pr-badge, .pr-input, .pr-textarea, .pr-select, .pr-explorer-item, .pr-desktop-icon, .pr-taskbar-button) {
@@ -654,18 +647,11 @@ a {
 }
 
 .site-shell :is(.pr-button, .pr-badge, .pr-input, .pr-textarea, .pr-select, .pr-explorer-item, .pr-desktop-icon, .pr-taskbar-button) {
-  transition:
-    transform 160ms ease,
-    border-color 160ms ease,
-    box-shadow 180ms ease,
-    background-color 180ms ease,
-    color 180ms ease;
+  transition: var(--site-interactive-transition);
 }
 
 .site-shell :is(.pr-button, .pr-taskbar-button, .pr-desktop-icon):hover {
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--pr-color-border-strong) 42%, transparent),
-    0 0 10px color-mix(in srgb, var(--pr-color-accent-violet) 9%, transparent);
+  box-shadow: var(--site-interactive-glow);
   transform: translate3d(0, -1px, 0);
 }
 
@@ -674,9 +660,7 @@ a {
 }
 
 .site-shell :is(.pr-input, .pr-textarea, .pr-select):focus-visible {
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--pr-color-accent-cyan) 34%, transparent),
-    0 0 20px color-mix(in srgb, var(--pr-color-accent-cyan) 12%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--pr-color-accent-cyan) 28%, transparent);
 }
 
 .site-home {
@@ -693,15 +677,8 @@ a {
 
 .site-home__section {
   border: 1px solid var(--pr-color-border-strong);
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--pr-color-bg-panel) 92%, transparent),
-      color-mix(in srgb, var(--pr-color-bg-canvas-alt) 96%, transparent)
-    );
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 0 0 1px color-mix(in srgb, var(--pr-color-border-window) 66%, transparent);
+  background: var(--site-surface-primary-bg);
+  box-shadow: var(--site-surface-primary-shadow);
   contain: layout paint;
 }
 
@@ -819,7 +796,7 @@ a {
   display: grid;
   gap: 1rem;
   border: 1px solid var(--pr-color-border-muted);
-  background: color-mix(in srgb, var(--pr-color-bg-canvas-alt) 94%, transparent);
+  background: var(--site-surface-secondary-bg);
   padding: 1rem;
 }
 
