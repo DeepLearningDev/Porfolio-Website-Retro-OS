@@ -115,9 +115,13 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
 
   return (
     <section className="grid gap-6 p-6">
-      <Panel className="space-y-4" padding="lg" tone="elevated">
+      <Panel
+        className="space-y-4 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)]"
+        padding="lg"
+        tone="elevated"
+      >
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="space-y-3">
+          <div className="space-y-3 border-l-2 border-[var(--pr-color-border-strong)] pl-4">
             <p className="font-mono text-xs uppercase tracking-[0.32em] text-[var(--pr-color-text-accent)]">
               Projects Route
             </p>
@@ -128,7 +132,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
               {routeHighlights.projects}
             </p>
           </div>
-          <StatusStrip className="gap-3">
+          <StatusStrip className="gap-3 border border-[var(--pr-color-border-muted)] px-3 py-2">
             <span>curated:{projects.length}</span>
             <span>featured:{featuredCount}</span>
             <span>mode:primary-showcase</span>
@@ -138,8 +142,9 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
 
       <div className="grid gap-6 xl:grid-cols-[17rem_minmax(0,1fr)_21rem]">
         <Sidebar
+          className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)]"
           footer={
-            <StatusStrip className="justify-between">
+            <StatusStrip className="justify-between border-t border-[var(--pr-color-border-muted)] pt-3">
               <span>source:github.api</span>
               <span>filter:{activeFilter}</span>
             </StatusStrip>
@@ -167,7 +172,10 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
               ))}
             </ExplorerList>
 
-            <Panel padding="sm">
+            <Panel
+              className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
+              padding="sm"
+            >
               <div className="space-y-2">
                 <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
                   Showcase Notes
@@ -181,8 +189,12 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
         </Sidebar>
 
         <div className="grid gap-4">
-          <Panel padding="sm" tone="elevated">
-            <div className="flex flex-wrap items-center justify-between gap-3">
+          <Panel
+            className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)]"
+            padding="sm"
+            tone="elevated"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-3">
               <div>
                 <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
                   Project Inventory
@@ -208,9 +220,9 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                 return (
                   <Card
                     className={[
-                      "space-y-5 transition",
+                      "space-y-5 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none transition",
                       isSelected
-                        ? "border-[var(--pr-color-border-strong)] shadow-[var(--pr-glow-violet-soft)]"
+                        ? "shadow-[0_0_0_1px_var(--pr-color-accent-violet)]"
                         : "",
                     ].join(" ")}
                     interactive
@@ -218,7 +230,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                     onClick={() => setSelectedRepo(project.repo)}
                     padding="lg"
                   >
-                    <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-start justify-between gap-4 border-b border-[var(--pr-color-border-muted)] pb-3">
                       <div className="space-y-2">
                         <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
                           {project.category}
@@ -239,11 +251,11 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                       </div>
                     </div>
 
-                    <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                    <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
                       {project.description}
                     </p>
 
-                    <div className="space-y-2 text-sm text-[var(--pr-color-text-secondary)]">
+                    <div className="space-y-2 border-t border-[var(--pr-color-border-muted)] pt-4 text-sm text-[var(--pr-color-text-secondary)]">
                       <p>Last updated: {formatGitHubDate(project.lastUpdated)}</p>
                       <p>Stars: {project.stars}</p>
                       <p>
@@ -251,7 +263,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                       </p>
                     </div>
 
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 border-t border-[var(--pr-color-border-muted)] pt-4">
                       {stack.map((item) => (
                         <Badge key={`${project.repo}-${item}`} tone="violet" variant="outline">
                           {item}
@@ -259,7 +271,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                       ))}
                     </div>
 
-                    <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-wrap gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">
                       {project.links.map((link) => (
                         <Button
                           asChild
@@ -291,11 +303,11 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
               title={selectedProject.name}
             >
               <div className="space-y-5">
-                <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
                   {selectedProject.description}
                 </p>
 
-                <div className="grid gap-3">
+                <div className="grid gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">
                   <div className="flex items-center justify-between gap-3">
                     <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
                       Last Updated
@@ -322,7 +334,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 border-t border-[var(--pr-color-border-muted)] pt-4">
                   {selectedProject.tags.map((tag) => (
                     <Badge key={`${selectedProject.repo}-tag-${tag}`} tone="accent" variant="outline">
                       {tag}
@@ -330,7 +342,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                   ))}
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2 border-t border-[var(--pr-color-border-muted)] pt-4">
                   <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
                     Project Highlights
                   </p>
@@ -341,7 +353,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                   </ul>
                 </div>
 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">
                   {selectedProject.links.map((link) => (
                     <Button
                       asChild
@@ -358,7 +370,11 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
             </SystemPanel>
           )}
 
-          <Panel padding="md" tone="elevated">
+          <Panel
+            className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)]"
+            padding="md"
+            tone="elevated"
+          >
             <div className="grid gap-4">
               <MetricBar
                 label="Demo coverage"
@@ -380,7 +396,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
             status="active"
             title="explorer_notes.log"
           >
-            <div className="space-y-3 font-mono text-xs leading-6 text-[var(--pr-color-text-secondary)]">
+            <div className="space-y-3 border-l-2 border-[var(--pr-color-border-strong)] pl-3 font-mono text-xs leading-6 text-[var(--pr-color-text-secondary)]">
               <p>{">"} This route is the primary portfolio showcase.</p>
               <p>{">"} Curated project data stays readable before deeper filtering is added.</p>
               <p>{">"} Detail updates happen in-place without pretending to be a desktop window manager.</p>

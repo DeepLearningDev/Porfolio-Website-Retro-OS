@@ -30,43 +30,40 @@ export function PortfolioShell({ children }: PortfolioShellProps) {
     <div className="site-shell">
       <div aria-hidden className="site-shell__ambient" />
       <div className="site-shell__frame">
-        <Panel
-          asChild
-          className="site-shell__topbar"
-          padding="sm"
-          tone="elevated"
-        >
+        <Panel asChild className="site-shell__topbar" padding="sm" tone="elevated">
           <header>
-            <div className="flex items-center gap-4">
-              <Link className="site-shell__brand" href="/">
-                {siteProfile.alias}
-              </Link>
-              <Badge tone="accent" variant="outline">
-                {siteProfile.status}
-              </Badge>
+            <div className="site-shell__topbar-chrome">
+              <div className="site-shell__brand-row">
+                <Link className="site-shell__brand" href="/">
+                  {siteProfile.alias}
+                </Link>
+                <Badge tone="accent" variant="outline">
+                  {siteProfile.status}
+                </Badge>
+              </div>
+
+              <nav aria-label="Primary" className="site-shell__topbar-nav">
+                {siteRoutes.map((route) => {
+                  const isActive = route.href === activeRoute.href;
+
+                  return (
+                    <Button
+                      asChild
+                      className="min-w-28"
+                      key={route.href}
+                      variant={isActive ? "secondary" : "ghost"}
+                    >
+                      <Link
+                        aria-current={isActive ? "page" : undefined}
+                        href={route.href}
+                      >
+                        {route.label}
+                      </Link>
+                    </Button>
+                  );
+                })}
+              </nav>
             </div>
-
-            <nav
-              aria-label="Primary"
-              className="flex flex-wrap items-center justify-end gap-2"
-            >
-              {siteRoutes.map((route) => {
-                const isActive = route.href === activeRoute.href;
-
-                return (
-                  <Button
-                    asChild
-                    className="min-w-28"
-                    key={route.href}
-                    variant={isActive ? "secondary" : "ghost"}
-                  >
-                    <Link aria-current={isActive ? "page" : undefined} href={route.href}>
-                      {route.label}
-                    </Link>
-                  </Button>
-                );
-              })}
-            </nav>
           </header>
         </Panel>
 
@@ -132,6 +129,7 @@ export function PortfolioShell({ children }: PortfolioShellProps) {
 
           <Window className="site-shell__window">
             <WindowHeader
+              className="site-shell__window-header"
               status={
                 <Badge tone="success" variant="subtle">
                   shell.ready

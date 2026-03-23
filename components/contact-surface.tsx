@@ -23,9 +23,13 @@ export function ContactSurface() {
 
   return (
     <section className="grid gap-6 p-6">
-      <Panel className="space-y-4" padding="lg" tone="elevated">
+      <Panel
+        className="space-y-4 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)]"
+        padding="lg"
+        tone="elevated"
+      >
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="space-y-3">
+          <div className="space-y-3 border-l-2 border-[var(--pr-color-border-strong)] pl-4">
             <p className="font-mono text-xs uppercase tracking-[0.32em] text-[var(--pr-color-text-accent)]">
               {contactHero.eyebrow}
             </p>
@@ -37,7 +41,7 @@ export function ContactSurface() {
             </p>
           </div>
 
-          <StatusStrip className="gap-3">
+          <StatusStrip className="gap-3 border border-[var(--pr-color-border-muted)] px-3 py-2">
             <span>availability: open</span>
             <span>response: 1-3 business days</span>
             <span>timezone: EDT</span>
@@ -57,8 +61,13 @@ export function ContactSurface() {
         >
           <div className="grid gap-4">
             {contactMethods.map((method) => (
-              <Panel className="space-y-3" key={method.label} padding="md" tone="default">
-                <div className="flex flex-wrap items-center justify-between gap-3">
+              <Panel
+                className="space-y-3 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+                key={method.label}
+                padding="md"
+                tone="default"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-3">
                   <div className="space-y-1">
                     <p className="text-lg font-semibold tracking-tight">{method.label}</p>
                     <p className="text-sm text-[var(--pr-color-text-secondary)]">
@@ -70,11 +79,11 @@ export function ContactSurface() {
                   </Badge>
                 </div>
 
-                <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
                   {method.note}
                 </p>
 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">
                   {method.href ? (
                     <Button asChild variant="secondary">
                       <a href={method.href} rel="noreferrer" target="_blank">
@@ -153,7 +162,7 @@ export function ContactSurface() {
             </label>
 
             <div className="grid gap-4 border-t border-[var(--pr-color-border-muted)] pt-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
-              <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+              <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
                 This form opens your mail client with the message details prefilled.
               </p>
 
@@ -187,10 +196,14 @@ export function ContactSurface() {
           title="Availability"
         >
           <div className="space-y-4">
-            <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+            <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
               {contactAvailability.status}
             </p>
-            <Panel padding="sm" tone="default">
+            <Panel
+              className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+              padding="sm"
+              tone="default"
+            >
               <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
                 {contactAvailability.workingStyle}
               </p>
@@ -201,7 +214,12 @@ export function ContactSurface() {
                 "Email and LinkedIn are the fastest public channels for direct outreach.",
                 `Primary working timezone: ${contactAvailability.timeZone}.`,
               ].map((item) => (
-                <Panel key={item} padding="sm" tone="default">
+                <Panel
+                  className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+                  key={item}
+                  padding="sm"
+                  tone="default"
+                >
                   <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
                     {item}
                   </p>
@@ -222,8 +240,12 @@ export function ContactSurface() {
         >
           <div className="grid gap-3">
             {preferredChannels.map((channel) => (
-              <Panel className="space-y-2" key={channel.label} padding="sm">
-                <div className="flex flex-wrap items-center justify-between gap-3">
+              <Panel
+                className="space-y-2 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+                key={channel.label}
+                padding="sm"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-2">
                   <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--pr-color-text-accent)]">
                     {channel.label}
                   </p>

@@ -33,10 +33,14 @@ function getStatusTone(status: PortfolioProject["status"]) {
 export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
   return (
     <section className="grid gap-6 p-6">
-      <Panel className="space-y-8" padding="lg" tone="elevated">
+      <Panel
+        className="space-y-8 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)] shadow-none"
+        padding="lg"
+        tone="elevated"
+      >
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)]">
           <div className="space-y-6">
-            <div>
+            <div className="border-b border-[var(--pr-color-border-muted)] pb-4">
               <p className="font-mono text-xs uppercase tracking-[0.32em] text-[var(--pr-color-text-accent)]">
                 {heroContent.eyebrow}
               </p>
@@ -45,12 +49,12 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
               </h2>
             </div>
 
-            <div className="max-w-3xl space-y-4 text-base leading-8 text-[var(--pr-color-text-secondary)]">
+            <div className="max-w-3xl space-y-4 border-l-2 border-[var(--pr-color-border-strong)] pl-4 text-base leading-8 text-[var(--pr-color-text-secondary)]">
               <p>{heroContent.roleSummary}</p>
               <p>{heroContent.valueProposition}</p>
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">
               {heroContent.ctas.map((cta) => {
                 const variant =
                   cta.variant === "secondary"
@@ -88,11 +92,11 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
             title="Current Focus"
           >
             <div className="space-y-4">
-              <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+              <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
                 {currentFocus.availability}
               </p>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 border-t border-[var(--pr-color-border-muted)] pt-4">
                 {currentFocus.themes.map((theme) => (
                   <Badge key={theme} tone="violet" variant="outline">
                     {theme}
@@ -100,7 +104,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
                 ))}
               </div>
 
-              <StatusStrip className="justify-between">
+              <StatusStrip className="justify-between border border-[var(--pr-color-border-muted)] px-3 py-2">
                 <span>region: Glen Allen, VA</span>
                 <span>timezone: EDT</span>
               </StatusStrip>
@@ -120,14 +124,18 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
           title="Operating Profile"
         >
           <div className="space-y-6">
-            <div className="space-y-4 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+            <div className="space-y-4 border-l-2 border-[var(--pr-color-border-strong)] pl-4 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
               <p>{aboutContent.intro}</p>
               <p>{aboutContent.positioning}</p>
             </div>
 
             <div className="grid gap-4 md:grid-cols-3">
               {aboutContent.strengths.map((strength) => (
-                <Panel className="space-y-3" key={strength.title} padding="sm">
+                <Panel
+                  className="space-y-3 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+                  key={strength.title}
+                  padding="sm"
+                >
                   <h3 className="text-lg font-semibold tracking-tight">
                     {strength.title}
                   </h3>
@@ -145,7 +153,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
           status="live"
           title="currently_building.log"
         >
-          <div className="space-y-3 font-mono text-xs leading-6 text-[var(--pr-color-text-secondary)]">
+          <div className="space-y-3 border-l-2 border-[var(--pr-color-border-strong)] pl-4 font-mono text-xs leading-6 text-[var(--pr-color-text-secondary)]">
             {currentFocus.nowBuilding.map((item) => (
               <p key={item}>{">"} {item}</p>
             ))}
@@ -164,8 +172,12 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
       >
         <div className="grid gap-4 xl:grid-cols-2">
           {featuredProjects.map((project) => (
-            <Card className="space-y-5" key={project.repo} padding="lg">
-              <div className="flex items-start justify-between gap-4">
+            <Card
+              className="space-y-5 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none"
+              key={project.repo}
+              padding="lg"
+            >
+              <div className="flex items-start justify-between gap-4 border-b border-[var(--pr-color-border-muted)] pb-3">
                 <div className="space-y-2">
                   <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
                     {project.category}
@@ -179,11 +191,11 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
                 </Badge>
               </div>
 
-              <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+              <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
                 {project.description}
               </p>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 border-t border-[var(--pr-color-border-muted)] pt-4">
                 {project.stack.map((item) => (
                   <Badge key={`${project.repo}-${item}`} tone="violet" variant="outline">
                     {item}
@@ -191,7 +203,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
                 ))}
               </div>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">
                 <Button asChild variant="secondary">
                   <Link href="/projects">Open Detail</Link>
                 </Button>
@@ -220,9 +232,13 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
         >
           <div className="grid gap-5">
             {skillTelemetry.map((group) => (
-              <Panel className="space-y-4" key={group.group} padding="md">
+              <Panel
+                className="space-y-4 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+                key={group.group}
+                padding="md"
+              >
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-2">
                     <h3 className="text-lg font-semibold tracking-tight">
                       {group.group}
                     </h3>
@@ -230,7 +246,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
                       active focus
                     </span>
                   </div>
-                  <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                  <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
                     {group.summary}
                   </p>
                 </div>
@@ -242,7 +258,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
                   valueLabel={`${group.intensity}%`}
                 />
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 border-t border-[var(--pr-color-border-muted)] pt-4">
                   {group.skills.map((skill) => (
                     <Badge key={skill} tone="accent" variant="outline">
                       {skill}
@@ -267,11 +283,11 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
             title="System Status"
           >
             <div className="space-y-5">
-              <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
-                I’m currently shaping this portfolio around real project surfaces instead of a generic landing page, with the strongest emphasis on reusable interface systems, practical frontend architecture, and clear software communication.
+              <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                I&apos;m currently shaping this portfolio around real project surfaces instead of a generic landing page, with the strongest emphasis on reusable interface systems, practical frontend architecture, and clear software communication.
               </p>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 border-t border-[var(--pr-color-border-muted)] pt-4">
                 <Badge tone="accent" variant="outline">
                   interface systems
                 </Badge>
@@ -283,7 +299,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
                 </Badge>
               </div>
 
-              <StatusStrip className="justify-between">
+              <StatusStrip className="justify-between border border-[var(--pr-color-border-muted)] px-3 py-2">
                 <span>portfolio_phase: overview.live</span>
                 <span>next_module: resume.access</span>
               </StatusStrip>

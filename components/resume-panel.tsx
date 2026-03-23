@@ -15,12 +15,16 @@ export function ResumePanel() {
       title={resumeContent.title}
     >
       <div className="space-y-5">
-        <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+        <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
           {resumeContent.availabilityNote}
         </p>
 
-        <Panel className="space-y-3" padding="sm" tone="elevated">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+        <Panel
+          className="space-y-3 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+          padding="sm"
+          tone="elevated"
+        >
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-3">
             <div className="space-y-1">
               <p className="text-lg font-semibold tracking-tight">{primaryFile.label}</p>
               <p className="text-sm text-[var(--pr-color-text-secondary)]">
@@ -32,7 +36,7 @@ export function ResumePanel() {
             </Badge>
           </div>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 border-t border-[var(--pr-color-border-muted)] pt-4">
             {resumeContent.highlights.map((highlight) => (
               <Badge key={highlight} tone="violet" variant="outline">
                 {highlight}
@@ -41,7 +45,7 @@ export function ResumePanel() {
           </div>
         </Panel>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">
           <Button asChild variant="primary">
             <a href={primaryFile.href} rel="noreferrer" target="_blank">
               View Resume
