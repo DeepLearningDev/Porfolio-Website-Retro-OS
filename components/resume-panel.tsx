@@ -1,29 +1,27 @@
 import { resumeContent } from "@/content/resume";
-import { Badge, Button, Panel, StatusStrip, SystemPanel } from "@/lib/pastel-retroware";
+import { Badge, Button } from "@/lib/pastel-retroware";
 
 export function ResumePanel() {
   const { primaryFile } = resumeContent;
 
   return (
-    <SystemPanel
-      description={resumeContent.description}
-      status={
+    <section className="site-home__section site-motion-enter site-motion-enter--3 site-motion-hover">
+      <header className="site-home__section-header">
+        <div className="space-y-2">
+          <h2 className="site-home__section-title">{resumeContent.title}</h2>
+          <p className="site-home__section-description">{resumeContent.description}</p>
+        </div>
         <Badge tone="success" variant="subtle">
           file ready
         </Badge>
-      }
-      title={resumeContent.title}
-    >
-      <div className="space-y-5">
-        <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+      </header>
+
+      <div className="site-home__section-body space-y-5">
+        <p className="site-home__callout text-sm leading-7 text-[var(--pr-color-text-secondary)]">
           {resumeContent.availabilityNote}
         </p>
 
-        <Panel
-          className="space-y-3 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
-          padding="sm"
-          tone="elevated"
-        >
+        <article className="site-home__mini-panel">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-3">
             <div className="space-y-1">
               <p className="text-lg font-semibold tracking-tight">{primaryFile.label}</p>
@@ -36,16 +34,16 @@ export function ResumePanel() {
             </Badge>
           </div>
 
-          <div className="flex flex-wrap gap-2 border-t border-[var(--pr-color-border-muted)] pt-4">
+          <div className="site-home__chip-row">
             {resumeContent.highlights.map((highlight) => (
-              <Badge key={highlight} tone="violet" variant="outline">
+              <span className="site-chip site-chip--violet" key={highlight}>
                 {highlight}
-              </Badge>
+              </span>
             ))}
           </div>
-        </Panel>
+        </article>
 
-        <div className="flex flex-wrap gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">
+        <div className="site-home__action-row">
           <Button asChild variant="primary">
             <a href={primaryFile.href} rel="noreferrer" target="_blank">
               View Resume
@@ -58,11 +56,11 @@ export function ResumePanel() {
           </Button>
         </div>
 
-        <StatusStrip className="justify-between">
+        <div className="site-home__status-row">
           <span>asset: public.resume</span>
           <span>usage: recruiter-review</span>
-        </StatusStrip>
+        </div>
       </div>
-    </SystemPanel>
+    </section>
   );
 }

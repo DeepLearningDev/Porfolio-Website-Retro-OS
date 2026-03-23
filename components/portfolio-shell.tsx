@@ -1,154 +1,107 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
-import { siteProfile, shellLinks, shellMetrics } from "@/content/site";
+import { siteProfile, shellLinks } from "@/content/site";
 import {
-  Badge,
-  Button,
-  Panel,
-  Sidebar,
-  StatusStrip,
   Window,
   WindowBody,
-  WindowControls,
-  WindowHeader,
 } from "@/lib/pastel-retroware";
-import { getActiveRoute, siteRoutes } from "@/lib/site-navigation";
+import { PortfolioTaskbar } from "@/components/portfolio-taskbar";
+import { ShellRail } from "@/components/shell-rail";
+import { ShellQuickLaunches } from "@/components/shell-quick-launches";
+import { ShellTopNav } from "@/components/shell-top-nav";
+import { ShellWindowHeader } from "@/components/shell-window-header";
 
 type PortfolioShellProps = {
   children: ReactNode;
 };
 
 export function PortfolioShell({ children }: PortfolioShellProps) {
-  const pathname = usePathname();
-  const activeRoute = getActiveRoute(pathname);
-
   return (
     <div className="site-shell">
       <div aria-hidden className="site-shell__ambient" />
       <div className="site-shell__frame">
-        <Panel asChild className="site-shell__topbar" padding="sm" tone="elevated">
-          <header>
-            <div className="site-shell__topbar-chrome">
-              <div className="site-shell__brand-row">
-                <Link className="site-shell__brand" href="/">
-                  {siteProfile.alias}
-                </Link>
-                <Badge tone="accent" variant="outline">
-                  {siteProfile.status}
-                </Badge>
-              </div>
-
-              <nav aria-label="Primary" className="site-shell__topbar-nav">
-                {siteRoutes.map((route) => {
-                  const isActive = route.href === activeRoute.href;
-
-                  return (
-                    <Button
-                      asChild
-                      className="min-w-28"
-                      key={route.href}
-                      variant={isActive ? "secondary" : "ghost"}
-                    >
-                      <Link
-                        aria-current={isActive ? "page" : undefined}
-                        href={route.href}
-                      >
-                        {route.label}
-                      </Link>
-                    </Button>
-                  );
-                })}
-              </nav>
+        <header className="site-shell__topbar site-motion-enter">
+          <div className="site-shell__topbar-chrome">
+            <div className="site-shell__brand-row">
+              <Link className="site-shell__brand" href="/">
+                {siteProfile.alias}
+              </Link>
+              <span className="site-chip site-chip--accent">{siteProfile.status}</span>
             </div>
-          </header>
-        </Panel>
 
-        <div className="site-shell__workspace">
-          <Sidebar
-            className="site-shell__sidebar"
-            footer={
-              <StatusStrip className="justify-between">
-                <span>signal:{siteProfile.signalStrength}</span>
-                <span>timezone:{siteProfile.timezone}</span>
-              </StatusStrip>
-            }
-            subtitle={siteProfile.role}
-            title={siteProfile.name}
-          >
-            <Panel className="space-y-4" padding="sm" tone="elevated">
+            <ShellTopNav />
+          </div>
+        </header>
+
+        <div className="site-shell__desktop">
+          <aside className="site-shell__sidebar site-motion-enter site-motion-enter--1">
+            <div className="site-shell__sidebar-header">
               <div>
-                <p className="font-mono text-xs uppercase tracking-[0.26em] text-[var(--pr-color-text-accent)]">
-                  Operating Profile
-                </p>
-                <p className="mt-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                <p className="site-shell__sidebar-title">{siteProfile.name}</p>
+                <p className="site-shell__sidebar-subtitle">{siteProfile.role}</p>
+              </div>
+            </div>
+
+            <section className="site-shell__sidebar-section">
+              <div>
+                <p className="site-shell__eyebrow">Operating Profile</p>
+                <p className="site-shell__body-copy site-shell__body-copy--spaced">
                   {siteProfile.summary}
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="site-shell__inline-list">
                 {siteProfile.focusAreas.map((area) => (
-                  <Badge key={area} tone="violet" variant="outline">
+                  <span className="site-shell__inline-item" key={area}>
                     {area}
-                  </Badge>
+                  </span>
                 ))}
               </div>
-            </Panel>
 
-            <div className="grid gap-3">
-              {shellMetrics.map((metric) => (
-                <Panel className="space-y-2" key={metric.label} padding="sm">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
-                      {metric.label}
-                    </span>
-                    <span className="text-sm font-semibold text-[var(--pr-color-text-primary)]">
-                      {metric.value}
-                    </span>
-                  </div>
-                  <p className="text-sm leading-6 text-[var(--pr-color-text-secondary)]">
-                    {metric.detail}
-                  </p>
-                </Panel>
-              ))}
-            </div>
+              <div className="site-shell__meta-list">
+                <div className="site-shell__meta-row">
+                  <span className="site-shell__widget-row-label">portfolio</span>
+                  <span className="site-shell__metric-value">live</span>
+                </div>
+                <div className="site-shell__meta-row">
+                  <span className="site-shell__widget-row-label">github sync</span>
+                  <span className="site-shell__metric-value">active</span>
+                </div>
+              </div>
+            </section>
 
-            <div className="grid gap-2">
+            <ShellQuickLaunches />
+
+            <nav className="site-shell__sidebar-links">
               {shellLinks.map((item) => (
-                <Button asChild className="justify-start" key={item.href} variant="ghost">
-                  <a href={item.href} rel="noreferrer" target="_blank">
-                    {item.label}
-                  </a>
-                </Button>
+                <a
+                  className="site-shell__sidebar-link"
+                  href={item.href}
+                  key={item.href}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {item.label}
+                </a>
               ))}
+            </nav>
+
+            <div className="site-shell__statusbar">
+              <span>signal:{siteProfile.signalStrength}</span>
+              <span>timezone:{siteProfile.timezone}</span>
             </div>
-          </Sidebar>
+          </aside>
 
-          <Window className="site-shell__window">
-            <WindowHeader
-              className="site-shell__window-header"
-              status={
-                <Badge tone="success" variant="subtle">
-                  shell.ready
-                </Badge>
-              }
-              subtitle={activeRoute.description}
-              title={activeRoute.windowTitle}
-            >
-              <WindowControls>
-                <span aria-hidden className="site-shell__control site-shell__control--cyan" />
-                <span aria-hidden className="site-shell__control site-shell__control--violet" />
-                <span aria-hidden className="site-shell__control site-shell__control--pink" />
-              </WindowControls>
-            </WindowHeader>
-
+          <Window className="site-shell__window site-motion-enter site-motion-enter--2">
+            <ShellWindowHeader />
             <WindowBody className="site-shell__window-body">{children}</WindowBody>
           </Window>
+
+          <ShellRail />
         </div>
       </div>
+      <PortfolioTaskbar />
     </div>
   );
 }

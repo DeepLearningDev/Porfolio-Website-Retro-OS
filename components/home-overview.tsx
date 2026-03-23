@@ -6,11 +6,7 @@ import type { PortfolioProject } from "@/lib/github";
 import {
   Badge,
   Button,
-  Card,
   MetricBar,
-  Panel,
-  StatusStrip,
-  SystemPanel,
   TerminalPane,
 } from "@/lib/pastel-retroware";
 
@@ -30,31 +26,67 @@ function getStatusTone(status: PortfolioProject["status"]) {
   return "violet" as const;
 }
 
+type HomeSectionProps = {
+  title: string;
+  description?: string;
+  status?: React.ReactNode;
+  className?: string;
+  children: React.ReactNode;
+};
+
+function HomeSection({
+  children,
+  className,
+  description,
+  status,
+  title,
+}: HomeSectionProps) {
+  return (
+    <section
+      className={[
+        "site-home__section",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
+      <header className="site-home__section-header">
+        <div className="space-y-2">
+          <h2 className="site-home__section-title">{title}</h2>
+          {description ? (
+            <p className="site-home__section-description">{description}</p>
+          ) : null}
+        </div>
+        {status ? <div className="site-home__section-status">{status}</div> : null}
+      </header>
+      <div className="site-home__section-body">{children}</div>
+    </section>
+  );
+}
+
 export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
   return (
-    <section className="grid gap-6 p-6">
-      <Panel
-        className="space-y-8 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)] shadow-none"
-        padding="lg"
-        tone="elevated"
-      >
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)]">
-          <div className="space-y-6">
-            <div className="border-b border-[var(--pr-color-border-muted)] pb-4">
-              <p className="font-mono text-xs uppercase tracking-[0.32em] text-[var(--pr-color-text-accent)]">
-                {heroContent.eyebrow}
-              </p>
-              <h2 className="mt-4 max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl">
-                {heroContent.headline}
-              </h2>
-            </div>
+    <section className="site-home">
+      <div className="site-home__hero-grid">
+        <HomeSection
+          className="site-motion-enter"
+          description="Software systems, frontend architecture, and intentionally designed product surfaces."
+          status={
+            <Badge tone="accent" variant="subtle">
+              overview
+            </Badge>
+          }
+          title={heroContent.eyebrow}
+        >
+          <div className="site-home__hero-copy">
+            <h1 className="site-home__hero-headline">{heroContent.headline}</h1>
 
-            <div className="max-w-3xl space-y-4 border-l-2 border-[var(--pr-color-border-strong)] pl-4 text-base leading-8 text-[var(--pr-color-text-secondary)]">
+            <div className="site-home__callout">
               <p>{heroContent.roleSummary}</p>
               <p>{heroContent.valueProposition}</p>
             </div>
 
-            <div className="flex flex-wrap gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">
+            <div className="site-home__cta-row">
               {heroContent.ctas.map((cta) => {
                 const variant =
                   cta.variant === "secondary"
@@ -81,40 +113,42 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
               })}
             </div>
           </div>
+        </HomeSection>
 
-          <SystemPanel
-            description="Current positioning"
-            status={
-              <Badge tone="accent" variant="subtle">
-                available
-              </Badge>
-            }
-            title="Current Focus"
-          >
-            <div className="space-y-4">
-              <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
-                {currentFocus.availability}
-              </p>
+        <HomeSection
+          className="site-motion-enter site-motion-enter--1"
+          description="Current positioning"
+          status={
+            <Badge tone="accent" variant="subtle">
+              available
+            </Badge>
+          }
+          title="Current Focus"
+        >
+          <div className="space-y-4">
+            <p className="site-home__callout text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+              {currentFocus.availability}
+            </p>
 
-              <div className="flex flex-wrap gap-2 border-t border-[var(--pr-color-border-muted)] pt-4">
-                {currentFocus.themes.map((theme) => (
-                  <Badge key={theme} tone="violet" variant="outline">
-                    {theme}
-                  </Badge>
-                ))}
-              </div>
-
-              <StatusStrip className="justify-between border border-[var(--pr-color-border-muted)] px-3 py-2">
-                <span>region: Glen Allen, VA</span>
-                <span>timezone: EDT</span>
-              </StatusStrip>
+            <div className="site-home__chip-row">
+              {currentFocus.themes.map((theme) => (
+                <span className="site-chip site-chip--violet" key={theme}>
+                  {theme}
+                </span>
+              ))}
             </div>
-          </SystemPanel>
-        </div>
-      </Panel>
 
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
-        <SystemPanel
+            <div className="site-home__status-row">
+              <span>region: Glen Allen, VA</span>
+              <span>timezone: EDT</span>
+            </div>
+          </div>
+        </HomeSection>
+      </div>
+
+      <div className="site-home__split-grid">
+        <HomeSection
+          className="site-motion-enter site-motion-enter--1"
           description="Software, systems, and frontend positioning"
           status={
             <Badge tone="success" variant="subtle">
@@ -124,31 +158,26 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
           title="Operating Profile"
         >
           <div className="space-y-6">
-            <div className="space-y-4 border-l-2 border-[var(--pr-color-border-strong)] pl-4 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+            <div className="site-home__callout text-sm leading-7 text-[var(--pr-color-text-secondary)]">
               <p>{aboutContent.intro}</p>
               <p>{aboutContent.positioning}</p>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="site-home__strength-grid">
               {aboutContent.strengths.map((strength) => (
-                <Panel
-                  className="space-y-3 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
-                  key={strength.title}
-                  padding="sm"
-                >
-                  <h3 className="text-lg font-semibold tracking-tight">
-                    {strength.title}
-                  </h3>
+                <article className="site-home__mini-panel site-motion-hover" key={strength.title}>
+                  <h3 className="text-lg font-semibold tracking-tight">{strength.title}</h3>
                   <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
                     {strength.detail}
                   </p>
-                </Panel>
+                </article>
               ))}
             </div>
           </div>
-        </SystemPanel>
+        </HomeSection>
 
         <TerminalPane
+          className="site-motion-enter site-motion-enter--2"
           prompt="focus --current"
           status="live"
           title="currently_building.log"
@@ -161,67 +190,64 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
         </TerminalPane>
       </div>
 
-      <SystemPanel
-        description="Selected project snapshots with links and stack context"
-        status={
-          <Badge tone="accent" variant="subtle">
-            featured
-          </Badge>
-        }
-        title="Featured Work"
-      >
-        <div className="grid gap-4 xl:grid-cols-2">
-          {featuredProjects.map((project) => (
-            <Card
-              className="space-y-5 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none"
-              key={project.repo}
-              padding="lg"
-            >
-              <div className="flex items-start justify-between gap-4 border-b border-[var(--pr-color-border-muted)] pb-3">
-                <div className="space-y-2">
-                  <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
-                    {project.category}
-                  </p>
-                  <h3 className="text-2xl font-semibold tracking-tight">
-                    {project.name}
-                  </h3>
-                </div>
-                <Badge tone={getStatusTone(project.status)} variant="subtle">
-                  {project.status}
-                </Badge>
-              </div>
-
-              <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
-                {project.description}
-              </p>
-
-              <div className="flex flex-wrap gap-2 border-t border-[var(--pr-color-border-muted)] pt-4">
-                {project.stack.map((item) => (
-                  <Badge key={`${project.repo}-${item}`} tone="violet" variant="outline">
-                    {item}
+      <div className="site-home__deferred site-motion-enter site-motion-enter--2">
+        <HomeSection
+          description="Selected project snapshots with links and stack context"
+          status={
+            <Badge tone="accent" variant="subtle">
+              featured
+            </Badge>
+          }
+          title="Featured Work"
+        >
+          <div className="site-home__feature-grid">
+            {featuredProjects.map((project) => (
+              <article className="site-home__feature-card site-motion-hover" key={project.repo}>
+                <div className="site-home__feature-header">
+                  <div className="space-y-2">
+                    <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
+                      {project.category}
+                    </p>
+                    <h3 className="text-2xl font-semibold tracking-tight">{project.name}</h3>
+                  </div>
+                  <Badge tone={getStatusTone(project.status)} variant="subtle">
+                    {project.status}
                   </Badge>
-                ))}
-              </div>
+                </div>
 
-              <div className="flex flex-wrap gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">
-                <Button asChild variant="secondary">
-                  <Link href="/projects">Open Detail</Link>
-                </Button>
-                {project.links.map((link) => (
-                  <Button asChild key={link.href} variant="ghost">
-                    <Link href={link.href} rel="noreferrer" target="_blank">
-                      {link.label}
-                    </Link>
+                <p className="site-home__callout text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                  {project.description}
+                </p>
+
+                <div className="site-home__chip-row">
+                  {project.stack.map((item) => (
+                    <span className="site-chip site-chip--violet" key={`${project.repo}-${item}`}>
+                      {item}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="site-home__action-row">
+                  <Button asChild variant="secondary">
+                    <Link href="/projects">Open Detail</Link>
                   </Button>
-                ))}
-              </div>
-            </Card>
-          ))}
-        </div>
-      </SystemPanel>
+                  {project.links.map((link) => (
+                    <Button asChild key={link.href} variant="ghost">
+                      <Link href={link.href} rel="noreferrer" target="_blank">
+                        {link.label}
+                      </Link>
+                    </Button>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </HomeSection>
+      </div>
 
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(320px,0.78fr)]">
-        <SystemPanel
+      <div className="site-home__deferred site-home__split-grid">
+        <HomeSection
+          className="site-motion-enter site-motion-enter--3"
           description="Grouped strengths instead of a generic keyword dump"
           status={
             <Badge tone="violet" variant="subtle">
@@ -230,23 +256,17 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
           }
           title="Skills Telemetry"
         >
-          <div className="grid gap-5">
+          <div className="site-home__skill-grid">
             {skillTelemetry.map((group) => (
-              <Panel
-                className="space-y-4 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
-                key={group.group}
-                padding="md"
-              >
+              <article className="site-home__mini-panel site-motion-hover" key={group.group}>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-2">
-                    <h3 className="text-lg font-semibold tracking-tight">
-                      {group.group}
-                    </h3>
+                    <h3 className="text-lg font-semibold tracking-tight">{group.group}</h3>
                     <span className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--pr-color-text-accent)]">
                       active focus
                     </span>
                   </div>
-                  <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                  <p className="site-home__callout text-sm leading-7 text-[var(--pr-color-text-secondary)]">
                     {group.summary}
                   </p>
                 </div>
@@ -258,22 +278,23 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
                   valueLabel={`${group.intensity}%`}
                 />
 
-                <div className="flex flex-wrap gap-2 border-t border-[var(--pr-color-border-muted)] pt-4">
+                <div className="site-home__chip-row">
                   {group.skills.map((skill) => (
-                    <Badge key={skill} tone="accent" variant="outline">
+                    <span className="site-chip site-chip--accent" key={skill}>
                       {skill}
-                    </Badge>
+                    </span>
                   ))}
                 </div>
-              </Panel>
+              </article>
             ))}
           </div>
-        </SystemPanel>
+        </HomeSection>
 
         <div className="grid gap-6">
           <ResumePanel />
 
-          <SystemPanel
+          <HomeSection
+            className="site-motion-enter site-motion-enter--4"
             description="What to expect from the current portfolio direction"
             status={
               <Badge tone="success" variant="subtle">
@@ -283,28 +304,28 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
             title="System Status"
           >
             <div className="space-y-5">
-              <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+              <p className="site-home__callout text-sm leading-7 text-[var(--pr-color-text-secondary)]">
                 I&apos;m currently shaping this portfolio around real project surfaces instead of a generic landing page, with the strongest emphasis on reusable interface systems, practical frontend architecture, and clear software communication.
               </p>
 
-              <div className="flex flex-wrap gap-2 border-t border-[var(--pr-color-border-muted)] pt-4">
-                <Badge tone="accent" variant="outline">
+              <div className="site-home__chip-row">
+                <span className="site-chip site-chip--accent">
                   interface systems
-                </Badge>
-                <Badge tone="violet" variant="outline">
+                </span>
+                <span className="site-chip site-chip--violet">
                   project storytelling
-                </Badge>
-                <Badge tone="success" variant="outline">
+                </span>
+                <span className="site-chip site-chip--success">
                   recruiter clarity
-                </Badge>
+                </span>
               </div>
 
-              <StatusStrip className="justify-between border border-[var(--pr-color-border-muted)] px-3 py-2">
+              <div className="site-home__status-row">
                 <span>portfolio_phase: overview.live</span>
                 <span>next_module: resume.access</span>
-              </StatusStrip>
+              </div>
             </div>
-          </SystemPanel>
+          </HomeSection>
         </div>
       </div>
     </section>

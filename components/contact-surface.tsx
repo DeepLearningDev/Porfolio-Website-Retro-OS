@@ -24,7 +24,7 @@ export function ContactSurface() {
   return (
     <section className="grid gap-6 p-6">
       <Panel
-        className="space-y-4 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)]"
+        className="site-motion-enter space-y-4 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)]"
         padding="lg"
         tone="elevated"
       >
@@ -51,6 +51,7 @@ export function ContactSurface() {
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
         <SystemPanel
+          className="site-motion-enter site-motion-enter--1"
           description="Direct channels for project inquiries and collaboration"
           status={
             <Badge tone="accent" variant="subtle">
@@ -62,7 +63,7 @@ export function ContactSurface() {
           <div className="grid gap-4">
             {contactMethods.map((method) => (
               <Panel
-                className="space-y-3 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+                className="site-motion-hover space-y-3 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
                 key={method.label}
                 padding="md"
                 tone="default"
@@ -102,6 +103,7 @@ export function ContactSurface() {
         </SystemPanel>
 
         <TerminalPane
+          className="site-motion-enter site-motion-enter--2"
           prompt="contact --message"
           status="ready"
           title="initiate_contact.log"
@@ -187,6 +189,7 @@ export function ContactSurface() {
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
         <SystemPanel
+          className="site-motion-enter site-motion-enter--3"
           description="Clear response expectations for recruiters and collaborators"
           status={
             <Badge tone="success" variant="subtle">
@@ -200,7 +203,7 @@ export function ContactSurface() {
               {contactAvailability.status}
             </p>
             <Panel
-              className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+              className="site-motion-hover rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
               padding="sm"
               tone="default"
             >
@@ -215,7 +218,7 @@ export function ContactSurface() {
                 `Primary working timezone: ${contactAvailability.timeZone}.`,
               ].map((item) => (
                 <Panel
-                  className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+                  className="site-motion-hover rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
                   key={item}
                   padding="sm"
                   tone="default"
@@ -230,6 +233,7 @@ export function ContactSurface() {
         </SystemPanel>
 
         <SystemPanel
+          className="site-motion-enter site-motion-enter--4"
           description="Preferred outreach flow"
           status={
             <Badge tone="violet" variant="subtle">
@@ -241,7 +245,7 @@ export function ContactSurface() {
           <div className="grid gap-3">
             {preferredChannels.map((channel) => (
               <Panel
-                className="space-y-2 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+                className="site-motion-hover space-y-2 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
                 key={channel.label}
                 padding="sm"
               >

@@ -1,11 +1,12 @@
 import "server-only";
+import { cache } from "react";
 
 import { curatedProjects } from "@/content/projects";
 
 import { fetchGitHubRepositories, getGitHubOwner } from "./client";
 import type { PortfolioProject } from "./types";
 
-export async function getPortfolioProjects(): Promise<PortfolioProject[]> {
+export const getPortfolioProjects = cache(async (): Promise<PortfolioProject[]> => {
   const owner = getGitHubOwner();
   const { repositories, status } = await fetchGitHubRepositories();
   const repositoryByName = new Map(repositories.map((repo) => [repo.name, repo] as const));
@@ -57,4 +58,11 @@ export async function getPortfolioProjects(): Promise<PortfolioProject[]> {
       const rightOrder = right.order ?? Number.MAX_SAFE_INTEGER;
       return leftOrder - rightOrder;
     });
-}
+});
+
+export const getFeaturedPortfolioProjects = cache(
+  async (limit: number = 4): Promise<PortfolioProject[]> =>
+    (await getPortfolioProjects())
+      .filter((project) => project.featured)
+      .slice(0, limit)
+);
