@@ -1,14 +1,13 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { memo } from "react";
 
-import { TaskbarButton } from "@/lib/pastel-retroware";
 import { siteRoutes } from "@/lib/site-navigation";
 
 function TaskbarControlsComponent() {
   const pathname = usePathname();
-  const router = useRouter();
 
   return (
     <div className="site-shell__taskbar-group">
@@ -19,25 +18,28 @@ function TaskbarControlsComponent() {
             : pathname?.startsWith(route.href);
 
         return (
-          <TaskbarButton
-            active={isActive}
+          <Link
+            aria-current={isActive ? "page" : undefined}
+            className={`site-shell__taskbar-link${isActive ? " site-shell__taskbar-link--active" : ""}`}
             key={route.href}
-            indicator={<span className="site-shell__taskbar-dot" />}
-            onClick={() => router.push(route.href)}
+            href={route.href}
           >
+            <span className="site-shell__taskbar-dot" />
             <span className="site-shell__taskbar-label">{route.label}</span>
             <span className="sr-only">route {index + 1}</span>
-          </TaskbarButton>
+          </Link>
         );
       })}
 
-      <TaskbarButton
-        onClick={() =>
-          window.open("/resume/kaleb-white-resume.pdf", "_blank", "noopener,noreferrer")
-        }
+      <a
+        className="site-shell__taskbar-link"
+        href="/resume/kaleb-white-resume.pdf"
+        rel="noreferrer"
+        target="_blank"
       >
+        <span className="site-shell__taskbar-dot" />
         <span className="site-shell__taskbar-label">Resume</span>
-      </TaskbarButton>
+      </a>
     </div>
   );
 }

@@ -1,18 +1,19 @@
-"use client";
-
-import { useMemo, useState } from "react";
-
-import { ProjectModule } from "@/components/project-module";
+import { ProjectFilterControls } from "@/components/project-filter-controls";
+import { ProjectGrid } from "@/components/project-grid";
 import { routeHighlights } from "@/content/site";
 import { formatGitHubDate } from "@/lib/github/shared";
 import type { PortfolioProject } from "@/lib/github/types";
 import {
+  filterProjects,
+  getCoverageMetrics,
+  getProjectCountByFilter,
+  type ProjectFilter,
+  projectFilters,
+} from "@/lib/projects-explorer";
+import {
   Badge,
   MetricBar,
-  Panel,
   ScrollArea,
-  Sidebar,
-  StatusStrip,
   TerminalPane,
   Window,
   WindowBody,
@@ -21,62 +22,16 @@ import {
 } from "@/lib/pastel-retroware";
 
 type ProjectsExplorerProps = {
+  activeFilter: ProjectFilter;
   projects: PortfolioProject[];
+  selectedRepo: string | null;
 };
-
-type ProjectFilter = "all" | "featured" | PortfolioProject["category"];
-
-const projectFilters: Array<{
-  id: ProjectFilter;
-  label: string;
-  description: string;
-}> = [
-  {
-    id: "all",
-    label: "All Projects",
-    description: "Curated portfolio work across applications, systems, and tooling.",
-  },
-  {
-    id: "featured",
-    label: "Featured",
-    description: "Best first-pass projects for recruiters and quick portfolio review.",
-  },
-  {
-    id: "application",
-    label: "Applications",
-    description: "Interface-driven product work and practical user-facing builds.",
-  },
-  {
-    id: "system",
-    label: "Systems",
-    description: "Workflow-heavy, data-aware, and operational software projects.",
-  },
-  {
-    id: "tooling",
-    label: "Tooling",
-    description: "Framework, DX, and reusable engineering infrastructure work.",
-  },
-];
 
 const widgetStats = [
   { label: "Builds", value: "06", detail: "Curated portfolio modules", tone: "accent" as const },
   { label: "Featured", value: "04", detail: "High-signal projects", tone: "violet" as const },
   { label: "Live", value: "01", detail: "GitHub-backed demo", tone: "success" as const },
 ];
-
-function getCoverageMetrics(projects: PortfolioProject[]) {
-  const demoCount = projects.filter((project) =>
-    project.links.some((link) => link.label === "Demo")
-  ).length;
-  const githubBackedCount = projects.filter((project) => project.github).length;
-
-  return {
-    demoCoverage: projects.length ? (demoCount / projects.length) * 100 : 0,
-    githubCoverage: projects.length
-      ? (githubBackedCount / projects.length) * 100
-      : 0,
-  };
-}
 
 function getStatusTone(status: PortfolioProject["status"]) {
   if (status === "Live") {
@@ -90,42 +45,15 @@ function getStatusTone(status: PortfolioProject["status"]) {
   return "violet" as const;
 }
 
-export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
-  const [activeFilter, setActiveFilter] = useState<ProjectFilter>("featured");
-  const [selectedRepo, setSelectedRepo] = useState<string>(
-    projects.find((project) => project.featured)?.repo ?? projects[0]?.repo ?? ""
-  );
-
-  const { demoCoverage, githubCoverage } = useMemo(
-    () => getCoverageMetrics(projects),
-    [projects]
-  );
-  const featuredCount = useMemo(
-    () => projects.filter((project) => project.featured).length,
-    [projects]
-  );
-  const projectCountByFilter = useMemo(
-    () => ({
-      all: projects.length,
-      featured: featuredCount,
-      application: projects.filter((project) => project.category === "application").length,
-      system: projects.filter((project) => project.category === "system").length,
-      tooling: projects.filter((project) => project.category === "tooling").length,
-    }),
-    [featuredCount, projects]
-  );
-  const visibleProjects = useMemo(() => {
-    if (activeFilter === "all") {
-      return projects;
-    }
-
-    if (activeFilter === "featured") {
-      return projects.filter((project) => project.featured);
-    }
-
-    return projects.filter((project) => project.category === activeFilter);
-  }, [activeFilter, projects]);
-
+export function ProjectsExplorer({
+  activeFilter,
+  projects,
+  selectedRepo,
+}: ProjectsExplorerProps) {
+  const counts = getProjectCountByFilter(projects);
+  const featuredCount = counts.featured;
+  const visibleProjects = filterProjects(projects, activeFilter);
+  const { demoCoverage, githubCoverage } = getCoverageMetrics(projects);
   const selectedProject =
     visibleProjects.find((project) => project.repo === selectedRepo) ??
     visibleProjects[0] ??
@@ -138,8 +66,8 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
       <Window className="site-motion-enter overflow-hidden rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)] shadow-none">
         <WindowHeader
           className="border-b border-[var(--pr-color-border-muted)]"
-          title="project_explorer.exe"
           subtitle={routeHighlights.projects}
+          title="project_explorer.exe"
           status={
             <Badge tone="accent" variant="subtle">
               curated matrix
@@ -147,18 +75,28 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
           }
         >
           <WindowControls>
-            <span aria-hidden className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-cyan)]" />
-            <span aria-hidden className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-violet)]" />
-            <span aria-hidden className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-pink)]" />
+            <span
+              aria-hidden
+              className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-cyan)]"
+            />
+            <span
+              aria-hidden
+              className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-violet)]"
+            />
+            <span
+              aria-hidden
+              className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-pink)]"
+            />
           </WindowControls>
         </WindowHeader>
+
         <WindowBody className="relative overflow-hidden">
           <div className="grid gap-6 xl:grid-cols-[15rem_minmax(0,1fr)_18rem]">
             <Window className="site-motion-enter site-motion-enter--1 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:mt-3">
               <WindowHeader
                 className="border-b border-[var(--pr-color-border-muted)]"
-                title="filters.rail"
                 subtitle="Explorer categories"
+                title="filters.rail"
                 status={
                   <Badge tone="success" variant="subtle">
                     {projects.length} items
@@ -166,64 +104,28 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                 }
               />
               <WindowBody className="space-y-4">
-                <Sidebar
-                  className="border-0 bg-transparent p-0"
-                  footer={
-                    <StatusStrip className="justify-between border-t border-[var(--pr-color-border-muted)] pt-3">
-                      <span>featured:{featuredCount}</span>
-                      <span>view:{activeFilter}</span>
-                    </StatusStrip>
-                  }
-                  subtitle="Curated repository showcase"
-                  title="Explorer Rail"
-                >
-                  <div className="space-y-4">
-                    {projectFilters.map((filter) => {
-                      const count = projectCountByFilter[filter.id];
+                <ProjectFilterControls
+                  activeFilter={activeFilter}
+                  filters={projectFilters.map((filter) => ({
+                    ...filter,
+                    count: counts[filter.id],
+                  }))}
+                />
 
-                      return (
-                        <Panel
-                          className={[
-                            "site-motion-hover cursor-pointer rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)] transition",
-                            filter.id === activeFilter
-                              ? "shadow-[0_0_0_1px_var(--pr-color-accent-violet)]"
-                              : "",
-                          ].join(" ")}
-                          key={filter.id}
-                          onClick={() => setActiveFilter(filter.id)}
-                          padding="sm"
-                          tone="default"
-                        >
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between gap-3">
-                              <p className="font-semibold tracking-tight">{filter.label}</p>
-                              <Badge tone={filter.id === activeFilter ? "accent" : "violet"} variant="outline">
-                                {count}
-                              </Badge>
-                            </div>
-                            <p className="text-sm leading-6 text-[var(--pr-color-text-secondary)]">
-                              {filter.description}
-                            </p>
-                          </div>
-                        </Panel>
-                      );
-                    })}
-                  </div>
-                </Sidebar>
-
-                <Panel
-                  className="site-motion-hover rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
-                  padding="sm"
-                >
-                  <div className="space-y-2">
-                    <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
-                      System Notes
-                    </p>
+                <section className="site-shell__lite-panel site-motion-hover">
+                  <header className="site-shell__lite-panel-header">
+                    <div>
+                      <h3 className="site-shell__lite-panel-title">System Notes</h3>
+                      <p className="site-shell__lite-panel-description">Current filter context</p>
+                    </div>
+                    <span className="site-chip site-chip--accent">{activeFilter}</span>
+                  </header>
+                  <div className="site-shell__lite-panel-body">
                     <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
                       {featuredCount} featured projects lead the page, with {nonFeaturedCount} additional modules available in the current view.
                     </p>
                   </div>
-                </Panel>
+                </section>
               </WindowBody>
             </Window>
 
@@ -231,8 +133,8 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
               <Window className="site-motion-enter site-motion-enter--2 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:-mt-2">
                 <WindowHeader
                   className="border-b border-[var(--pr-color-border-muted)]"
-                  title="project_matrix.exe"
                   subtitle="Dense system modules"
+                  title="project_matrix.exe"
                   status={
                     <Badge tone="success" variant="subtle">
                       {visibleProjects.length} visible
@@ -240,11 +142,21 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                   }
                 >
                   <WindowControls>
-                    <span aria-hidden className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-cyan)]" />
-                    <span aria-hidden className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-violet)]" />
-                    <span aria-hidden className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-blue)]" />
+                    <span
+                      aria-hidden
+                      className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-cyan)]"
+                    />
+                    <span
+                      aria-hidden
+                      className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-violet)]"
+                    />
+                    <span
+                      aria-hidden
+                      className="h-3 w-3 border border-[var(--pr-color-border-window)] bg-[var(--pr-color-accent-blue)]"
+                    />
                   </WindowControls>
                 </WindowHeader>
+
                 <WindowBody className="space-y-4">
                   <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-3">
                     <div>
@@ -255,99 +167,100 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                         {visibleProjects.length} project{visibleProjects.length === 1 ? "" : "s"} in the current view.
                       </p>
                     </div>
-                    {selectedProject && (
+                    {selectedProject ? (
                       <Badge tone={getStatusTone(selectedProject.status)} variant="outline">
                         selected: {selectedProject.name}
                       </Badge>
-                    )}
+                    ) : null}
                   </div>
 
                   <ScrollArea className="max-h-[46rem]" viewportClassName="pr-2">
-                    <div className="grid gap-4 xl:grid-cols-2">
-                      {visibleProjects.map((project) => (
-                        <ProjectModule
-                          key={project.repo}
-                          onSelect={setSelectedRepo}
-                          project={project}
-                          selected={selectedProject?.repo === project.repo}
-                        />
-                      ))}
-                    </div>
+                    <ProjectGrid
+                      projects={visibleProjects}
+                      selectedRepo={selectedProject?.repo ?? null}
+                    />
                   </ScrollArea>
 
-                  {selectedProject && (
-                    <Panel
-                      className="site-motion-hover rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)]"
-                      padding="md"
-                    >
-                      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.65fr)]">
-                        <div className="space-y-3">
-                          <div className="flex flex-wrap items-center gap-2 border-b border-[var(--pr-color-border-muted)] pb-2">
-                            <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
-                              Focused module
-                            </p>
-                            <Badge tone={getStatusTone(selectedProject.status)} variant="subtle">
-                              {selectedProject.status}
-                            </Badge>
-                          </div>
-                          <h3 className="text-2xl font-semibold tracking-tight">{selectedProject.name}</h3>
-                          <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
-                            {selectedProject.description}
+                  {selectedProject ? (
+                    <section className="site-shell__lite-panel site-motion-hover">
+                      <header className="site-shell__lite-panel-header">
+                        <div>
+                          <h3 className="site-shell__lite-panel-title">Focused Module</h3>
+                          <p className="site-shell__lite-panel-description">
+                            Selected project details
                           </p>
-                          <div className="flex flex-wrap gap-2">
-                            {selectedProject.tags.slice(0, 4).map((tag) => (
-                              <Badge key={`${selectedProject.repo}-focus-${tag}`} tone="accent" variant="outline">
-                                {tag}
-                              </Badge>
-                            ))}
-                          </div>
                         </div>
+                        <Badge tone={getStatusTone(selectedProject.status)} variant="subtle">
+                          {selectedProject.status}
+                        </Badge>
+                      </header>
+                      <div className="site-shell__lite-panel-body">
+                        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.65fr)]">
+                          <div className="space-y-3">
+                            <h3 className="text-2xl font-semibold tracking-tight">
+                              {selectedProject.name}
+                            </h3>
+                            <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                              {selectedProject.description}
+                            </p>
+                            <div className="site-home__chip-row">
+                              {selectedProject.tags.slice(0, 4).map((tag) => (
+                                <span className="site-chip site-chip--accent" key={`${selectedProject.repo}-focus-${tag}`}>
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
 
-                        <div className="grid gap-3 text-sm">
-                          <div className="flex items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-2">
-                            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
-                              Last Updated
-                            </span>
-                            <span>{formatGitHubDate(selectedProject.lastUpdated)}</span>
-                          </div>
-                          <div className="flex items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-2">
-                            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
-                              Primary Language
-                            </span>
-                            <span>{selectedProject.primaryLanguage ?? "Curated only"}</span>
-                          </div>
-                          <div className="flex items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-2">
-                            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
-                              Stars
-                            </span>
-                            <span>{selectedProject.stars}</span>
-                          </div>
-                          <div className="flex items-center justify-between gap-3">
-                            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
-                              Source
-                            </span>
-                            <span>{selectedProject.source === "github" ? "GitHub live" : "Curated fallback"}</span>
+                          <div className="grid gap-3 text-sm">
+                            <div className="flex items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-2">
+                              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
+                                Last Updated
+                              </span>
+                              <span>{formatGitHubDate(selectedProject.lastUpdated)}</span>
+                            </div>
+                            <div className="flex items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-2">
+                              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
+                                Primary Language
+                              </span>
+                              <span>{selectedProject.primaryLanguage ?? "Curated only"}</span>
+                            </div>
+                            <div className="flex items-center justify-between gap-3 border-b border-[var(--pr-color-border-muted)] pb-2">
+                              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
+                                Stars
+                              </span>
+                              <span>{selectedProject.stars}</span>
+                            </div>
+                            <div className="flex items-center justify-between gap-3">
+                              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
+                                Source
+                              </span>
+                              <span>
+                                {selectedProject.source === "github"
+                                  ? "GitHub live"
+                                  : "Curated fallback"}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </Panel>
-                  )}
+                    </section>
+                  ) : null}
                 </WindowBody>
               </Window>
 
               <div className="grid gap-4 md:grid-cols-2">
-                <Window className="site-motion-enter site-motion-enter--3 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:ml-4">
-                  <WindowHeader
-                    className="border-b border-[var(--pr-color-border-muted)]"
-                    title="system_metrics.exe"
-                    subtitle="Coverage and health"
-                    status={
-                      <Badge tone="accent" variant="subtle">
-                        live stats
-                      </Badge>
-                    }
-                  />
-                  <WindowBody className="grid gap-4">
+                <section className="site-shell__lite-panel site-motion-enter site-motion-enter--3">
+                  <header className="site-shell__lite-panel-header">
+                    <div>
+                      <h3 className="site-shell__lite-panel-title">System Metrics</h3>
+                      <p className="site-shell__lite-panel-description">Coverage and health</p>
+                    </div>
+                    <Badge tone="accent" variant="subtle">
+                      live stats
+                    </Badge>
+                  </header>
+                  <div className="site-shell__lite-panel-body">
                     <MetricBar
                       label="Demo coverage"
                       tone="accent"
@@ -360,117 +273,113 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                       value={githubCoverage}
                       valueLabel={`${Math.round(githubCoverage)}%`}
                     />
-                    {widgetStats.map((stat) => (
-                      <Panel
-                        className="site-motion-hover rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
-                        key={stat.label}
-                        padding="sm"
-                      >
-                        <div className="flex items-center justify-between gap-3">
-                          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
-                            {stat.label}
-                          </span>
-                          <Badge tone={stat.tone} variant="outline">
-                            {stat.value}
-                          </Badge>
-                        </div>
-                        <p className="mt-2 text-sm leading-6 text-[var(--pr-color-text-secondary)]">
-                          {stat.detail}
-                        </p>
-                      </Panel>
-                    ))}
-                  </WindowBody>
-                </Window>
+                    <div className="site-shell__widget-list">
+                      {widgetStats.map((stat) => (
+                        <article className="site-shell__widget-row" key={stat.label}>
+                          <div className="flex items-center justify-between gap-3">
+                            <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
+                              {stat.label}
+                            </span>
+                            <span className={`site-chip site-chip--${stat.tone}`}>
+                              {stat.value}
+                            </span>
+                          </div>
+                          <p className="text-sm leading-6 text-[var(--pr-color-text-secondary)]">
+                            {stat.detail}
+                          </p>
+                        </article>
+                      ))}
+                    </div>
+                  </div>
+                </section>
 
-                <Window className="site-motion-enter site-motion-enter--4 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:-mt-4">
-                  <WindowHeader
-                    className="border-b border-[var(--pr-color-border-muted)]"
-                    title="system_notes.log"
-                    subtitle="Runtime context"
-                    status={
-                      <Badge tone="success" variant="subtle">
-                        stable
-                      </Badge>
-                    }
-                  />
-                  <WindowBody className="space-y-3">
-                    <TerminalPane prompt="projects.showcase --primary" status="active" title="explorer_notes.log">
+                <section className="site-shell__lite-panel site-motion-enter site-motion-enter--4">
+                  <header className="site-shell__lite-panel-header">
+                    <div>
+                      <h3 className="site-shell__lite-panel-title">System Notes</h3>
+                      <p className="site-shell__lite-panel-description">Runtime context</p>
+                    </div>
+                    <Badge tone="success" variant="subtle">
+                      stable
+                    </Badge>
+                  </header>
+                  <div className="site-shell__lite-panel-body">
+                    <TerminalPane
+                      prompt="projects.showcase --primary"
+                      status="active"
+                      title="explorer_notes.log"
+                    >
                       <div className="space-y-3 border-l-2 border-[var(--pr-color-border-strong)] pl-3 font-mono text-xs leading-6 text-[var(--pr-color-text-secondary)]">
                         <p>{">"} This route is the primary portfolio showcase.</p>
                         <p>{">"} Curated project data stays readable before deeper filtering is added.</p>
                         <p>{">"} Detail updates happen in-place without pretending to be a desktop window manager.</p>
                       </div>
                     </TerminalPane>
-                  </WindowBody>
-                </Window>
+                  </div>
+                </section>
               </div>
             </div>
 
             <div className="grid gap-6">
-              <Window className="site-motion-enter site-motion-enter--2 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:mt-3">
-                <WindowHeader
-                  className="border-b border-[var(--pr-color-border-muted)]"
-                  title="whoami.sys"
-                  subtitle="Profile and focus"
-                  status={
-                    <Badge tone="success" variant="subtle">
-                      operator
-                    </Badge>
-                  }
-                />
-                <WindowBody className="space-y-4">
-                  <Panel
-                    className="site-motion-hover rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
-                    padding="sm"
-                  >
-                    <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
-                      {routeHighlights.projects}
-                    </p>
-                  </Panel>
+              <section className="site-shell__lite-panel site-motion-enter site-motion-enter--2">
+                <header className="site-shell__lite-panel-header">
+                  <div>
+                    <h3 className="site-shell__lite-panel-title">whoami.sys</h3>
+                    <p className="site-shell__lite-panel-description">Profile and focus</p>
+                  </div>
+                  <Badge tone="success" variant="subtle">
+                    operator
+                  </Badge>
+                </header>
+                <div className="site-shell__lite-panel-body">
+                  <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                    {routeHighlights.projects}
+                  </p>
 
-                  <Panel
-                    className="site-motion-hover rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
-                    padding="sm"
-                  >
-                    <div className="space-y-3">
-                      <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
-                        Project metadata
+                  <div className="site-shell__widget-list">
+                    <article className="site-shell__widget-row">
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
+                          curated
+                        </span>
+                        <span className="site-chip site-chip--accent">{projects.length}</span>
+                      </div>
+                      <p className="text-sm leading-6 text-[var(--pr-color-text-secondary)]">
+                        Featured: {featuredCount}
                       </p>
-                      <StatusStrip className="justify-between border border-[var(--pr-color-border-muted)] px-3 py-2">
-                        <span>curated:{projects.length}</span>
-                        <span>featured:{featuredCount}</span>
-                      </StatusStrip>
-                      <StatusStrip className="justify-between border border-[var(--pr-color-border-muted)] px-3 py-2">
-                        <span>sources:github</span>
-                        <span>mode:matrix</span>
-                      </StatusStrip>
-                    </div>
-                  </Panel>
-                </WindowBody>
-              </Window>
+                    </article>
+                    <article className="site-shell__widget-row">
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
+                          source
+                        </span>
+                        <span className="site-chip site-chip--violet">github</span>
+                      </div>
+                      <p className="text-sm leading-6 text-[var(--pr-color-text-secondary)]">
+                        mode: {activeFilter}
+                      </p>
+                    </article>
+                  </div>
+                </div>
+              </section>
 
-              <Window className="site-motion-enter site-motion-enter--3 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:ml-4">
-                <WindowHeader
-                  className="border-b border-[var(--pr-color-border-muted)]"
-                  title="skill_monitor.exe"
-                  subtitle="Focus areas"
-                  status={
-                    <Badge tone="violet" variant="subtle">
-                      system
-                    </Badge>
-                  }
-                />
-                <WindowBody className="grid gap-3">
+              <section className="site-shell__lite-panel site-motion-enter site-motion-enter--3">
+                <header className="site-shell__lite-panel-header">
+                  <div>
+                    <h3 className="site-shell__lite-panel-title">skill_monitor.exe</h3>
+                    <p className="site-shell__lite-panel-description">Focus areas</p>
+                  </div>
+                  <Badge tone="violet" variant="subtle">
+                    system
+                  </Badge>
+                </header>
+                <div className="site-shell__lite-panel-body">
                   {[
                     { label: "Frontend Systems", value: 92 },
                     { label: "Software & Platform", value: 84 },
                     { label: "Data & AI Workflows", value: 78 },
                   ].map((entry, index) => (
-                    <Panel
-                      className="site-motion-hover rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
-                      key={entry.label}
-                      padding="sm"
-                    >
+                    <article className="site-shell__widget-row" key={entry.label}>
                       <div className="flex items-center justify-between gap-3">
                         <span className="text-sm font-semibold tracking-tight">{entry.label}</span>
                         <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
@@ -478,16 +387,15 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                         </span>
                       </div>
                       <MetricBar
-                        className="mt-3"
                         label={entry.label}
                         tone={index === 1 ? "violet" : index === 2 ? "success" : "accent"}
                         value={entry.value}
                         valueLabel={`${entry.value}%`}
                       />
-                    </Panel>
+                    </article>
                   ))}
-                </WindowBody>
-              </Window>
+                </div>
+              </section>
             </div>
           </div>
         </WindowBody>

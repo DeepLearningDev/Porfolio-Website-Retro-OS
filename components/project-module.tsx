@@ -1,20 +1,13 @@
-"use client";
-
 import Link from "next/link";
-import { memo } from "react";
 
+import { formatGitHubDate, getProjectStack } from "@/lib/github/shared";
 import type { PortfolioProject } from "@/lib/github/types";
-import {
-  Badge,
-  Button,
-  Card,
-  StatusStrip,
-} from "@/lib/pastel-retroware";
+import { Badge, Button, Card } from "@/lib/pastel-retroware";
+import { ProjectSelectionButton } from "@/components/project-selection-button";
 
 type ProjectModuleProps = {
   project: PortfolioProject;
   selected?: boolean;
-  onSelect?: (repo: string) => void;
 };
 
 function getStatusTone(status: PortfolioProject["status"]) {
@@ -29,17 +22,12 @@ function getStatusTone(status: PortfolioProject["status"]) {
   return "violet" as const;
 }
 
-function ProjectModuleComponent({
-  project,
-  onSelect,
-  selected = false,
-}: ProjectModuleProps) {
-  const stack = Array.from(new Set([...project.stack, ...(project.primaryLanguage ? [project.primaryLanguage] : [])]));
+export function ProjectModule({ project, selected = false }: ProjectModuleProps) {
+  const stack = getProjectStack(project).slice(0, 5);
   const versionLabel =
     project.source === "github"
       ? `snapshot ${new Date(project.lastUpdated ?? new Date().toISOString()).getFullYear()}`
       : "curated fallback";
-  const handleSelect = onSelect ? () => onSelect(project.repo) : undefined;
 
   return (
     <Card
@@ -47,8 +35,6 @@ function ProjectModuleComponent({
         "site-motion-hover space-y-4 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none transition",
         selected ? "shadow-[0_0_0_1px_var(--pr-color-accent-violet)]" : "",
       ].join(" ")}
-      interactive={Boolean(onSelect)}
-      onClick={handleSelect}
       padding="lg"
     >
       <div className="flex items-start justify-between gap-4 border-b border-[var(--pr-color-border-muted)] pb-3">
@@ -67,11 +53,11 @@ function ProjectModuleComponent({
           <Badge tone={getStatusTone(project.status)} variant="subtle">
             {project.status}
           </Badge>
-          {project.featured && (
+          {project.featured ? (
             <Badge tone="accent" variant="outline">
               featured
             </Badge>
-          )}
+          ) : null}
         </div>
       </div>
 
@@ -82,7 +68,7 @@ function ProjectModuleComponent({
       <div className="space-y-2 border-t border-[var(--pr-color-border-muted)] pt-4 text-xs uppercase tracking-[0.18em] text-[var(--pr-color-text-secondary)]">
         <div className="flex items-center justify-between gap-3">
           <span>Last updated</span>
-          <span>{project.lastUpdated ? new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(new Date(project.lastUpdated)) : "Not updated"}</span>
+          <span>{formatGitHubDate(project.lastUpdated)}</span>
         </div>
         <div className="flex items-center justify-between gap-3">
           <span>Stars</span>
@@ -95,22 +81,17 @@ function ProjectModuleComponent({
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {stack.slice(0, 5).map((item) => (
+        {stack.map((item) => (
           <Badge key={`${project.repo}-${item}`} tone="violet" variant="outline">
             {item}
           </Badge>
         ))}
-        {project.tags.slice(0, 2).map((tag) => (
-          <Badge key={`${project.repo}-tag-${tag}`} tone="accent" variant="outline">
-            {tag}
-          </Badge>
-        ))}
       </div>
 
-      <StatusStrip className="justify-between border border-[var(--pr-color-border-muted)] px-3 py-2">
+      <div className="site-home__status-row">
         <span>{project.githubUrl.replace("https://github.com/", "repo:")}</span>
         <span>{project.demoUrl ? "demo: available" : "demo: n/a"}</span>
-      </StatusStrip>
+      </div>
 
       <div className="flex flex-wrap gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">
         <Button asChild variant="secondary">
@@ -118,22 +99,15 @@ function ProjectModuleComponent({
             GitHub
           </Link>
         </Button>
-        {project.demoUrl && (
+        {project.demoUrl ? (
           <Button asChild variant="ghost">
             <Link href={project.demoUrl} rel="noreferrer" target="_blank">
               Demo
             </Link>
           </Button>
-        )}
-        {onSelect && (
-          <Button variant={selected ? "primary" : "ghost"} onClick={handleSelect}>
-            {selected ? "Selected" : "Inspect"}
-          </Button>
-        )}
+        ) : null}
+        <ProjectSelectionButton projectRepo={project.repo} selected={selected} />
       </div>
     </Card>
   );
 }
-
-export const ProjectModule = memo(ProjectModuleComponent);
-ProjectModule.displayName = "ProjectModule";
