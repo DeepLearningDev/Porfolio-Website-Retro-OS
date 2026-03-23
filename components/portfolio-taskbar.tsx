@@ -1,5 +1,5 @@
 import { siteProfile } from "@/content/site";
-import { Separator, StatusStrip, Taskbar } from "@/lib/pastel-retroware";
+import { Separator, Taskbar } from "@/lib/pastel-retroware";
 import { TaskbarClock } from "@/components/taskbar-clock";
 import { TaskbarControls } from "@/components/taskbar-controls";
 
@@ -12,10 +12,10 @@ export function PortfolioTaskbar() {
         <Separator className="site-shell__taskbar-separator" orientation="vertical" />
 
         <div className="site-shell__taskbar-group site-shell__taskbar-group--meta">
-          <StatusStrip className="site-shell__taskbar-status">
+          <div className="site-shell__taskbar-status">
             <span>network:online</span>
             <span>signal:{siteProfile.signalStrength}</span>
-          </StatusStrip>
+          </div>
 
           <div className="site-shell__taskbar-time">
             <TaskbarClock />

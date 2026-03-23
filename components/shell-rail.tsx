@@ -9,11 +9,8 @@ import {
 } from "@/content/shell";
 import {
   Badge,
-  Button,
   MetricBar,
-  Panel,
   Separator,
-  SystemPanel,
   TerminalPane,
   Window,
   WindowBody,
@@ -50,38 +47,38 @@ export function ShellRail() {
 
             <Separator />
 
-            <div className="grid gap-2">
+            <div className="site-shell__widget-list">
               {shellStatusWidgets.map((widget) => (
-                <Panel
-                  className="site-motion-hover space-y-1 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
-                  key={widget.label}
-                  padding="sm"
-                >
+                <article className="site-shell__widget-row" key={widget.label}>
                   <div className="flex items-center justify-between gap-3">
                     <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--pr-color-text-accent)]">
                       {widget.label}
                     </span>
-                    <Badge tone={widget.tone} variant="outline">
+                    <span className={`site-chip site-chip--${widget.tone}`}>
                       {widget.value}
-                    </Badge>
+                    </span>
                   </div>
                   <p className="text-sm leading-6 text-[var(--pr-color-text-secondary)]">
                     {widget.detail}
                   </p>
-                </Panel>
+                </article>
               ))}
             </div>
           </div>
         </WindowBody>
       </Window>
 
-      <SystemPanel
-        className="site-motion-hover"
-        description="System metrics"
-        status={<Badge tone="violet" variant="subtle">monitor</Badge>}
-        title="System Metrics"
-      >
-        <div className="grid gap-4">
+      <section className="site-shell__lite-panel site-motion-hover">
+        <header className="site-shell__lite-panel-header">
+          <div>
+            <h3 className="site-shell__lite-panel-title">System Metrics</h3>
+            <p className="site-shell__lite-panel-description">System metrics</p>
+          </div>
+          <Badge tone="violet" variant="subtle">
+            monitor
+          </Badge>
+        </header>
+        <div className="site-shell__lite-panel-body">
           {shellTelemetry.map((metric) => (
             <MetricBar
               key={metric.label}
@@ -92,15 +89,19 @@ export function ShellRail() {
             />
           ))}
         </div>
-      </SystemPanel>
+      </section>
 
-      <SystemPanel
-        className="site-motion-hover"
-        description="Skill monitor"
-        status={<Badge tone="success" variant="subtle">active</Badge>}
-        title="Skill Monitor"
-      >
-        <div className="grid gap-3">
+      <section className="site-shell__lite-panel site-motion-hover">
+        <header className="site-shell__lite-panel-header">
+          <div>
+            <h3 className="site-shell__lite-panel-title">Skill Monitor</h3>
+            <p className="site-shell__lite-panel-description">Skill monitor</p>
+          </div>
+          <Badge tone="success" variant="subtle">
+            active
+          </Badge>
+        </header>
+        <div className="site-shell__lite-panel-body">
           {shellSkillMonitor.map((skill) => (
             <MetricBar
               key={skill.label}
@@ -111,7 +112,7 @@ export function ShellRail() {
             />
           ))}
         </div>
-      </SystemPanel>
+      </section>
 
       <TerminalPane
         className="site-motion-hover"
@@ -127,34 +128,27 @@ export function ShellRail() {
         </div>
       </TerminalPane>
 
-      <Panel
-        className="site-motion-hover space-y-3 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
-        padding="sm"
-      >
-        <div className="flex items-center justify-between gap-3">
-          <span className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
-            Quick Launch
-          </span>
+      <section className="site-shell__lite-panel site-motion-hover">
+        <header className="site-shell__lite-panel-header">
+          <div>
+            <h3 className="site-shell__lite-panel-title">Quick Launch</h3>
+            <p className="site-shell__lite-panel-description">Pinned routes</p>
+          </div>
           <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--pr-color-text-secondary)]">
             pinned
           </span>
-        </div>
-
-        <div className="grid gap-2">
+        </header>
+        <div className="site-shell__quick-links">
           {shellQuickLaunches.map((item) => (
-            <Button asChild className="justify-start" key={item.href} variant="ghost">
-              <Link href={item.href}>
-                <span className="flex flex-col items-start">
-                  <span>{item.label}</span>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--pr-color-text-secondary)]">
-                    {item.description}
-                  </span>
-                </span>
-              </Link>
-            </Button>
+            <Link className="site-shell__quick-link" href={item.href} key={item.href}>
+              <span className="font-medium">{item.label}</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--pr-color-text-secondary)]">
+                {item.description}
+              </span>
+            </Link>
           ))}
         </div>
-      </Panel>
+      </section>
     </aside>
   );
 }
