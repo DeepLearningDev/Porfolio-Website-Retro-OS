@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ResumePanel } from "@/components/resume-panel";
 import { aboutContent, currentFocus, heroContent, skillTelemetry } from "@/content/home";
 import type { PortfolioProject } from "@/lib/github";
 import {
@@ -51,7 +52,12 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
 
             <div className="flex flex-wrap gap-3">
               {heroContent.ctas.map((cta) => {
-                const variant = cta.variant === "secondary" ? "secondary" : cta.variant === "ghost" ? "ghost" : "primary";
+                const variant =
+                  cta.variant === "secondary"
+                    ? "secondary"
+                    : cta.variant === "ghost"
+                      ? "ghost"
+                      : "primary";
 
                 if (cta.kind === "external") {
                   return (
@@ -248,38 +254,42 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
           </div>
         </SystemPanel>
 
-        <SystemPanel
-          description="What to expect from the current portfolio direction"
-          status={
-            <Badge tone="success" variant="subtle">
-              building now
-            </Badge>
-          }
-          title="System Status"
-        >
-          <div className="space-y-5">
-            <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
-              I’m currently shaping this portfolio around real project surfaces instead of a generic landing page, with the strongest emphasis on reusable interface systems, practical frontend architecture, and clear software communication.
-            </p>
+        <div className="grid gap-6">
+          <ResumePanel />
 
-            <div className="flex flex-wrap gap-2">
-              <Badge tone="accent" variant="outline">
-                interface systems
+          <SystemPanel
+            description="What to expect from the current portfolio direction"
+            status={
+              <Badge tone="success" variant="subtle">
+                building now
               </Badge>
-              <Badge tone="violet" variant="outline">
-                project storytelling
-              </Badge>
-              <Badge tone="success" variant="outline">
-                recruiter clarity
-              </Badge>
+            }
+            title="System Status"
+          >
+            <div className="space-y-5">
+              <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
+                I’m currently shaping this portfolio around real project surfaces instead of a generic landing page, with the strongest emphasis on reusable interface systems, practical frontend architecture, and clear software communication.
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                <Badge tone="accent" variant="outline">
+                  interface systems
+                </Badge>
+                <Badge tone="violet" variant="outline">
+                  project storytelling
+                </Badge>
+                <Badge tone="success" variant="outline">
+                  recruiter clarity
+                </Badge>
+              </div>
+
+              <StatusStrip className="justify-between">
+                <span>portfolio_phase: overview.live</span>
+                <span>next_module: resume.access</span>
+              </StatusStrip>
             </div>
-
-            <StatusStrip className="justify-between">
-              <span>portfolio_phase: overview.live</span>
-              <span>next_module: contact.form</span>
-            </StatusStrip>
-          </div>
-        </SystemPanel>
+          </SystemPanel>
+        </div>
       </div>
     </section>
   );

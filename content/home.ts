@@ -7,7 +7,12 @@ export const heroContent = {
     "I design and build practical tools that make complex information easier to navigate, whether the work is a portfolio-facing interface, an operational dashboard, or a backend-driven product surface.",
   ctas: [
     { href: "/projects", label: "View Projects", kind: "internal" as const, variant: "primary" as const },
-    { href: "/contact?intent=resume", label: "Resume", kind: "internal" as const, variant: "secondary" as const },
+    {
+      href: "/resume/kaleb-white-resume.html",
+      label: "View Resume",
+      kind: "external" as const,
+      variant: "secondary" as const,
+    },
     { href: "/contact", label: "Contact", kind: "internal" as const, variant: "ghost" as const },
     { href: "https://github.com/DeepLearningDev", label: "GitHub", kind: "external" as const, variant: "ghost" as const },
     {

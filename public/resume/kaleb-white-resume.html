@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kaleb White Resume</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #121226;
+        --panel: #1c1b33;
+        --panel-border: #4d4677;
+        --text: #eef1ff;
+        --text-muted: #a8acce;
+        --accent: #8fefff;
+        --violet: #d28cff;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        padding: 32px 18px;
+        background:
+          linear-gradient(180deg, rgba(143, 239, 255, 0.08), transparent 28%),
+          linear-gradient(90deg, rgba(210, 140, 255, 0.08), transparent 40%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Segoe UI", Arial, sans-serif;
+      }
+
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        border: 1px solid var(--panel-border);
+        background: rgba(28, 27, 51, 0.94);
+        box-shadow: 0 0 0 1px rgba(143, 239, 255, 0.12), 0 28px 80px rgba(0, 0, 0, 0.42);
+      }
+
+      header {
+        padding: 24px 28px;
+        border-bottom: 1px solid var(--panel-border);
+        background: linear-gradient(90deg, rgba(210, 140, 255, 0.86), rgba(143, 239, 255, 0.4));
+        color: #11131f;
+      }
+
+      h1, h2, h3, p { margin: 0; }
+
+      header p:first-of-type {
+        font-size: 0.78rem;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+
+      header h1 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        line-height: 1.02;
+        margin-bottom: 10px;
+      }
+
+      header p:last-of-type {
+        max-width: 58rem;
+        font-size: 1rem;
+        line-height: 1.7;
+        color: #1a1d2b;
+      }
+
+      .grid {
+        display: grid;
+        gap: 18px;
+        padding: 24px 28px 30px;
+      }
+
+      .section {
+        border: 1px solid rgba(77, 70, 119, 0.9);
+        background: rgba(18, 18, 38, 0.7);
+        padding: 18px;
+      }
+
+      .section h2 {
+        margin-bottom: 12px;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.24em;
+        color: var(--accent);
+      }
+
+      .section p, .section li {
+        color: var(--text-muted);
+        line-height: 1.72;
+        font-size: 0.98rem;
+      }
+
+      ul {
+        margin: 12px 0 0;
+        padding-left: 18px;
+      }
+
+      .two-column {
+        display: grid;
+        gap: 18px;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        border: 1px solid rgba(143, 239, 255, 0.32);
+        color: var(--accent);
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+      }
+
+      .project + .project {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(77, 70, 119, 0.75);
+      }
+
+      .project h3 {
+        font-size: 1.08rem;
+        margin-bottom: 6px;
+      }
+
+      a {
+        color: var(--accent);
+      }
+
+      .meta {
+        color: var(--violet);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        margin-bottom: 10px;
+      }
+
+      footer {
+        padding: 0 28px 28px;
+        color: var(--text-muted);
+        font-size: 0.88rem;
+      }
+
+      @media (min-width: 860px) {
+        .two-column {
+          grid-template-columns: 1.1fr 0.9fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p>Resume Snapshot</p>
+        <h1>Kaleb White</h1>
+        <p>
+          Software engineer focused on TypeScript products, frontend systems,
+          design-system architecture, and data-heavy interfaces with clear
+          operational UX.
+        </p>
+      </header>
+
+      <div class="grid">
+        <section class="section">
+          <h2>Summary</h2>
+          <p>
+            I build software products that combine strong interaction design,
+            maintainable frontend architecture, and system clarity. My work
+            leans toward practical applications, operational dashboards,
+            reusable interface systems, and tooling that helps teams navigate
+            complex information more effectively.
+          </p>
+          <div class="tag-row">
+            <span class="tag">TypeScript</span>
+            <span class="tag">React</span>
+            <span class="tag">Next.js</span>
+            <span class="tag">Design Systems</span>
+            <span class="tag">Dashboards</span>
+            <span class="tag">Developer Tooling</span>
+          </div>
+        </section>
+
+        <div class="two-column">
+          <section class="section">
+            <h2>Core Strengths</h2>
+            <ul>
+              <li>Frontend architecture with reusable, token-driven UI systems</li>
+              <li>TypeScript product development for practical application surfaces</li>
+              <li>Data-heavy workflows, operational interfaces, and system visibility</li>
+              <li>Information hierarchy and UX refinement for complex software</li>
+              <li>Component-library and design-system implementation</li>
+            </ul>
+          </section>
+
+          <section class="section">
+            <h2>Public Profiles</h2>
+            <p class="meta">Open channels</p>
+            <p><a href="https://github.com/DeepLearningDev">GitHub</a></p>
+            <p><a href="https://www.linkedin.com/in/kaleb-white-95135921b">LinkedIn</a></p>
+            <p style="margin-top: 14px">
+              Email is shared selectively through the portfolio contact route.
+            </p>
+          </section>
+        </div>
+
+        <section class="section">
+          <h2>Selected Work</h2>
+
+          <div class="project">
+            <h3>pastel-retroware-ui</h3>
+            <p>
+              Rebuilt a repository as a production-quality TypeScript design
+              system and component library with semantic tokens, Storybook
+              documentation, reusable primitives, signature components, and
+              release-ready packaging.
+            </p>
+          </div>
+
+          <div class="project">
+            <h3>Portfolio Website Retro OS</h3>
+            <p>
+              Built a modern portfolio site with a retro-futuristic shell using
+              a reusable design system, curated GitHub-backed project data, and
+              recruiter-friendly information hierarchy.
+            </p>
+          </div>
+
+          <div class="project">
+            <h3>Operational and Data-Aware Product Work</h3>
+            <p>
+              Ongoing focus on application surfaces that make system state,
+              telemetry, and workflow-heavy product logic easier to read and
+              act on.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <footer>
+        Updated March 2026 · Eastern Time · Resume file served from the public
+        portfolio asset bundle
+      </footer>
+    </main>
+  </body>
+</html>
