@@ -58,56 +58,28 @@ a {
   position: relative;
   min-height: 100vh;
   overflow-x: clip;
-}
-
-.site-shell::before,
-.site-shell::after {
-  content: "";
-  position: absolute;
-  inset: auto;
-  pointer-events: none;
-  z-index: 0;
-  border-radius: 999px;
-  opacity: 0.1;
-}
-
-.site-shell::before {
-  top: 7rem;
-  left: 6%;
-  width: 16rem;
-  height: 16rem;
-  background: radial-gradient(circle, color-mix(in srgb, var(--pr-color-accent-violet) 24%, transparent) 0%, transparent 72%);
-}
-
-.site-shell::after {
-  right: 10%;
-  bottom: 7rem;
-  width: 12rem;
-  height: 12rem;
-  background: radial-gradient(circle, color-mix(in srgb, var(--pr-color-accent-cyan) 22%, transparent) 0%, transparent 72%);
+  isolation: isolate;
 }
 
 .site-shell__ambient {
   position: absolute;
   inset: 0;
   background:
+    radial-gradient(circle at 12% 14%, color-mix(in srgb, var(--pr-color-accent-violet) 14%, transparent), transparent 28%),
+    radial-gradient(circle at 88% 78%, color-mix(in srgb, var(--pr-color-accent-cyan) 12%, transparent), transparent 24%),
     linear-gradient(90deg, color-mix(in srgb, var(--pr-grid-line-color) 72%, transparent) 1px, transparent 1px),
     linear-gradient(color-mix(in srgb, var(--pr-grid-line-color) 64%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--pr-color-accent-violet) 10%, transparent), transparent 40%),
-    repeating-linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.02) 0,
-      rgba(255, 255, 255, 0.02) 1px,
-      transparent 1px,
-      transparent 4px
-    );
+    linear-gradient(90deg, color-mix(in srgb, var(--pr-color-accent-violet) 8%, transparent), transparent 40%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 20%, transparent 80%, rgba(255, 255, 255, 0.01));
   background-size:
-    var(--pr-grid-cell-size) var(--pr-grid-cell-size),
-    var(--pr-grid-cell-size) var(--pr-grid-cell-size),
     100% 100%,
+    100% 100%,
+    var(--pr-grid-cell-size) var(--pr-grid-cell-size),
+    var(--pr-grid-cell-size) var(--pr-grid-cell-size),
     100% 100%;
-  opacity: 0.5;
+  opacity: 0.42;
   pointer-events: none;
+  contain: paint;
 }
 
 .site-shell__frame {
@@ -119,6 +91,7 @@ a {
   gap: 1rem;
   padding: 0.875rem;
   padding-bottom: calc(5.25rem + env(safe-area-inset-bottom));
+  contain: layout;
 }
 
 .site-shell__topbar > header {
@@ -132,6 +105,7 @@ a {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.06),
     inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+  contain: layout paint;
 }
 
 .site-shell__topbar-chrome {
@@ -175,18 +149,21 @@ a {
   gap: 1rem;
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
+  contain: layout;
 }
 
 .site-shell__sidebar {
   align-self: start;
   border: 1px solid var(--pr-color-border-window);
   transform: translateY(0.25rem);
+  contain: layout paint;
 }
 
 .site-shell__window {
   min-height: min(72vh, 880px);
   border: 1px solid var(--pr-color-border-window);
   transform: translateY(0.4rem);
+  contain: layout paint;
 }
 
 .site-shell__window-header {
@@ -198,6 +175,7 @@ a {
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--pr-color-bg-elevated) 90%, transparent), color-mix(in srgb, var(--pr-color-bg-canvas-alt) 88%, transparent));
   border-top: 1px solid color-mix(in srgb, var(--pr-color-border-muted) 45%, transparent);
+  contain: layout paint;
 }
 
 .site-shell__rail {
@@ -205,10 +183,12 @@ a {
   gap: 1rem;
   align-content: start;
   transform: translateY(-0.15rem);
+  contain: layout;
 }
 
 .site-shell__rail-window {
   border: 1px solid var(--pr-color-border-window);
+  contain: layout paint;
 }
 
 .site-shell__rail-window--primary {
@@ -251,9 +231,6 @@ a {
   border: 1px solid var(--pr-color-accent-violet);
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--pr-color-accent-violet) 75%, transparent), color-mix(in srgb, var(--pr-color-accent-cyan) 55%, transparent));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 0 12px color-mix(in srgb, var(--pr-color-accent-violet) 16%, transparent);
 }
 
 .site-shell__taskbar {
@@ -274,6 +251,7 @@ a {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.06),
     0 0 0 1px color-mix(in srgb, var(--pr-color-border-strong) 34%, transparent);
+  contain: layout paint;
 }
 
 .site-shell__taskbar-group {
@@ -299,13 +277,6 @@ a {
 
 .site-shell__taskbar-time {
   justify-self: end;
-}
-
-.site-shell__taskbar-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  justify-content: flex-end;
 }
 
 .site-shell__taskbar-label {
@@ -395,8 +366,7 @@ a {
   }
 
   .site-shell__taskbar-group--meta,
-  .site-shell__taskbar-time,
-  .site-shell__taskbar-links {
+  .site-shell__taskbar-time {
     justify-self: start;
     justify-content: flex-start;
   }
