@@ -56,7 +56,7 @@ export const preferredChannels = [
 export const contactFormCopy = {
   title: "Send a concise inquiry",
   description:
-    "Use the form to prepare a direct message. When a public email address is configured, it opens your mail client with the message details ready to send.",
+    "Use the form to prepare a direct message. It opens your mail client with the message details ready to send.",
   fields: {
     name: "Your name",
     email: "Email address",
@@ -64,46 +64,28 @@ export const contactFormCopy = {
     message: "Message",
   },
   submitLabel: "Open Email Draft",
-  fallbackLabel: "Use GitHub or LinkedIn",
+  fallbackLabel: "Open LinkedIn",
 };
-
-type PublicContactConfig = {
-  email: string | null;
-  discordUrl: string | null;
-};
-
-function getPublicContactConfig(): PublicContactConfig {
-  return {
-    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || null,
-    discordUrl: process.env.NEXT_PUBLIC_CONTACT_DISCORD_URL?.trim() || null,
-  };
-}
 
 export function getContactMethods(): ContactMethod[] {
-  const { email, discordUrl } = getPublicContactConfig();
-
   return [
     {
       channel: "email",
       label: "Email",
-      value: email ?? "Available after initial outreach",
-      href: email ? `mailto:${email}` : null,
-      note: email
-        ? "Best channel for detailed project conversations, hiring context, and written follow-up."
-        : "Email is not published in source. Reach out through LinkedIn or GitHub first if you need a direct thread.",
+      value: "kwhite.dev@gmail.com",
+      href: "mailto:kwhite.dev@gmail.com",
+      note: "Best channel for detailed project conversations, hiring context, and written follow-up.",
       preferred: true,
-      statusLabel: email ? "ready" : "request first",
+      statusLabel: "ready",
       tone: "accent",
     },
     {
       channel: "discord",
       label: "Discord",
-      value: discordUrl ?? "Shared for active conversations",
-      href: discordUrl,
-      note: discordUrl
-        ? "Best for lightweight coordination once a project conversation is already moving."
-        : "Discord is intentionally not posted publicly in this build.",
-      statusLabel: discordUrl ? "available" : "private",
+      value: "_kaza",
+      href: null,
+      note: "Use the handle in Discord search for lightweight coordination once a conversation is already moving.",
+      statusLabel: "handle",
       tone: "violet",
     },
     {
@@ -119,8 +101,8 @@ export function getContactMethods(): ContactMethod[] {
     {
       channel: "linkedin",
       label: "LinkedIn",
-      value: "linkedin.com/in/kaleb-white-95135921b",
-      href: "https://www.linkedin.com/in/kaleb-white-95135921b",
+      value: "linkedin.com/in/kaleb-white-95135921b/",
+      href: "https://www.linkedin.com/in/kaleb-white-95135921b/",
       note: "Best for recruiter outreach, intros, and professional role discussions.",
       preferred: true,
       statusLabel: "live",

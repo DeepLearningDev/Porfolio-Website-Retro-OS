@@ -19,11 +19,7 @@ import {
 export function ContactSurface() {
   const contactMethods = getContactMethods();
   const contactEmail =
-    contactMethods.find((method) => method.channel === "email")?.href?.replace(
-      /^mailto:/,
-      ""
-    ) ?? null;
-  const hasEmail = Boolean(contactEmail);
+    contactMethods.find((method) => method.channel === "email")?.value ?? "kwhite.dev@gmail.com";
 
   return (
     <section className="grid gap-6 p-6">
@@ -86,14 +82,9 @@ export function ContactSurface() {
                       </a>
                     </Button>
                   ) : (
-                    <Button disabled variant="secondary">
-                      {method.label} unavailable
-                    </Button>
-                  )}
-                  {method.label === "Email" && !hasEmail && (
-                    <span className="text-sm text-[var(--pr-color-text-secondary)]">
-                      Use the form to send details until a public address is configured.
-                    </span>
+                    <Badge tone="violet" variant="subtle">
+                      copy handle: {method.value}
+                    </Badge>
                   )}
                 </div>
               </Panel>
@@ -107,10 +98,10 @@ export function ContactSurface() {
           title="initiate_contact.log"
         >
           <form
-            action={contactEmail ? `mailto:${contactEmail}` : undefined}
+            action={`mailto:${contactEmail}`}
             className="grid gap-4"
-            method="post"
             encType="text/plain"
+            method="post"
           >
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="grid gap-2">
@@ -163,21 +154,19 @@ export function ContactSurface() {
 
             <div className="grid gap-4 border-t border-[var(--pr-color-border-muted)] pt-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
               <p className="text-sm leading-7 text-[var(--pr-color-text-secondary)]">
-                {hasEmail
-                  ? "This form opens your mail client with the message details prefilled."
-                  : "Email is not published here yet, so the form stays as a ready-to-wire fallback."}
+                This form opens your mail client with the message details prefilled.
               </p>
 
-                <div className="flex flex-wrap gap-3">
-                <Button
-                  disabled={!hasEmail}
-                  type="submit"
-                  variant={hasEmail ? "primary" : "secondary"}
-                >
+              <div className="flex flex-wrap gap-3">
+                <Button type="submit" variant="primary">
                   {contactFormCopy.submitLabel}
                 </Button>
                 <Button asChild variant="ghost">
-                  <a href="https://www.linkedin.com/in/kaleb-white-95135921b" rel="noreferrer" target="_blank">
+                  <a
+                    href="https://www.linkedin.com/in/kaleb-white-95135921b/"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
                     {contactFormCopy.fallbackLabel}
                   </a>
                 </Button>
@@ -209,7 +198,7 @@ export function ContactSurface() {
             <div className="space-y-3">
               {[
                 contactAvailability.responseExpectation,
-                "GitHub and LinkedIn are the most reliable public channels in this build.",
+                "Email and LinkedIn are the fastest public channels for direct outreach.",
                 `Primary working timezone: ${contactAvailability.timeZone}.`,
               ].map((item) => (
                 <Panel key={item} padding="sm" tone="default">

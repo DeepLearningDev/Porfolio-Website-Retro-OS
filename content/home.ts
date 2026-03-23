@@ -8,7 +8,7 @@ export const heroContent = {
   ctas: [
     { href: "/projects", label: "View Projects", kind: "internal" as const, variant: "primary" as const },
     {
-      href: "/resume/kaleb-white-resume.html",
+      href: "/resume/kaleb-white-resume.pdf",
       label: "View Resume",
       kind: "external" as const,
       variant: "secondary" as const,

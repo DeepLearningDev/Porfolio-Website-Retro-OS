@@ -41,4 +41,4 @@ export const shellLinks = [
 ];
 
 export const shellContactNote =
-  "Email and Discord contact values are intentionally configured at runtime so no personal identifiers need to live in source control.";
+  "Public contact details are now available directly through the contact route for recruiter and collaboration outreach.";
