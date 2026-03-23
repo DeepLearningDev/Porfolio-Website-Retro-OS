@@ -10,7 +10,7 @@ function TaskbarControlsComponent() {
   const pathname = usePathname();
 
   return (
-    <div className="site-shell__taskbar-group">
+    <nav className="site-shell__taskbar-group" aria-label="Primary taskbar navigation">
       {siteRoutes.map((route, index) => {
         const isActive =
           route.href === "/"
@@ -40,7 +40,7 @@ function TaskbarControlsComponent() {
         <span className="site-shell__taskbar-dot" />
         <span className="site-shell__taskbar-label">Resume</span>
       </a>
-    </div>
+    </nav>
   );
 }
 

@@ -327,15 +327,21 @@ a {
 }
 
 .site-shell__taskbar-inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, auto);
-  gap: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   align-items: center;
   padding: 0.55rem 0.75rem;
   border: 1px solid var(--pr-color-border-window);
   background: var(--site-surface-primary-bg);
   box-shadow: var(--site-surface-primary-shadow);
   contain: layout paint;
+}
+
+.site-shell__taskbar-nav {
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
 .site-shell__taskbar-group {
@@ -345,25 +351,22 @@ a {
   align-items: center;
 }
 
-.site-shell__taskbar-group--meta {
-  justify-self: end;
-}
-
-.site-shell__taskbar-separator {
-  height: 1.75rem;
-  opacity: 0.7;
-}
-
-.site-shell__taskbar-status {
+.site-shell__taskbar-system {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
+  gap: 0.75rem;
   align-items: center;
-  font-size: 0.72rem;
+  justify-content: flex-end;
 }
 
-.site-shell__taskbar-time {
-  justify-self: end;
+.site-shell__taskbar-system-item {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pr-color-text-secondary);
+  white-space: nowrap;
 }
 
 .site-shell__taskbar-label {
@@ -376,11 +379,12 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  min-height: 2.15rem;
+  min-height: 2rem;
   border: 1px solid var(--pr-color-border-muted);
   background: var(--site-surface-minimal-bg);
-  padding: 0.45rem 0.7rem;
+  padding: 0.42rem 0.68rem;
   transition: var(--site-interactive-transition);
+  white-space: nowrap;
 }
 
 .site-shell__taskbar-link:hover {
@@ -399,6 +403,22 @@ a {
   height: 0.45rem;
   border: 1px solid var(--pr-color-border-window);
   background: color-mix(in srgb, var(--pr-color-accent-cyan) 70%, var(--pr-color-bg-panel));
+  flex: 0 0 auto;
+}
+
+.site-shell__taskbar-clock {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  border: 1px solid var(--pr-color-border-muted);
+  background: var(--site-surface-minimal-bg);
+  padding: 0.4rem 0.68rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pr-color-text-accent);
+  white-space: nowrap;
 }
 
 .site-shell__widget-list {
@@ -636,13 +656,13 @@ a {
   }
 
   .site-shell__taskbar-inner {
-    grid-template-columns: minmax(0, 1fr);
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .site-shell__taskbar-group--meta,
-  .site-shell__taskbar-time {
-    justify-self: start;
+  .site-shell__taskbar-system {
     justify-content: flex-start;
+    flex-wrap: wrap;
   }
 }
 
@@ -690,7 +710,8 @@ a {
 }
 
 .site-home__hero-grid,
-.site-home__split-grid {
+.site-home__split-grid,
+.site-home__support-grid {
   display: grid;
   gap: 1.5rem;
 }
@@ -731,6 +752,34 @@ a {
   display: grid;
   gap: 1.25rem;
   padding: 1.25rem;
+}
+
+.site-home__support-grid,
+.site-home__support-stack {
+  align-items: start;
+}
+
+.site-home__support-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.site-home__support-card {
+  display: grid;
+  gap: 1rem;
+  border: 1px solid var(--pr-color-border-muted);
+  background: var(--site-surface-secondary-bg);
+  padding: 1rem;
+  contain: layout paint;
+}
+
+.site-home__support-eyebrow {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--pr-color-text-accent);
 }
 
 .site-home__hero-copy {
@@ -774,6 +823,15 @@ a {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--pr-color-text-secondary);
+}
+
+.site-home__bullet {
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-top: 0.45rem;
+  border: 1px solid var(--pr-color-border-strong);
+  background: color-mix(in srgb, var(--pr-color-accent-cyan) 58%, var(--pr-color-bg-panel));
+  flex: 0 0 auto;
 }
 
 .site-chip {
@@ -837,6 +895,10 @@ a {
 
   .site-home__split-grid {
     grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+  }
+
+  .site-home__support-grid {
+    grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
   }
 
   .site-home__feature-grid {

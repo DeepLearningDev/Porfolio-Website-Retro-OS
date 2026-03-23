@@ -30,10 +30,6 @@ export function ProjectModule({
   selected = false,
 }: ProjectModuleProps) {
   const stack = getProjectStack(project).slice(0, 2);
-  const snapshotYear =
-    project.source === "github"
-      ? new Date(project.lastUpdated ?? new Date().toISOString()).getFullYear()
-      : null;
 
   return (
     <article
@@ -44,16 +40,9 @@ export function ProjectModule({
     >
       <div className="flex items-start justify-between gap-4 border-b border-[var(--pr-color-border-muted)] pb-3">
         <div className="space-y-1">
-          <div className="flex flex-wrap items-center gap-3">
-            <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
-              {project.category}
-            </p>
-            {snapshotYear ? (
-              <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--pr-color-text-secondary)]">
-                {snapshotYear}
-              </span>
-            ) : null}
-          </div>
+          <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
+            {project.category}
+          </p>
           <h3 className="text-xl font-semibold tracking-tight">{project.name}</h3>
         </div>
         <div className="text-right">
@@ -69,7 +58,7 @@ export function ProjectModule({
 
       <div className="site-home__status-row">
         <span>updated: {formatGitHubDate(project.lastUpdated)}</span>
-        <span>{project.demoUrl ? "demo available" : "source only"}</span>
+        <span>{project.featured ? "featured" : "curated"}</span>
       </div>
 
       <div className="site-shell__inline-list">
@@ -78,7 +67,6 @@ export function ProjectModule({
             {item}
           </span>
         ))}
-        {project.featured ? <span className="site-shell__inline-item">featured</span> : null}
       </div>
 
       <div className="flex flex-wrap gap-3 border-t border-[var(--pr-color-border-muted)] pt-4">

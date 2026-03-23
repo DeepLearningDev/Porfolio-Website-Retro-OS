@@ -43,10 +43,10 @@ export function ProjectsExplorerFilterRail({
               <span>mode: {activeFilter}</span>
               <span>{projects.length} indexed</span>
             </div>
-            <p className="mt-3 site-shell__body-copy">
-            {featuredCount} featured projects lead the page, with {nonFeaturedCount} additional
-            modules available in the current view.
-            </p>
+            <div className="mt-3 grid gap-2 text-sm text-[var(--pr-color-text-secondary)]">
+              <p>{featuredCount} featured modules</p>
+              <p>{nonFeaturedCount} additional entries</p>
+            </div>
           </div>
         </div>
       </section>

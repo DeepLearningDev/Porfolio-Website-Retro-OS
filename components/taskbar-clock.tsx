@@ -2,8 +2,6 @@
 
 import { useEffect, useState, memo } from "react";
 
-import { Badge } from "@/lib/pastel-retroware";
-
 function formatClock(date: Date) {
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
@@ -23,11 +21,7 @@ function TaskbarClockComponent() {
     return () => window.clearInterval(timer);
   }, []);
 
-  return (
-    <Badge tone="accent" variant="outline">
-      {currentTime}
-    </Badge>
-  );
+  return <span className="site-shell__taskbar-clock">{currentTime}</span>;
 }
 
 export const TaskbarClock = memo(TaskbarClockComponent);

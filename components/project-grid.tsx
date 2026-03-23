@@ -14,7 +14,16 @@ export function ProjectGrid({
   selectedRepo,
 }: ProjectGridProps) {
   return (
-    <div className="grid gap-4 xl:grid-cols-2">
+    <div
+      className={[
+        "grid gap-4",
+        projects.length === 1
+          ? "max-w-3xl"
+          : projects.length === 2
+            ? "xl:grid-cols-2"
+            : "xl:grid-cols-2",
+      ].join(" ")}
+    >
       {projects.map((project) => (
         <ProjectModule
           activeFilter={activeFilter}

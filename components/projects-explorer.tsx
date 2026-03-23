@@ -71,6 +71,7 @@ export function ProjectsExplorer({
               demoCoverage={demoCoverage}
               githubCoverage={githubCoverage}
               projects={projects}
+              visibleCount={visibleProjects.length}
             />
           </div>
         </WindowBody>

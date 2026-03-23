@@ -7,6 +7,7 @@ type ProjectsExplorerSidePanelsProps = {
   demoCoverage: number;
   githubCoverage: number;
   projects: PortfolioProject[];
+  visibleCount: number;
 };
 
 export function ProjectsExplorerSidePanels({
@@ -14,6 +15,7 @@ export function ProjectsExplorerSidePanels({
   demoCoverage,
   githubCoverage,
   projects,
+  visibleCount,
 }: ProjectsExplorerSidePanelsProps) {
   const featuredCount = projects.filter((project) => project.featured).length;
 
@@ -22,38 +24,32 @@ export function ProjectsExplorerSidePanels({
       <section className="site-shell__lite-panel site-motion-enter site-motion-enter--3">
         <header className="site-shell__lite-panel-header">
           <div>
-            <h3 className="site-shell__lite-panel-title">support.telemetry</h3>
-            <p className="site-shell__lite-panel-description">Project context and system health</p>
+            <h3 className="site-shell__lite-panel-title">support.index</h3>
+            <p className="site-shell__lite-panel-description">Project context and quick diagnostics</p>
           </div>
-          <span className="site-chip site-chip--violet">online</span>
+          <span className="site-chip site-chip--violet">active</span>
         </header>
         <div className="site-shell__lite-panel-body">
           <div className="space-y-3">
             <p className="site-shell__eyebrow">whoami.sys</p>
-            <p className="site-shell__body-copy site-shell__body-copy--callout">
+            <p className="site-shell__body-copy">
               {routeHighlights.projects}
             </p>
           </div>
 
-          <div className="site-shell__widget-list">
-            <article className="site-shell__widget-row">
-              <div className="site-shell__widget-row-header">
-                <span className="site-shell__widget-row-label site-shell__widget-row-label--accent">
-                  curated
-                </span>
-                <span className="site-chip site-chip--accent">{projects.length}</span>
-              </div>
-              <p className="site-shell__body-copy">Featured: {featuredCount}</p>
-            </article>
-            <article className="site-shell__widget-row">
-              <div className="site-shell__widget-row-header">
-                <span className="site-shell__widget-row-label site-shell__widget-row-label--accent">
-                  source
-                </span>
-                <span className="site-chip site-chip--violet">github</span>
-              </div>
-              <p className="site-shell__body-copy">mode: {activeFilter}</p>
-            </article>
+          <div className="grid gap-2">
+            <div className="site-home__status-row">
+              <span>visible results</span>
+              <span>{visibleCount}</span>
+            </div>
+            <div className="site-home__status-row">
+              <span>featured modules</span>
+              <span>{featuredCount}</span>
+            </div>
+            <div className="site-home__status-row">
+              <span>mode</span>
+              <span>{activeFilter}</span>
+            </div>
           </div>
 
           <div className="border-t border-[var(--pr-color-border-muted)] pt-4">

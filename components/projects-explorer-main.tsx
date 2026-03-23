@@ -27,6 +27,9 @@ export function ProjectsExplorerMain({
   projects,
   selectedProject,
 }: ProjectsExplorerMainProps) {
+  const hasSingleProject = projects.length === 1 && selectedProject !== null;
+  const showDetail = projects.length > 1 && selectedProject !== null;
+
   return (
     <section className="site-shell__lite-panel site-motion-enter site-motion-enter--2 xl:-mt-2">
       <header className="site-shell__lite-panel-header">
@@ -44,7 +47,9 @@ export function ProjectsExplorerMain({
               Project inventory
             </p>
             <p className="mt-2 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
-              {projects.length} project{projects.length === 1 ? "" : "s"} in the current view.
+              {projects.length === 1
+                ? "Single focused result in the current view."
+                : `${projects.length} projects in the current view.`}
             </p>
           </div>
           {selectedProject ? (
@@ -54,15 +59,28 @@ export function ProjectsExplorerMain({
           ) : null}
         </div>
 
-        <ScrollArea className="max-h-[46rem]" viewportClassName="pr-2">
-          <ProjectGrid
-            activeFilter={activeFilter}
-            projects={projects}
-            selectedRepo={selectedProject?.repo ?? null}
-          />
-        </ScrollArea>
+        {hasSingleProject ? (
+          <div className="grid gap-5 xl:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.8fr)] xl:items-start">
+            <ProjectGrid
+              activeFilter={activeFilter}
+              projects={projects}
+              selectedRepo={selectedProject?.repo ?? null}
+            />
+            <ProjectsExplorerDetail compact project={selectedProject} />
+          </div>
+        ) : (
+          <>
+            <ScrollArea className="max-h-[46rem]" viewportClassName="pr-2">
+              <ProjectGrid
+                activeFilter={activeFilter}
+                projects={projects}
+                selectedRepo={selectedProject?.repo ?? null}
+              />
+            </ScrollArea>
 
-        <ProjectsExplorerDetail project={selectedProject} />
+            {showDetail ? <ProjectsExplorerDetail project={selectedProject} /> : null}
+          </>
+        )}
       </div>
     </section>
   );
