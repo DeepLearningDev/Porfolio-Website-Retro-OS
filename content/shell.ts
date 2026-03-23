@@ -19,7 +19,7 @@ export const shellQuickLaunches = [
 export const shellStatusWidgets = [
   {
     label: "Uptime",
-    value: "14.2 years",
+    value: "4.5 years",
     detail: "Professional experience",
     tone: "accent" as const,
   },
@@ -61,7 +61,7 @@ export const shellWhoAmI = {
     "$ whoami",
     "DeepLearningDev // software engineer",
     "$ uptime",
-    "14.2 years of dev experience",
+    "4.5 years of dev experience",
     "$ locate skillsets",
     "> TypeScript",
     "> React",
