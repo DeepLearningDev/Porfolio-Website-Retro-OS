@@ -19,30 +19,30 @@ export function ProjectFilterControls({
   filters,
 }: ProjectFilterControlsProps) {
   return (
-    <div className="space-y-4">
+    <div className="project-filter__list">
       {filters.map((filter) => {
         const isActive = filter.id === activeFilter;
 
         return (
           <Link
             className={[
-              "site-motion-hover w-full cursor-pointer rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)] p-3 text-left transition",
-              isActive ? "shadow-[0_0_0_1px_var(--pr-color-accent-violet)]" : "",
+              "project-filter__item site-motion-hover",
+              isActive ? "project-filter__item--active" : "",
             ].join(" ")}
             href={getExplorerHref(filter.id, null)}
             key={filter.id}
             scroll={false}
           >
-            <div className="space-y-2">
-              <div className="flex items-center justify-between gap-3">
-                <p className="font-semibold tracking-tight">{filter.label}</p>
+            <div className="project-filter__item-body">
+              <div className="project-filter__item-header">
+                <p className="project-filter__item-title">{filter.label}</p>
                 <span
                   className={`site-chip ${isActive ? "site-chip--accent" : "site-chip--violet"}`}
                 >
                   {filter.count}
                 </span>
               </div>
-              <p className="text-sm leading-6 text-[var(--pr-color-text-secondary)]">
+              <p className="project-filter__item-description">
                 {filter.description}
               </p>
             </div>
