@@ -41,9 +41,9 @@ export function ProjectsExplorerDetail({ project }: ProjectsExplorerDetailProps)
           <p className="site-shell__body-copy site-shell__body-copy--callout">
             {project.description}
           </p>
-          <div className="site-home__chip-row">
+          <div className="site-shell__inline-list">
             {project.tags.slice(0, 3).map((tag) => (
-              <span className="site-chip site-chip--accent" key={`${project.repo}-focus-${tag}`}>
+              <span className="site-shell__inline-item" key={`${project.repo}-focus-${tag}`}>
                 {tag}
               </span>
             ))}

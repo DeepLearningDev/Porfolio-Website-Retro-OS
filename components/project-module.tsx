@@ -3,7 +3,7 @@ import Link from "next/link";
 import { formatGitHubDate, getProjectStack } from "@/lib/github/shared";
 import type { PortfolioProject } from "@/lib/github/types";
 import type { ProjectFilter } from "@/lib/projects-explorer";
-import { Badge, Button, Card } from "@/lib/pastel-retroware";
+import { Button } from "@/lib/pastel-retroware";
 import { ProjectSelectionButton } from "@/components/project-selection-button";
 
 type ProjectModuleProps = {
@@ -29,23 +29,22 @@ export function ProjectModule({
   activeFilter,
   selected = false,
 }: ProjectModuleProps) {
-  const stack = getProjectStack(project).slice(0, 5);
+  const stack = getProjectStack(project).slice(0, 3);
   const versionLabel =
     project.source === "github"
       ? `snapshot ${new Date(project.lastUpdated ?? new Date().toISOString()).getFullYear()}`
       : "curated fallback";
 
   return (
-    <Card
+    <article
       className={[
-        "site-motion-hover space-y-4 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none transition",
-        selected ? "shadow-[0_0_0_1px_var(--pr-color-accent-violet)]" : "",
+        "site-motion-hover space-y-4 border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] p-5",
+        selected ? "border-[var(--pr-color-accent-violet)]" : "",
       ].join(" ")}
-      padding="lg"
     >
       <div className="flex items-start justify-between gap-4 border-b border-[var(--pr-color-border-muted)] pb-3">
         <div className="space-y-1">
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-3">
             <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
               {project.category}
             </p>
@@ -55,15 +54,10 @@ export function ProjectModule({
           </div>
           <h3 className="text-xl font-semibold tracking-tight">{project.name}</h3>
         </div>
-        <div className="flex flex-col items-end gap-2">
-          <Badge tone={getStatusTone(project.status)} variant="subtle">
+        <div className="text-right">
+          <span className={`site-chip site-chip--${getStatusTone(project.status)}`}>
             {project.status}
-          </Badge>
-          {project.featured ? (
-            <Badge tone="accent" variant="outline">
-              featured
-            </Badge>
-          ) : null}
+          </span>
         </div>
       </div>
 
@@ -71,31 +65,22 @@ export function ProjectModule({
         {project.description}
       </p>
 
-      <div className="space-y-2 border-t border-[var(--pr-color-border-muted)] pt-4 text-xs uppercase tracking-[0.18em] text-[var(--pr-color-text-secondary)]">
-        <div className="flex items-center justify-between gap-3">
-          <span>Last updated</span>
-          <span>{formatGitHubDate(project.lastUpdated)}</span>
-        </div>
-        <div className="flex items-center justify-between gap-3">
-          <span>Stars</span>
-          <span>{project.stars}</span>
-        </div>
-        <div className="flex items-center justify-between gap-3">
-          <span>Source</span>
-          <span>{project.source === "github" ? "GitHub live" : "Curated fallback"}</span>
-        </div>
+      <div className="site-home__status-row">
+        <span>updated: {formatGitHubDate(project.lastUpdated)}</span>
+        <span>stars: {project.stars}</span>
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="site-shell__inline-list">
         {stack.map((item) => (
-          <Badge key={`${project.repo}-${item}`} tone="violet" variant="outline">
+          <span className="site-shell__inline-item" key={`${project.repo}-${item}`}>
             {item}
-          </Badge>
+          </span>
         ))}
+        {project.featured ? <span className="site-shell__inline-item">featured</span> : null}
       </div>
 
       <div className="site-home__status-row">
-        <span>{project.githubUrl.replace("https://github.com/", "repo:")}</span>
+        <span>{project.source === "github" ? "github live" : "curated fallback"}</span>
         <span>{project.demoUrl ? "demo: available" : "demo: n/a"}</span>
       </div>
 
@@ -118,6 +103,6 @@ export function ProjectModule({
           selected={selected}
         />
       </div>
-    </Card>
+    </article>
   );
 }
