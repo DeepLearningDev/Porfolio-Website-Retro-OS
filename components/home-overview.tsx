@@ -34,7 +34,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
   return (
     <section className="grid gap-6 p-6">
       <Panel
-        className="space-y-8 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)] shadow-none"
+        className="site-motion-enter space-y-8 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)] shadow-none"
         padding="lg"
         tone="elevated"
       >
@@ -83,6 +83,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
           </div>
 
           <SystemPanel
+            className="site-motion-hover"
             description="Current positioning"
             status={
               <Badge tone="accent" variant="subtle">
@@ -115,6 +116,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
         <SystemPanel
+          className="site-motion-enter site-motion-enter--1"
           description="Software, systems, and frontend positioning"
           status={
             <Badge tone="success" variant="subtle">
@@ -132,7 +134,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
             <div className="grid gap-4 md:grid-cols-3">
               {aboutContent.strengths.map((strength) => (
                 <Panel
-                  className="space-y-3 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+                  className="site-motion-hover space-y-3 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
                   key={strength.title}
                   padding="sm"
                 >
@@ -149,6 +151,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
         </SystemPanel>
 
         <TerminalPane
+          className="site-motion-enter site-motion-enter--2"
           prompt="focus --current"
           status="live"
           title="currently_building.log"
@@ -162,6 +165,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
       </div>
 
       <SystemPanel
+        className="site-motion-enter site-motion-enter--2"
         description="Selected project snapshots with links and stack context"
         status={
           <Badge tone="accent" variant="subtle">
@@ -173,7 +177,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
         <div className="grid gap-4 xl:grid-cols-2">
           {featuredProjects.map((project) => (
             <Card
-              className="space-y-5 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none"
+              className="site-motion-hover space-y-5 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none"
               key={project.repo}
               padding="lg"
             >
@@ -222,6 +226,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(320px,0.78fr)]">
         <SystemPanel
+          className="site-motion-enter site-motion-enter--3"
           description="Grouped strengths instead of a generic keyword dump"
           status={
             <Badge tone="violet" variant="subtle">
@@ -233,7 +238,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
           <div className="grid gap-5">
             {skillTelemetry.map((group) => (
               <Panel
-                className="space-y-4 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+                className="site-motion-hover space-y-4 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
                 key={group.group}
                 padding="md"
               >
@@ -274,6 +279,7 @@ export function HomeOverview({ featuredProjects }: HomeOverviewProps) {
           <ResumePanel />
 
           <SystemPanel
+            className="site-motion-enter site-motion-enter--4"
             description="What to expect from the current portfolio direction"
             status={
               <Badge tone="success" variant="subtle">

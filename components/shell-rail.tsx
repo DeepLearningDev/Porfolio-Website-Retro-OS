@@ -23,8 +23,11 @@ import {
 
 export function ShellRail() {
   return (
-    <aside className="site-shell__rail">
-      <Window className="site-shell__rail-window site-shell__rail-window--primary" tone="terminal">
+    <aside className="site-shell__rail site-motion-enter site-motion-enter--3">
+      <Window
+        className="site-shell__rail-window site-shell__rail-window--primary site-motion-hover"
+        tone="terminal"
+      >
         <WindowHeader
           className="site-shell__rail-window-header"
           status={<Badge tone="accent" variant="subtle">root</Badge>}
@@ -50,7 +53,7 @@ export function ShellRail() {
             <div className="grid gap-2">
               {shellStatusWidgets.map((widget) => (
                 <Panel
-                  className="space-y-1 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+                  className="site-motion-hover space-y-1 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
                   key={widget.label}
                   padding="sm"
                 >
@@ -73,6 +76,7 @@ export function ShellRail() {
       </Window>
 
       <SystemPanel
+        className="site-motion-hover"
         description="System metrics"
         status={<Badge tone="violet" variant="subtle">monitor</Badge>}
         title="System Metrics"
@@ -91,6 +95,7 @@ export function ShellRail() {
       </SystemPanel>
 
       <SystemPanel
+        className="site-motion-hover"
         description="Skill monitor"
         status={<Badge tone="success" variant="subtle">active</Badge>}
         title="Skill Monitor"
@@ -109,6 +114,7 @@ export function ShellRail() {
       </SystemPanel>
 
       <TerminalPane
+        className="site-motion-hover"
         prompt="status --log"
         status="live"
         title="core_telemetry.log"
@@ -121,7 +127,10 @@ export function ShellRail() {
         </div>
       </TerminalPane>
 
-      <Panel className="space-y-3 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]" padding="sm">
+      <Panel
+        className="site-motion-hover space-y-3 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+        padding="sm"
+      >
         <div className="flex items-center justify-between gap-3">
           <span className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
             Quick Launch

@@ -36,7 +36,12 @@ export function PortfolioShell({ children }: PortfolioShellProps) {
     <div className="site-shell">
       <div aria-hidden className="site-shell__ambient" />
       <div className="site-shell__frame">
-        <Panel asChild className="site-shell__topbar" padding="sm" tone="elevated">
+        <Panel
+          asChild
+          className="site-shell__topbar site-motion-enter"
+          padding="sm"
+          tone="elevated"
+        >
           <header>
             <div className="site-shell__topbar-chrome">
               <div className="site-shell__brand-row">
@@ -75,7 +80,7 @@ export function PortfolioShell({ children }: PortfolioShellProps) {
 
         <div className="site-shell__desktop">
           <Sidebar
-            className="site-shell__sidebar"
+            className="site-shell__sidebar site-motion-enter site-motion-enter--1"
             footer={
               <StatusStrip className="justify-between">
                 <span>signal:{siteProfile.signalStrength}</span>
@@ -154,7 +159,7 @@ export function PortfolioShell({ children }: PortfolioShellProps) {
             </div>
           </Sidebar>
 
-          <Window className="site-shell__window">
+          <Window className="site-shell__window site-motion-enter site-motion-enter--2">
             <WindowHeader
               className="site-shell__window-header"
               status={

@@ -120,7 +120,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
 
   return (
     <section className="grid gap-6 p-6 pb-28">
-      <Window className="relative overflow-hidden rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)] shadow-none">
+      <Window className="site-motion-enter relative overflow-hidden rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)] shadow-none">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(127,127,255,0.06)_22%,transparent_48%,rgba(94,231,255,0.04)_78%,transparent_100%)]"
@@ -143,7 +143,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
         </WindowHeader>
         <WindowBody className="relative overflow-hidden">
           <div className="grid gap-6 xl:grid-cols-[15rem_minmax(0,1fr)_18rem]">
-            <Window className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:mt-3">
+            <Window className="site-motion-enter site-motion-enter--1 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:mt-3">
               <WindowHeader
                 className="border-b border-[var(--pr-color-border-muted)]"
                 title="filters.rail"
@@ -178,7 +178,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                       return (
                         <Panel
                           className={[
-                            "cursor-pointer rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)] transition",
+                            "site-motion-hover cursor-pointer rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)] transition",
                             filter.id === activeFilter
                               ? "shadow-[0_0_0_1px_var(--pr-color-accent-violet)]"
                               : "",
@@ -205,7 +205,10 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                   </div>
                 </Sidebar>
 
-                <Panel className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]" padding="sm">
+                <Panel
+                  className="site-motion-hover rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
+                  padding="sm"
+                >
                   <div className="space-y-2">
                     <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
                       System Notes
@@ -219,7 +222,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
             </Window>
 
             <div className="grid gap-6">
-              <Window className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:-mt-2">
+              <Window className="site-motion-enter site-motion-enter--2 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:-mt-2">
                 <WindowHeader
                   className="border-b border-[var(--pr-color-border-muted)]"
                   title="project_matrix.exe"
@@ -267,7 +270,10 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                   </ScrollArea>
 
                   {selectedProject && (
-                    <Panel className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)]" padding="md">
+                    <Panel
+                      className="site-motion-hover rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)]"
+                      padding="md"
+                    >
                       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.65fr)]">
                         <div className="space-y-3">
                           <div className="flex flex-wrap items-center gap-2 border-b border-[var(--pr-color-border-muted)] pb-2">
@@ -324,7 +330,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
               </Window>
 
               <div className="grid gap-4 md:grid-cols-2">
-                <Window className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:ml-4">
+                <Window className="site-motion-enter site-motion-enter--3 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:ml-4">
                   <WindowHeader
                     className="border-b border-[var(--pr-color-border-muted)]"
                     title="system_metrics.exe"
@@ -350,7 +356,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                     />
                     {widgetStats.map((stat) => (
                       <Panel
-                        className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
+                        className="site-motion-hover rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
                         key={stat.label}
                         padding="sm"
                       >
@@ -370,7 +376,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                   </WindowBody>
                 </Window>
 
-                <Window className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:-mt-4">
+                <Window className="site-motion-enter site-motion-enter--4 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:-mt-4">
                   <WindowHeader
                     className="border-b border-[var(--pr-color-border-muted)]"
                     title="system_notes.log"
@@ -395,7 +401,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
             </div>
 
             <div className="grid gap-6">
-              <Window className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:mt-3">
+              <Window className="site-motion-enter site-motion-enter--2 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:mt-3">
                 <WindowHeader
                   className="border-b border-[var(--pr-color-border-muted)]"
                   title="whoami.sys"
@@ -407,13 +413,19 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                   }
                 />
                 <WindowBody className="space-y-4">
-                  <Panel className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]" padding="sm">
+                  <Panel
+                    className="site-motion-hover rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
+                    padding="sm"
+                  >
                     <p className="border-l-2 border-[var(--pr-color-border-strong)] pl-3 text-sm leading-7 text-[var(--pr-color-text-secondary)]">
                       {routeHighlights.projects}
                     </p>
                   </Panel>
 
-                  <Panel className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]" padding="sm">
+                  <Panel
+                    className="site-motion-hover rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
+                    padding="sm"
+                  >
                     <div className="space-y-3">
                       <p className="font-mono text-xs uppercase tracking-[0.24em] text-[var(--pr-color-text-accent)]">
                         Project metadata
@@ -431,7 +443,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                 </WindowBody>
               </Window>
 
-              <Window className="rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:ml-4">
+              <Window className="site-motion-enter site-motion-enter--3 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none xl:ml-4">
                 <WindowHeader
                   className="border-b border-[var(--pr-color-border-muted)]"
                   title="skill_monitor.exe"
@@ -449,7 +461,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                     { label: "Data & AI Workflows", value: 78 },
                   ].map((entry, index) => (
                     <Panel
-                      className="rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
+                      className="site-motion-hover rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas)]"
                       key={entry.label}
                       padding="sm"
                     >

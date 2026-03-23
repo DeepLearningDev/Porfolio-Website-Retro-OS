@@ -6,6 +6,7 @@ export function ResumePanel() {
 
   return (
     <SystemPanel
+      className="site-motion-hover"
       description={resumeContent.description}
       status={
         <Badge tone="success" variant="subtle">
@@ -20,7 +21,7 @@ export function ResumePanel() {
         </p>
 
         <Panel
-          className="space-y-3 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
+          className="site-motion-hover space-y-3 rounded-none border border-[var(--pr-color-border-muted)] bg-[var(--pr-color-bg-canvas-alt)]"
           padding="sm"
           tone="elevated"
         >

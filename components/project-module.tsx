@@ -38,7 +38,7 @@ export function ProjectModule({ project, onSelect, selected = false }: ProjectMo
   return (
     <Card
       className={[
-        "space-y-4 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none transition",
+        "site-motion-enter site-motion-hover space-y-4 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none transition",
         selected ? "shadow-[0_0_0_1px_var(--pr-color-accent-violet)]" : "",
       ].join(" ")}
       interactive={Boolean(onSelect)}
