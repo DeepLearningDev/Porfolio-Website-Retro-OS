@@ -80,3 +80,18 @@ export function getCoverageMetrics(projects: PortfolioProject[]) {
     githubCoverage: projects.length ? (githubBackedCount / projects.length) * 100 : 0,
   };
 }
+
+export function getExplorerHref(
+  filter: ProjectFilter,
+  selectedRepo?: string | null
+) {
+  const params = new URLSearchParams();
+
+  params.set("filter", filter);
+
+  if (selectedRepo) {
+    params.set("project", selectedRepo);
+  }
+
+  return `/projects?${params.toString()}`;
+}

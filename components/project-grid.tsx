@@ -1,16 +1,23 @@
 import type { PortfolioProject } from "@/lib/github/types";
+import type { ProjectFilter } from "@/lib/projects-explorer";
 import { ProjectModule } from "@/components/project-module";
 
 type ProjectGridProps = {
+  activeFilter: ProjectFilter;
   projects: PortfolioProject[];
   selectedRepo: string | null;
 };
 
-export function ProjectGrid({ projects, selectedRepo }: ProjectGridProps) {
+export function ProjectGrid({
+  activeFilter,
+  projects,
+  selectedRepo,
+}: ProjectGridProps) {
   return (
     <div className="grid gap-4 xl:grid-cols-2">
       {projects.map((project) => (
         <ProjectModule
+          activeFilter={activeFilter}
           key={project.repo}
           project={project}
           selected={selectedRepo === project.repo}

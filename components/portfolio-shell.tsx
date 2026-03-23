@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import { siteProfile, shellLinks, shellMetrics } from "@/content/site";
+import { siteProfile, shellLinks } from "@/content/site";
 import {
   Window,
   WindowBody,
@@ -45,38 +45,29 @@ export function PortfolioShell({ children }: PortfolioShellProps) {
 
             <section className="site-shell__sidebar-section">
               <div>
-                <p className="site-shell__eyebrow">
-                  Operating Profile
-                </p>
+                <p className="site-shell__eyebrow">Operating Profile</p>
                 <p className="site-shell__body-copy site-shell__body-copy--spaced">
                   {siteProfile.summary}
                 </p>
               </div>
 
-              <div className="site-home__chip-row">
+              <div className="site-shell__inline-list">
                 {siteProfile.focusAreas.map((area) => (
-                  <span className="site-chip site-chip--violet" key={area}>
+                  <span className="site-shell__inline-item" key={area}>
                     {area}
                   </span>
                 ))}
               </div>
-            </section>
 
-            <section className="site-shell__sidebar-section">
-              <div className="site-shell__widget-list">
-                {shellMetrics.map((metric) => (
-                  <article className="site-shell__widget-row" key={metric.label}>
-                    <div className="site-shell__widget-row-header">
-                      <span className="site-shell__widget-row-label">
-                        {metric.label}
-                      </span>
-                      <span className="site-shell__metric-value">
-                        {metric.value}
-                      </span>
-                    </div>
-                    <p className="site-shell__body-copy">{metric.detail}</p>
-                  </article>
-                ))}
+              <div className="site-shell__meta-list">
+                <div className="site-shell__meta-row">
+                  <span className="site-shell__widget-row-label">portfolio</span>
+                  <span className="site-shell__metric-value">live</span>
+                </div>
+                <div className="site-shell__meta-row">
+                  <span className="site-shell__widget-row-label">github sync</span>
+                  <span className="site-shell__metric-value">active</span>
+                </div>
               </div>
             </section>
 

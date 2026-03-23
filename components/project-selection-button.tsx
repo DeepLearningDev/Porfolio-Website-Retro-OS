@@ -1,39 +1,24 @@
-"use client";
+import Link from "next/link";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { startTransition } from "react";
-
+import { getExplorerHref, type ProjectFilter } from "@/lib/projects-explorer";
 import { Button } from "@/lib/pastel-retroware";
 
 type ProjectSelectionButtonProps = {
   projectRepo: string;
   selected: boolean;
+  activeFilter: ProjectFilter;
 };
 
 export function ProjectSelectionButton({
   projectRepo,
   selected,
+  activeFilter,
 }: ProjectSelectionButtonProps) {
-  const pathname = usePathname();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
   return (
-    <Button
-      onClick={() => {
-        const nextParams = new URLSearchParams(searchParams.toString());
-        nextParams.set("project", projectRepo);
-
-        startTransition(() => {
-          router.replace(
-            nextParams.size ? `${pathname}?${nextParams.toString()}` : pathname,
-            { scroll: false }
-          );
-        });
-      }}
-      variant={selected ? "primary" : "ghost"}
-    >
-      {selected ? "Selected" : "Inspect"}
+    <Button asChild variant={selected ? "primary" : "ghost"}>
+      <Link href={getExplorerHref(activeFilter, projectRepo)} scroll={false}>
+        {selected ? "Selected" : "Inspect"}
+      </Link>
     </Button>
   );
 }

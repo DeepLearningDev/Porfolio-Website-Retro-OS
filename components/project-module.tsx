@@ -2,11 +2,13 @@ import Link from "next/link";
 
 import { formatGitHubDate, getProjectStack } from "@/lib/github/shared";
 import type { PortfolioProject } from "@/lib/github/types";
+import type { ProjectFilter } from "@/lib/projects-explorer";
 import { Badge, Button, Card } from "@/lib/pastel-retroware";
 import { ProjectSelectionButton } from "@/components/project-selection-button";
 
 type ProjectModuleProps = {
   project: PortfolioProject;
+  activeFilter: ProjectFilter;
   selected?: boolean;
 };
 
@@ -22,7 +24,11 @@ function getStatusTone(status: PortfolioProject["status"]) {
   return "violet" as const;
 }
 
-export function ProjectModule({ project, selected = false }: ProjectModuleProps) {
+export function ProjectModule({
+  project,
+  activeFilter,
+  selected = false,
+}: ProjectModuleProps) {
   const stack = getProjectStack(project).slice(0, 5);
   const versionLabel =
     project.source === "github"
@@ -106,7 +112,11 @@ export function ProjectModule({ project, selected = false }: ProjectModuleProps)
             </Link>
           </Button>
         ) : null}
-        <ProjectSelectionButton projectRepo={project.repo} selected={selected} />
+        <ProjectSelectionButton
+          activeFilter={activeFilter}
+          projectRepo={project.repo}
+          selected={selected}
+        />
       </div>
     </Card>
   );
