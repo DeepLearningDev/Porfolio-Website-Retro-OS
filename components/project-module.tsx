@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { memo } from "react";
 
 import type { PortfolioProject } from "@/lib/github/types";
 import {
@@ -13,7 +14,7 @@ import {
 type ProjectModuleProps = {
   project: PortfolioProject;
   selected?: boolean;
-  onSelect?: () => void;
+  onSelect?: (repo: string) => void;
 };
 
 function getStatusTone(status: PortfolioProject["status"]) {
@@ -28,21 +29,26 @@ function getStatusTone(status: PortfolioProject["status"]) {
   return "violet" as const;
 }
 
-export function ProjectModule({ project, onSelect, selected = false }: ProjectModuleProps) {
+function ProjectModuleComponent({
+  project,
+  onSelect,
+  selected = false,
+}: ProjectModuleProps) {
   const stack = Array.from(new Set([...project.stack, ...(project.primaryLanguage ? [project.primaryLanguage] : [])]));
   const versionLabel =
     project.source === "github"
       ? `snapshot ${new Date(project.lastUpdated ?? new Date().toISOString()).getFullYear()}`
       : "curated fallback";
+  const handleSelect = onSelect ? () => onSelect(project.repo) : undefined;
 
   return (
     <Card
       className={[
-        "site-motion-enter site-motion-hover space-y-4 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none transition",
+        "site-motion-hover space-y-4 rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-canvas-alt)] shadow-none transition",
         selected ? "shadow-[0_0_0_1px_var(--pr-color-accent-violet)]" : "",
       ].join(" ")}
       interactive={Boolean(onSelect)}
-      onClick={onSelect}
+      onClick={handleSelect}
       padding="lg"
     >
       <div className="flex items-start justify-between gap-4 border-b border-[var(--pr-color-border-muted)] pb-3">
@@ -120,7 +126,7 @@ export function ProjectModule({ project, onSelect, selected = false }: ProjectMo
           </Button>
         )}
         {onSelect && (
-          <Button variant={selected ? "primary" : "ghost"} onClick={onSelect}>
+          <Button variant={selected ? "primary" : "ghost"} onClick={handleSelect}>
             {selected ? "Selected" : "Inspect"}
           </Button>
         )}
@@ -128,3 +134,6 @@ export function ProjectModule({ project, onSelect, selected = false }: ProjectMo
     </Card>
   );
 }
+
+export const ProjectModule = memo(ProjectModuleComponent);
+ProjectModule.displayName = "ProjectModule";

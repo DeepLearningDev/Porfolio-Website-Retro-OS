@@ -1,37 +1,28 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 
 import { siteProfile, shellLinks, shellMetrics } from "@/content/site";
-import { shellQuickLaunches } from "@/content/shell";
 import {
   Badge,
   Button,
-  DesktopIcon,
   Panel,
   Separator,
   Sidebar,
   StatusStrip,
   Window,
   WindowBody,
-  WindowControls,
-  WindowHeader,
 } from "@/lib/pastel-retroware";
-import { getActiveRoute, siteRoutes } from "@/lib/site-navigation";
 import { PortfolioTaskbar } from "@/components/portfolio-taskbar";
 import { ShellRail } from "@/components/shell-rail";
+import { ShellQuickLaunches } from "@/components/shell-quick-launches";
+import { ShellTopNav } from "@/components/shell-top-nav";
+import { ShellWindowHeader } from "@/components/shell-window-header";
 
 type PortfolioShellProps = {
   children: ReactNode;
 };
 
 export function PortfolioShell({ children }: PortfolioShellProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const activeRoute = getActiveRoute(pathname);
-
   return (
     <div className="site-shell">
       <div aria-hidden className="site-shell__ambient" />
@@ -53,27 +44,7 @@ export function PortfolioShell({ children }: PortfolioShellProps) {
                 </Badge>
               </div>
 
-              <nav aria-label="Primary" className="site-shell__topbar-nav">
-                {siteRoutes.map((route) => {
-                  const isActive = route.href === activeRoute.href;
-
-                  return (
-                    <Button
-                      asChild
-                      className="min-w-28"
-                      key={route.href}
-                      variant={isActive ? "secondary" : "ghost"}
-                    >
-                      <Link
-                        aria-current={isActive ? "page" : undefined}
-                        href={route.href}
-                      >
-                        {route.label}
-                      </Link>
-                    </Button>
-                  );
-                })}
-              </nav>
+              <ShellTopNav />
             </div>
           </header>
         </Panel>
@@ -129,24 +100,7 @@ export function PortfolioShell({ children }: PortfolioShellProps) {
 
             <Separator />
 
-            <div className="grid gap-2">
-              {shellQuickLaunches.map((item) => (
-                <DesktopIcon
-                  description={item.description}
-                  icon={<span aria-hidden className="site-shell__desktop-icon-glyph" />}
-                  key={item.href}
-                  label={item.label}
-                  onClick={() => {
-                    if (item.href.startsWith("/")) {
-                      router.push(item.href);
-                      return;
-                    }
-
-                    window.open(item.href, "_blank", "noopener,noreferrer");
-                  }}
-                />
-              ))}
-            </div>
+            <ShellQuickLaunches />
 
             <div className="grid gap-2">
               {shellLinks.map((item) => (
@@ -160,30 +114,14 @@ export function PortfolioShell({ children }: PortfolioShellProps) {
           </Sidebar>
 
           <Window className="site-shell__window site-motion-enter site-motion-enter--2">
-            <WindowHeader
-              className="site-shell__window-header"
-              status={
-                <Badge tone="success" variant="subtle">
-                  shell.ready
-                </Badge>
-              }
-              subtitle={activeRoute.description}
-              title={activeRoute.windowTitle}
-            >
-              <WindowControls>
-                <span aria-hidden className="site-shell__control site-shell__control--cyan" />
-                <span aria-hidden className="site-shell__control site-shell__control--violet" />
-                <span aria-hidden className="site-shell__control site-shell__control--pink" />
-              </WindowControls>
-            </WindowHeader>
-
+            <ShellWindowHeader />
             <WindowBody className="site-shell__window-body">{children}</WindowBody>
           </Window>
 
           <ShellRail />
         </div>
       </div>
-      <PortfolioTaskbar activeRoute={activeRoute} />
+      <PortfolioTaskbar />
     </div>
   );
 }

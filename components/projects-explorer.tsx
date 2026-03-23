@@ -96,7 +96,24 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
     projects.find((project) => project.featured)?.repo ?? projects[0]?.repo ?? ""
   );
 
-  const { demoCoverage, githubCoverage } = getCoverageMetrics(projects);
+  const { demoCoverage, githubCoverage } = useMemo(
+    () => getCoverageMetrics(projects),
+    [projects]
+  );
+  const featuredCount = useMemo(
+    () => projects.filter((project) => project.featured).length,
+    [projects]
+  );
+  const projectCountByFilter = useMemo(
+    () => ({
+      all: projects.length,
+      featured: featuredCount,
+      application: projects.filter((project) => project.category === "application").length,
+      system: projects.filter((project) => project.category === "system").length,
+      tooling: projects.filter((project) => project.category === "tooling").length,
+    }),
+    [featuredCount, projects]
+  );
   const visibleProjects = useMemo(() => {
     if (activeFilter === "all") {
       return projects;
@@ -114,17 +131,11 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
     visibleProjects[0] ??
     projects[0] ??
     null;
-
-  const featuredCount = projects.filter((project) => project.featured).length;
   const nonFeaturedCount = projects.length - featuredCount;
 
   return (
     <section className="grid gap-6 p-6 pb-28">
-      <Window className="site-motion-enter relative overflow-hidden rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)] shadow-none">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(127,127,255,0.06)_22%,transparent_48%,rgba(94,231,255,0.04)_78%,transparent_100%)]"
-        />
+      <Window className="site-motion-enter overflow-hidden rounded-none border border-[var(--pr-color-border-strong)] bg-[var(--pr-color-bg-panel)] shadow-none">
         <WindowHeader
           className="border-b border-[var(--pr-color-border-muted)]"
           title="project_explorer.exe"
@@ -168,12 +179,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                 >
                   <div className="space-y-4">
                     {projectFilters.map((filter) => {
-                      const count =
-                        filter.id === "all"
-                          ? projects.length
-                          : filter.id === "featured"
-                            ? featuredCount
-                            : projects.filter((project) => project.category === filter.id).length;
+                      const count = projectCountByFilter[filter.id];
 
                       return (
                         <Panel
@@ -261,7 +267,7 @@ export function ProjectsExplorer({ projects }: ProjectsExplorerProps) {
                       {visibleProjects.map((project) => (
                         <ProjectModule
                           key={project.repo}
-                          onSelect={() => setSelectedRepo(project.repo)}
+                          onSelect={setSelectedRepo}
                           project={project}
                           selected={selectedProject?.repo === project.repo}
                         />
